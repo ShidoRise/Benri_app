@@ -5,7 +5,7 @@ class Ingredient {
   final DateTime expirationDate;
 
   // Define the default image path here
-  static const String defaultImagePath = 'lib/images/default.png';
+  static const String defaultImagePath = 'assets/images/ingredient/default.png';
 
   Ingredient({
     required this.name,

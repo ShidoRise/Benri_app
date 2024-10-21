@@ -312,8 +312,8 @@ Future<Ingredient?> addIngredientDialog(BuildContext context) {
                           quantity: '${quantityController.text} $unitToSave',
                           imgPath: ingredients
                                   .contains(ingredientController.text)
-                              ? 'lib/images/ingredients/${ingredientController.text}.png'
-                              : 'lib/images/default.png', // Add the appropriate path
+                              ? 'assets/images/ingredient/${ingredientController.text}.png'
+                              : 'assets/images/ingredient/.png', // Add the appropriate path
                           expirationDate: expirationDate!,
                         );
 
