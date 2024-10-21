@@ -6,36 +6,17 @@ import '../widgets/app_bar.dart';
 import '../widgets/my_search_bar.dart';
 import 'detail_fridge_screen.dart';
 import 'fridge_manage_screen.dart';
-// Import the provider
 
-class FridgeScreen extends StatefulWidget {
+class FridgeScreen extends StatelessWidget {
   const FridgeScreen({super.key});
 
   @override
-  State<FridgeScreen> createState() => _FridgeScreenState();
-}
-
-class _FridgeScreenState extends State<FridgeScreen>
-    with SingleTickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-
-    // Initialize the FridgeScreenProvider
-    Provider.of<FridgeScreenProvider>(context, listen: false).initialize(this);
-  }
-
-  @override
-  void dispose() {
-    // Dispose the controllers using the provider
-    Provider.of<FridgeScreenProvider>(context, listen: false)
-        .disposeControllers();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final fridgeProvider = Provider.of<FridgeScreenProvider>(context);
+    // Initialize the provider when building the widget
+    final fridgeProvider =
+        Provider.of<FridgeScreenProvider>(context, listen: false);
+
+    fridgeProvider.initialize(context);
 
     return Scaffold(
       appBar: BAppBar(
@@ -48,42 +29,56 @@ class _FridgeScreenState extends State<FridgeScreen>
           children: [
             // Search bar for searching ingredients
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: MySearchBar(
                 hintText: 'Search Your Ingredient',
               ),
             ),
-            const SizedBox(height: 10),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: TabBar(
-                controller: fridgeProvider
-                    .tabController, // Use TabController from provider
-                labelColor: Colors.black,
-                unselectedLabelColor: BColors.black,
-                indicatorColor: Colors.black,
-                indicatorWeight: 3.0,
-                tabs: const [
-                  Tab(
-                    text: 'Fridge',
-                  ),
-                  Tab(
-                    text: 'Detail',
-                  ),
-                ],
+              child: Consumer<FridgeScreenProvider>(
+                builder: (context, provider, child) {
+                  return TabBar(
+                    controller: provider
+                        .tabController, // Use TabController from provider
+                    labelStyle: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: BColors.black),
+                    unselectedLabelStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[700],
+                    ),
+                    indicatorColor: Colors.black,
+                    indicatorWeight: 3.0,
+                    tabs: const [
+                      Tab(
+                        text: 'Fridge',
+                      ),
+                      Tab(
+                        text: 'Detail',
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: TabBarView(
-                controller: fridgeProvider
-                    .tabController, // Use TabController from provider
-                children: const [
-                  FridgeManageScreen(),
-                  DetailFridgeScreen(),
-                ],
+              child: Consumer<FridgeScreenProvider>(
+                builder: (context, provider, child) {
+                  return TabBarView(
+                    controller: provider
+                        .tabController, // Use TabController from provider
+                    children: const [
+                      FridgeManageScreen(),
+                      DetailFridgeScreen(),
+                    ],
+                  );
+                },
               ),
-            )
+            ),
           ],
         ),
       ),

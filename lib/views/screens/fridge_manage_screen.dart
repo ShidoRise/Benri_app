@@ -12,12 +12,12 @@ class FridgeManageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final drawerProvider = Provider.of<DrawerProvider>(context);
 
-    final TextEditingController _drawerController = TextEditingController();
+    final TextEditingController drawerController = TextEditingController();
 
     // Save the new drawer via DrawerProvider
     void saveNewDrawer() {
-      if (_drawerController.text.isNotEmpty) {
-        drawerProvider.addDrawer(_drawerController.text);
+      if (drawerController.text.isNotEmpty) {
+        drawerProvider.addDrawer(drawerController.text);
         Navigator.of(context).pop();
       }
     }
@@ -28,7 +28,7 @@ class FridgeManageScreen extends StatelessWidget {
         context: context,
         builder: (context) {
           return AddDrawer(
-            controller: _drawerController,
+            controller: drawerController,
             onSave: saveNewDrawer,
             onCancel: () {
               Navigator.of(context).pop();
@@ -79,10 +79,18 @@ class FridgeManageScreen extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: addNewDrawer,
-        backgroundColor: BColors.accent,
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        height: 65,
+        width: 65,
+        margin: EdgeInsets.all(5.0),
+        child: FloatingActionButton(
+          onPressed: addNewDrawer,
+          backgroundColor: BColors.white,
+          child: const Icon(
+            Icons.add,
+            size: 30,
+          ),
+        ),
       ),
     );
   }

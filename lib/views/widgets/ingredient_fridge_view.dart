@@ -1,4 +1,5 @@
 import 'package:benri_app/models/ingredients/ingredient.dart';
+import 'package:benri_app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -35,37 +36,52 @@ class _IngredientFridgeViewState extends State<IngredientFridgeView> {
         : 'Expires on: ${getFormattedExpirationDate(widget.ingredient.expirationDate)}';
 
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(0),
       child: Slidable(
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: (context) => widget.deleteIngredient!(context),
             icon: Icons.delete,
             backgroundColor: Colors.red,
-            borderRadius: BorderRadius.circular(12),
+            // borderRadius: BorderRadius.circular(12),
           )
         ]),
         child: Container(
-          margin: const EdgeInsets.all(8.0),
-          padding: const EdgeInsets.all(8.0),
+          // margin: const EdgeInsets.all(8.0),
+          // padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3), // changes position of shadow
-              ),
-            ],
+            // borderRadius: BorderRadius.circular(10),
+            border: Border(bottom: BorderSide(color: BColors.grey, width: 0.5)),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.grey.withOpacity(0.5),
+            //     spreadRadius: 2,
+            //     blurRadius: 5,
+            //     offset: const Offset(0, 3), // changes position of shadow
+            //   ),
+            // ],
           ),
           child: ListTile(
-            leading: Image.asset(
-              widget.ingredient.getImagePath(), // Use the getImagePath method
-              width: 70,
-              height: 100,
-              fit: BoxFit.cover,
+            leading: Padding(
+              padding: EdgeInsets.only(right: 6, left: 4),
+              child: Container(
+                height: 100,
+                width: 70,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(width: 0.5, color: BColors.grey)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    widget.ingredient
+                        .getImagePath(), // Use the getImagePath method
+                    width: 70,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ),
             title: Text(
               widget.ingredient.name,

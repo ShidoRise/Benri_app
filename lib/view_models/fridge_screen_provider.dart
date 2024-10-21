@@ -5,14 +5,15 @@ class FridgeScreenProvider with ChangeNotifier {
   TextEditingController searchController = TextEditingController();
 
   // Initialize the tab controller
-  void initialize(TickerProvider vsync) {
-    tabController = TabController(length: 2, vsync: vsync);
+  void initialize(BuildContext context) {
+    tabController = TabController(length: 2, vsync: Navigator.of(context));
+    notifyListeners();
   }
 
   // Dispose the controllers
   void disposeControllers() {
     tabController.dispose();
-    searchController.dispose();
+    notifyListeners();
   }
 
   // Notify listeners if something changes

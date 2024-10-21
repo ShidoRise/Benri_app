@@ -52,10 +52,18 @@ class DrawerDetailsScreen extends StatelessWidget {
                 );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => addIngredientIntoFridge(context),
-        backgroundColor: BColors.accent,
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        height: 65,
+        width: 65,
+        margin: EdgeInsets.all(5),
+        child: FloatingActionButton(
+          onPressed: () => addIngredientIntoFridge(context),
+          backgroundColor: BColors.white,
+          child: const Icon(
+            Icons.add,
+            size: 30,
+          ),
+        ),
       ),
     );
   }

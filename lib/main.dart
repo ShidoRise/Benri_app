@@ -23,7 +23,6 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => BasketViewModel()),
-
         ChangeNotifierProvider(
             create: (context) => DrawerProvider()), // Drawer state
         ChangeNotifierProvider(create: (context) => IngredientProvider()),

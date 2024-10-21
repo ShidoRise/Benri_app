@@ -67,7 +67,7 @@ class NavigationController extends GetxController {
   final screens = [
     const BasketScreen(),
     const FridgeScreen(),
-    const ProfileScreen(),
     const RecipesScreen(),
+    const ProfileScreen(),
   ];
 }
