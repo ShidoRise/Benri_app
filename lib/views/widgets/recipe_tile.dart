@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:benri_app/models/recipes/recipes.dart';
-import 'package:get/get.dart';
 
 class RecipeTile extends StatelessWidget {
   final Recipes recipe;

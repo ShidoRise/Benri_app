@@ -76,6 +76,7 @@ flutter:
   assets:
       - assets/images/ingredient/
       - assets/images/deco/
+      - assets/images/recipe/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

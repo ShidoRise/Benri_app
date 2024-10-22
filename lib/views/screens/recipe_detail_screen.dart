@@ -13,17 +13,27 @@ class RecipeDetailScreen extends StatefulWidget {
 }
 
 class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
-  void addToFavouriteRecipe() {
-    final favouriteRecipe = context.read<FavouriteRecipeProvider>();
+  void toggleFavouriteRecipe() {
+    final favouriteRecipeProvider = context.read<FavouriteRecipeProvider>();
 
-    favouriteRecipe.addToFavourite(widget.recipe);
-
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("Successfull")));
+    if (favouriteRecipeProvider.favouriteRecipes.contains(widget.recipe)) {
+      favouriteRecipeProvider
+          .removeFromFavourite(widget.recipe); // Remove from favourites
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Removed from Favourites")));
+    } else {
+      favouriteRecipeProvider
+          .addToFavourite(widget.recipe); // Add to favourites
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Added to Favourites")));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final favouriteRecipeProvider = context.watch<FavouriteRecipeProvider>();
+    bool isFavourite =
+        favouriteRecipeProvider.favouriteRecipes.contains(widget.recipe);
     return Scaffold(
       appBar: BAppBar(title: widget.recipe.name),
       body: Column(
@@ -62,8 +72,13 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     Padding(
                       padding: EdgeInsets.only(right: 15),
                       child: GestureDetector(
-                          onTap: addToFavouriteRecipe,
-                          child: Icon(Icons.favorite)),
+                          onTap: toggleFavouriteRecipe,
+                          child: Icon(
+                            isFavourite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: isFavourite ? Colors.red : Colors.grey,
+                          )),
                     )
                   ],
                 ),
@@ -94,10 +109,13 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
-                  "To make grilled pork belly, first marinate the pork with a mix of garlic, soy sauce, honey, black pepper, and sesame oil for at least 2 hours. Preheat the grill to medium-high heat. Place the pork belly slices on the grill, cooking each side for about 4-5 minutes or until golden brown and crispy. Use tongs to flip and baste with leftover marinade for extra flavor. Let it rest for a few minutes after grilling, then slice into bite-sized pieces. Serve with dipping sauces or alongside rice and vegetables for a delicious meal. Thank you for your watching, wait us more recipes",
+                  widget.recipe.description,
                   style: TextStyle(color: Colors.grey[600], height: 2),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 100,
+              ),
             ],
           ))
         ],
