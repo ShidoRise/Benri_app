@@ -1,5 +1,6 @@
 import 'package:benri_app/models/ingredients/ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
+import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/fridge_screen_provider.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ void main() async {
             create: (context) => DrawerProvider()), // Drawer state
         ChangeNotifierProvider(create: (context) => IngredientProvider()),
         ChangeNotifierProvider(create: (context) => FridgeScreenProvider()),
+        ChangeNotifierProvider(create: (context) => FavouriteRecipeProvider())
       ],
       child: const MyApp(),
     ),

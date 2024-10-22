@@ -3,17 +3,14 @@ class Ingredient {
   final String quantity;
   final String imgPath;
   final DateTime expirationDate;
-
   // Define the default image path here
-  static const String defaultImagePath = 'assets/images/ingredient/default.png';
-
+  static const String defaultImagePath = 'lib/images/default.png';
   Ingredient({
     required this.name,
     required this.quantity,
     required this.imgPath,
     required this.expirationDate,
   });
-
   // Method to format the expiration date for display
   String getFormattedExpirationDate() {
     return "${expirationDate.day}-${expirationDate.month}-${expirationDate.year}";
