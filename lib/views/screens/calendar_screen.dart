@@ -3,7 +3,6 @@ import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
 import 'package:benri_app/views/widgets/basket_item.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 

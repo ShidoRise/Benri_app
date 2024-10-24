@@ -276,7 +276,7 @@ class BasketScreen extends StatelessWidget {
   }
 
   Future<String?> openDialog(BuildContext context) {
-    final TextEditingController _ingredientInputController =
+    final TextEditingController ingredientInputController =
         TextEditingController();
     return showModalBottomSheet<String>(
       context: context,
@@ -291,11 +291,11 @@ class BasketScreen extends StatelessWidget {
             children: [
               TextField(
                 autofocus: true,
-                controller: _ingredientInputController,
+                controller: ingredientInputController,
                 decoration:
                     const InputDecoration(hintText: 'Enter your ingredient'),
                 onSubmitted: (_) {
-                  Navigator.of(context).pop(_ingredientInputController.text);
+                  Navigator.of(context).pop(ingredientInputController.text);
                 },
               ),
               SizedBox(
@@ -303,7 +303,7 @@ class BasketScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(_ingredientInputController.text);
+                  Navigator.of(context).pop(ingredientInputController.text);
                 },
                 child: const Text('Done'),
               ),

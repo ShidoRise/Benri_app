@@ -49,6 +49,7 @@ dependencies:
   hive_flutter: ^1.1.0
   hive_generator: ^2.0.1
   build_runner: ^2.4.13
+  path_provider: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -72,10 +73,11 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - assets/icons/
-  #   - assets/images/
-  #   - assets/logos/
+  assets:
+      - assets/images/ingredient/
+      - assets/images/deco/
+      - assets/images/recipe/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

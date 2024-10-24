@@ -1,10 +1,14 @@
 import 'package:benri_app/models/ingredients/ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
+import 'package:benri_app/view_models/favourite_recipe_provider.dart';
+import 'package:benri_app/view_models/fridge_screen_provider.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'view_models/drawer_provider.dart';
+import 'view_models/ingredient_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -20,6 +24,11 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => BasketViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => DrawerProvider()), // Drawer state
+        ChangeNotifierProvider(create: (context) => IngredientProvider()),
+        ChangeNotifierProvider(create: (context) => FridgeScreenProvider()),
+        ChangeNotifierProvider(create: (context) => FavouriteRecipeProvider())
       ],
       child: const MyApp(),
     ),
