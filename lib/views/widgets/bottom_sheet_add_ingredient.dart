@@ -1,10 +1,10 @@
 // ignore_for_file: unused_local_variable
-import 'package:benri_app/models/ingredients/ingredient.dart';
+import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../utils/constants/colors.dart';
 
-Future<Ingredient?> addIngredientDialog(BuildContext context) {
+Future<FridgeIngredients?> addIngredientDialog(BuildContext context) {
   final List<String> ingredients = [
     'Apple',
     'Banana',
@@ -116,7 +116,14 @@ Future<Ingredient?> addIngredientDialog(BuildContext context) {
                       FocusNode focusNode,
                       VoidCallback onFieldSubmitted) {
                     return TextField(
-                      controller: ingredientController,
+                      controller: textEditingController,
+                      onChanged: (text) {
+                        setState(() {
+                          selectedIngredient = text;
+                          ingredientController.text =
+                              text; // Store free text input as the selected ingredient
+                        });
+                      },
                       decoration: InputDecoration(
                         labelText: 'Enter Ingredient Name',
                         labelStyle: TextStyle(
@@ -343,9 +350,9 @@ Future<Ingredient?> addIngredientDialog(BuildContext context) {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Cancel"),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: BColors.accent),
+                        child: Text("Cancel"),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -373,7 +380,7 @@ Future<Ingredient?> addIngredientDialog(BuildContext context) {
                                 ? unitController.text
                                 : selectedUnit ?? "";
 
-                            final newIngredient = Ingredient(
+                            final newIngredient = FridgeIngredients(
                               name: ingredientToSave,
                               quantity:
                                   '${quantityController.text} $unitToSave',
