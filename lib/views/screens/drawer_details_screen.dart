@@ -62,6 +62,7 @@ class DrawerDetailsScreen extends StatelessWidget {
           child: const Icon(
             Icons.add,
             size: 30,
+            color: Colors.black,
           ),
         ),
       ),

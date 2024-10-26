@@ -35,7 +35,7 @@ class IngredientSuggestionsDB {
       final data = json.decode(response.body)['metadata'];
       for (Map<String, dynamic> element in data) {
         ingredientSuggestions.add(
-          new IngredientSuggestion(
+          IngredientSuggestion(
               name: element['ingredient_name'],
               thumbnailUrl: element['ingredient_thumbnail'],
               nameInVietnamese: element['ingredient_name_vi']),
