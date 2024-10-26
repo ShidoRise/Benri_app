@@ -1,16 +1,15 @@
 import 'dart:io';
 
 import 'package:benri_app/models/recipes/recipes.dart';
+import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
+import 'package:benri_app/views/screens/recipe_detail_screen.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
 import 'package:benri_app/views/widgets/create_recipe.dart';
 import 'package:benri_app/views/widgets/my_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-
-import '../../utils/constants/colors.dart';
-import 'recipe_detail_screen.dart';
 
 class YourRecipeScreen extends StatelessWidget {
   const YourRecipeScreen({super.key});

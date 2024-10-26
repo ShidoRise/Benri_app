@@ -7,9 +7,7 @@ import 'package:intl/intl.dart'; // For formatting the date
 
 // ignore: must_be_immutable
 class IngredientFridgeView extends StatefulWidget {
-
   final FridgeIngredient ingredient;
-
   final String? drawerName;
   Function(BuildContext)? deleteIngredient;
 
