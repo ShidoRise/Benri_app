@@ -3,6 +3,12 @@ import '../models/ingredients/fridge_ingredients.dart';
 
 class IngredientProvider with ChangeNotifier {
   // Use a map to track ingredients per drawer
+
+  final Map<String, List<FridgeIngredient>> _drawerIngredients = {};
+
+  // Getter to get the list of ingredients for a specific drawer
+  List<FridgeIngredient> getIngredientsForDrawer(String drawerName) {
+
   final Map<String, List<FridgeIngredient>> _drawerIngredients = {};
 
   // Getter to get the list of ingredients for a specific drawer
@@ -11,7 +17,9 @@ class IngredientProvider with ChangeNotifier {
   }
 
   // Add an ingredient to a specific drawer
+
   void addIngredient(String drawerName, FridgeIngredient ingredient) {
+
     if (_drawerIngredients.containsKey(drawerName)) {
       _drawerIngredients[drawerName]!.add(ingredient);
     } else {
