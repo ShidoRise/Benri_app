@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../utils/constants/colors.dart';
 
-
 Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
-
   final List<String> ingredients = [
     'Apple',
     'Banana',
@@ -364,23 +362,23 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                             // Check if ingredient field is empty
                             ingredientError = ingredientController.text.isEmpty;
 
-
                             // Check if quantity field is empty
                             quantityError = quantityController.text.isEmpty;
 
-                        final unitToSave = unitController.text.isNotEmpty
-                            ? unitController.text
-                            : selectedUnit ?? "";
-                        // Create a new Ingredient object
-                        final newIngredient = FridgeIngredient(
-                          name: ingredientToSave, // Allow custom ingredient
-                          quantity: '${quantityController.text} $unitToSave',
-                          imgPath: ingredients
-                                  .contains(ingredientController.text)
-                              ? 'assets/images/ingredient/${ingredientController.text}.png'
-                              : 'assets/images/ingredient/.png', // Add the appropriate path
-                          expirationDate: expirationDate!,
-                        );
+                            final unitToSave = unitController.text.isNotEmpty
+                                ? unitController.text
+                                : selectedUnit ?? "";
+                            // Create a new Ingredient object
+                            final newIngredient = FridgeIngredient(
+                              name: ingredientToSave, // Allow custom ingredient
+                              quantity:
+                                  '${quantityController.text} $unitToSave',
+                              imgPath: ingredients
+                                      .contains(ingredientController.text)
+                                  ? 'assets/images/ingredient/${ingredientController.text}.png'
+                                  : 'assets/images/ingredient/.png', // Add the appropriate path
+                              expirationDate: expirationDate!,
+                            );
 
                             // Check if expiration date is not selected
                             expirationDateError = expirationDate == null;

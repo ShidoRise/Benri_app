@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/views/screens/recipe_detail_screen.dart';
@@ -27,6 +26,10 @@ class RecipesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final recipes = context.read<FavouriteRecipeProvider>();
+    final recipeMenu = recipes.recipes;
+    final favouriteRecipe = recipes.favouriteRecipes;
+
     return Scaffold(
       appBar: BAppBar(title: 'Recipe'),
       body: SingleChildScrollView(
@@ -96,130 +99,9 @@ class RecipesScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Hot Today",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                      Icon(
-                        Icons.whatshot,
-                        color: Colors.red,
-                        size: 30,
-                      )
-                    ],
-                  ),
-                  Text(
-                    "View More",
-                    style: TextStyle(
-                        color: Colors.blue[400], fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 264,
-              // fixed height for horizontal list
-              child: Consumer<FavouriteRecipeProvider>(
-                builder: (context, value, child) {
-                  final recipeMenu = value.recipes;
-                  recipeMenu.shuffle();
-                  final randomRecipeMenu = recipeMenu.take(10).toList();
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: randomRecipeMenu.length,
-                    itemBuilder: (context, index) => RecipeTile(
-                      recipe: randomRecipeMenu[index],
-                      onTap: () => navigateToRecipeDetails(context, index),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .spaceBetween, // Ensures space between the two sections
-                children: [
-                  // Left side: "Your recipe" and heart icon
-                  Row(
-                    children: [
-                      Text(
-                        "Your recipe",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Icon(
-                        Icons.favorite_border_outlined,
-                        color: Colors.red,
-                      ),
-                    ],
-                  ),
-                  // Right side: "See All" button
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              YourRecipeScreen(), // Replace with your target page widget
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'See All',
-                      style: TextStyle(
-                          color: Colors.blue[400], fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Consumer<FavouriteRecipeProvider>(
-              builder: (context, value, child) {
-                final favouriteRecipe = value.favouriteRecipes;
-                if (favouriteRecipe.isEmpty) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "You dont have any favourite recipes\nPlease find more!!!",
-                      style: TextStyle(fontSize: 16, color: Colors.grey[500]),
-                    ),
-                  );
-                } else {
-                  return SizedBox(
-                    height: 264,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      // disable scrolling within list
-                      itemCount: min(10, favouriteRecipe.length),
-                      itemBuilder: (context, index) => RecipeTile(
-                        recipe: favouriteRecipe[index],
-                        onTap: () => navigateToRecipeDetails(context, index),
-                      ),
-                    ),
-                  );
-                }
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
                 children: [
                   Text(
-                    "Highly Recommend",
+                    "Hot Today",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -234,37 +116,68 @@ class RecipesScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Consumer<FavouriteRecipeProvider>(
-              builder: (context, value, child) {
-                final shuffedRecipes = value.recipes;
-                shuffedRecipes.shuffle();
-                final randomRecipes = shuffedRecipes
-                    .take(min(shuffedRecipes.length, 10))
-                    .toList();
-                return GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 0.76),
-                    itemCount: randomRecipes.length,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        child: Column(
-                          children: [
-                            RecipeTile(
-                                recipe: randomRecipes[index],
-                                onTap: () =>
-                                    navigateToRecipeDetails(context, index)),
-                          ],
+            Container(
+              height: 260, // fixed height for horizontal list
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: recipeMenu.length,
+                itemBuilder: (context, index) => RecipeTile(
+                  recipe: recipeMenu[index],
+                  onTap: () => navigateToRecipeDetails(context, index),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              YourRecipeScreen(), // Replace with your target page widget
                         ),
                       );
-                    });
-              },
-            )
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Your recipe",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.favorite_border_outlined,
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 260,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                // disable scrolling within list
+                itemCount: favouriteRecipe.length,
+                itemBuilder: (context, index) => RecipeTile(
+                  recipe: favouriteRecipe[index],
+                  onTap: () {},
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 100,
+            ),
           ],
         ),
       ),
