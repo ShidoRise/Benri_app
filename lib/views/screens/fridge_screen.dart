@@ -29,14 +29,14 @@ class FridgeScreen extends StatelessWidget {
           children: [
             // Search bar for searching ingredients
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: MySearchBar(
                 hintText: 'Search Your Ingredient',
               ),
             ),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Consumer<FridgeScreenProvider>(
                 builder: (context, provider, child) {
                   return TabBar(
