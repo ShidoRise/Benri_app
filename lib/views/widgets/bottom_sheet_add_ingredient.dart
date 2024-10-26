@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../utils/constants/colors.dart';
 
-
 Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
-
   final List<String> ingredients = [
     'Apple',
     'Banana',
@@ -29,10 +27,6 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
   final TextEditingController expirationDateController =
       TextEditingController();
   final TextEditingController unitController = TextEditingController();
-
-  bool ingredientError = false;
-  bool quantityError = false;
-  bool expirationDateError = false;
 
   // Helper method to show DatePicker
   Future<void> selectExpirationDate(
@@ -118,7 +112,9 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                       FocusNode focusNode,
                       VoidCallback onFieldSubmitted) {
                     return TextField(
-                      controller: textEditingController,
+                      controller:
+                          textEditingController, // Use the controller provided by Autocomplete
+                      focusNode: focusNode,
                       onChanged: (text) {
                         setState(() {
                           selectedIngredient = text;
@@ -128,26 +124,8 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                       },
                       decoration: InputDecoration(
                         labelText: 'Enter Ingredient Name',
-                        labelStyle: TextStyle(
-                          color: ingredientError
-                              ? Colors.red
-                              : Colors.black, // Red label on error
-                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: ingredientError
-                                ? Colors.red
-                                : Colors.grey, // Red border on error
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: ingredientError
-                                ? Colors.red
-                                : BColors.grey, // Red focused border on error
-                          ),
                         ),
                       ),
                     );
@@ -162,28 +140,11 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                       flex: 2,
                       child: TextField(
                         controller: quantityController,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: 'Enter Quantity',
-                          labelStyle: TextStyle(
-                            color: quantityError
-                                ? Colors.red
-                                : Colors.black, // Red label on error
-                          ),
+                          labelText: 'Quantity',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: quantityError
-                                  ? Colors.red
-                                  : Colors.grey, // Red border on error
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: quantityError
-                                  ? Colors.red
-                                  : Colors.grey, // Red focused border on error
-                            ),
                           ),
                         ),
                       ),
@@ -272,32 +233,18 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                 TextField(
                   controller: expirationDateController,
                   decoration: InputDecoration(
-                    labelText: 'Enter Expiration Date',
-                    labelStyle: TextStyle(
-                      color: expirationDateError
-                          ? Colors.red
-                          : Colors.black, // Red label on error
-                    ),
+                    labelText: 'Expiration Date',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: expirationDateError
-                            ? Colors.red
-                            : Colors.grey, // Red border on error
-                      ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: expirationDateError
-                            ? Colors.red
-                            : Colors.grey, // Red focused border on error
-                      ),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.calendar_today),
+                      onPressed: () => selectExpirationDate(
+                          context, setState), // Opens DatePicker
                     ),
-                    suffixIcon: Icon(Icons.calendar_today),
                   ),
-                  readOnly: true, // Ensures it only triggers DatePicker
-                  onTap: () => selectExpirationDate(context, setState),
+                  readOnly:
+                      true, // Ensures it's read-only and opens DatePicker on tap
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -341,32 +288,20 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                     ),
                   ],
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 150),
                 // Add Ingredient button
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: BColors.accent),
-                        child: Text("Cancel"),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: BColors.accent),
-                        onPressed: () {
-                          setState(() {
-                            // Check if ingredient field is empty
-                            ingredientError = ingredientController.text.isEmpty;
-
-
-                            // Check if quantity field is empty
-                            quantityError = quantityController.text.isEmpty;
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: BColors.accent),
+                    onPressed: () {
+                      // Ensure all fields are filled
+                      if (ingredientController.text.isNotEmpty &&
+                          quantityController.text.isNotEmpty &&
+                          expirationDate != null) {
+                        final ingredientToSave =
+                            selectedIngredient ?? ingredientController.text;
 
                         final unitToSave = unitController.text.isNotEmpty
                             ? unitController.text
@@ -382,39 +317,18 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                           expirationDate: expirationDate!,
                         );
 
-                            // Check if expiration date is not selected
-                            expirationDateError = expirationDate == null;
-                          });
-
-                          // Only proceed if all fields are valid (no errors)
-                          if (!ingredientError &&
-                              !quantityError &&
-                              !expirationDateError) {
-                            final ingredientToSave =
-                                selectedIngredient ?? ingredientController.text;
-
-                            final unitToSave = unitController.text.isNotEmpty
-                                ? unitController.text
-                                : selectedUnit ?? "";
-
-                            final newIngredient = FridgeIngredients(
-                              name: ingredientToSave,
-                              quantity:
-                                  '${quantityController.text} $unitToSave',
-                              imgPath: ingredients
-                                      .contains(ingredientController.text)
-                                  ? 'assets/images/ingredient/${ingredientController.text}.png'
-                                  : 'assets/images/ingredient/default.png',
-                              expirationDate: expirationDate!,
-                            );
-
-                            // Return the new ingredient to the previous screen
-                            Navigator.of(context).pop(newIngredient);
-                          }
-                        },
-                        child: const Text('Add Ingredient'),
-                      ),
-                    ],
+                        // Return the ingredient back to the previous screen
+                        Navigator.of(context)
+                            .pop(newIngredient); // Return the ingredient
+                      } else {
+                        // Show a message if any field is missing
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Please fill all fields')),
+                        );
+                      }
+                    },
+                    child: const Text('Add Ingredient'),
                   ),
                 ),
                 const SizedBox(
