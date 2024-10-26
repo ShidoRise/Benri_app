@@ -142,7 +142,7 @@ class BasketViewModel extends ChangeNotifier {
     if (ingredientName.isNotEmpty) {
       final ingredient = ingredientsDB.ingredientSuggestions.firstWhere(
         (i) => i.name.toLowerCase() == ingredientName.toLowerCase(),
-        orElse: () => new IngredientSuggestion(
+        orElse: () => IngredientSuggestion(
             name: '',
             thumbnailUrl: '',
             nameInVietnamese: ''), // If not found, return null
