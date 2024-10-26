@@ -3,27 +3,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class BasketsLocalDB {
   Map<String, List<Ingredient>> baskets = {};
-  final _myBox = Hive.box('mybox');
+  final _basketBox = Hive.box('basketBox');
 
   void createInitialData() {
-    baskets = {
-      "10/16/2024": [
-        Ingredient(name: 'Banana'),
-        Ingredient(name: 'Apples'),
-        Ingredient(name: 'Potatoes'),
-        Ingredient(name: 'Oranges'),
-      ],
-      "10/17/2024": [
-        Ingredient(name: 'Helo'),
-        Ingredient(name: 'Appes'),
-        Ingredient(name: 'Poatoes'),
-        Ingredient(name: 'Ornges'),
-      ],
-    };
+    baskets = {};
   }
 
   void loadData() {
-    final loadedData = _myBox.get('BASKETSLIST');
+    final loadedData = _basketBox.get('BASKETSLIST');
     if (loadedData != null) {
       baskets = Map<String, List<Ingredient>>.from(
           (loadedData as Map).map((key, value) => MapEntry(
@@ -31,12 +18,15 @@ class BasketsLocalDB {
               List<Ingredient>.from(value.map((item) => Ingredient(
                     name: item['name'],
                     isSelected: item['isSelected'] as bool,
+                    quantity: item['quantity'],
+                    unit: item['unit'],
+                    imageUrl: item['imageUrl'],
                   ))))));
     }
   }
 
   void updateDatabase() {
-    _myBox.put(
+    _basketBox.put(
         'BASKETSLIST',
         baskets.map((key, value) => MapEntry(
             key,
@@ -44,6 +34,9 @@ class BasketsLocalDB {
                 .map((ingredient) => {
                       'name': ingredient.name,
                       'isSelected': ingredient.isSelected,
+                      'quantity': ingredient.quantity,
+                      'unit': ingredient.unit,
+                      'imageUrl': ingredient.imageUrl,
                     })
                 .toList())));
   }

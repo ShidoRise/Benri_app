@@ -1,11 +1,11 @@
-class Ingredient {
+class FridgeIngredient {
   final String name;
   final String quantity;
   final String imgPath;
   final DateTime expirationDate;
   // Define the default image path here
-  static const String defaultImagePath = 'lib/images/default.png';
-  Ingredient({
+  static const String defaultImagePath = 'assets/images/ingredient/default.png';
+  FridgeIngredient({
     required this.name,
     required this.quantity,
     required this.imgPath,

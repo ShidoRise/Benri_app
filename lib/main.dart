@@ -1,3 +1,4 @@
+import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
@@ -15,10 +16,12 @@ void main() async {
       .ensureInitialized(); // Ensure Flutter bindings are initialized
 
   await Hive.initFlutter();
-  Hive.registerAdapter(
-      IngredientAdapter()); // Register the TypeAdapter for Ingredient
+  Hive.registerAdapter(IngredientAdapter());
 
-  await Hive.openBox('mybox'); // Open Hive box
+  Hive.registerAdapter(IngredientSuggestionAdapter());
+
+  await Hive.openBox('basketBox');
+  await Hive.openBox('ingredientSuggestionsBox');
 
   runApp(
     MultiProvider(
@@ -45,6 +48,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Nunito',
         scaffoldBackgroundColor: BColors.white,
+        useMaterial3: true,
+        colorScheme: ColorScheme.light(),
       ),
       home: const NavigationMenu(), // Entry point of the app
     );

@@ -1,4 +1,4 @@
-import 'package:benri_app/models/ingredients/ingredient.dart';
+import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -7,7 +7,7 @@ import 'package:intl/intl.dart'; // For formatting the date
 
 // ignore: must_be_immutable
 class IngredientFridgeView extends StatefulWidget {
-  final Ingredient ingredient;
+  final FridgeIngredient ingredient;
   final String? drawerName;
   Function(BuildContext)? deleteIngredient;
 

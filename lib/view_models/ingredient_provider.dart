@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import '../models/ingredients/ingredient.dart';
+import '../models/ingredients/fridge_ingredients.dart';
 
 class IngredientProvider with ChangeNotifier {
   // Use a map to track ingredients per drawer
-  final Map<String, List<Ingredient>> _drawerIngredients = {};
+  final Map<String, List<FridgeIngredient>> _drawerIngredients = {};
 
   // Getter to get the list of ingredients for a specific drawer
-  List<Ingredient> getIngredientsForDrawer(String drawerName) {
+  List<FridgeIngredient> getIngredientsForDrawer(String drawerName) {
     return _drawerIngredients[drawerName] ?? [];
   }
 
   // Add an ingredient to a specific drawer
-  void addIngredient(String drawerName, Ingredient ingredient) {
+  void addIngredient(String drawerName, FridgeIngredient ingredient) {
     if (_drawerIngredients.containsKey(drawerName)) {
       _drawerIngredients[drawerName]!.add(ingredient);
     } else {

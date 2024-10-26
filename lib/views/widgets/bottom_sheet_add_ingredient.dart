@@ -1,10 +1,10 @@
 // ignore_for_file: unused_local_variable
-import 'package:benri_app/models/ingredients/ingredient.dart';
+import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../utils/constants/colors.dart';
 
-Future<Ingredient?> addIngredientDialog(BuildContext context) {
+Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
   final List<String> ingredients = [
     'Apple',
     'Banana',
@@ -307,7 +307,7 @@ Future<Ingredient?> addIngredientDialog(BuildContext context) {
                             ? unitController.text
                             : selectedUnit ?? "";
                         // Create a new Ingredient object
-                        final newIngredient = Ingredient(
+                        final newIngredient = FridgeIngredient(
                           name: ingredientToSave, // Allow custom ingredient
                           quantity: '${quantityController.text} $unitToSave',
                           imgPath: ingredients

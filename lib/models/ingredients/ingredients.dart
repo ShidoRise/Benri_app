@@ -10,13 +10,31 @@ class Ingredient {
   @HiveField(1)
   bool isSelected;
 
-  Ingredient({required this.name, this.isSelected = false});
+  @HiveField(2)
+  String quantity; // New field for quantity
+
+  @HiveField(3)
+  String unit; // New field for unit
+
+  @HiveField(4)
+  String imageUrl; // New field for image URL (nullable)
+
+  Ingredient({
+    required this.name,
+    this.isSelected = false,
+    this.quantity = '',
+    this.unit = '',
+    this.imageUrl = '',
+  });
 
   // Convert Ingredient to Map
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'isSelected': isSelected,
+      'quantity': quantity,
+      'unit': unit,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -25,11 +43,14 @@ class Ingredient {
     return Ingredient(
       name: map['name'],
       isSelected: map['isSelected'] ?? false,
+      quantity: map['quantity'] ?? '',
+      unit: map['unit'] ?? '',
+      imageUrl: map['imageUrl'],
     );
   }
 
   @override
   String toString() {
-    return 'Ingredient{name: $name, isSelected: $isSelected}';
+    return 'Ingredient{name: $name, isSelected: $isSelected, quantity: $quantity, unit: $unit, imageUrl: $imageUrl}';
   }
 }

@@ -1,44 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ingredients.dart';
+part of 'ingredient_suggestions.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class IngredientAdapter extends TypeAdapter<Ingredient> {
+class IngredientSuggestionAdapter extends TypeAdapter<IngredientSuggestion> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  Ingredient read(BinaryReader reader) {
+  IngredientSuggestion read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Ingredient(
+    return IngredientSuggestion(
       name: fields[0] as String,
-      isSelected: fields[1] as bool,
-      quantity: fields[2] as String,
-      unit: fields[3] as String,
-      imageUrl: fields[4] as String,
+      thumbnailUrl: fields[1] as String,
+      nameInVietnamese: fields[2] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Ingredient obj) {
+  void write(BinaryWriter writer, IngredientSuggestion obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.isSelected)
+      ..write(obj.thumbnailUrl)
       ..writeByte(2)
-      ..write(obj.quantity)
-      ..writeByte(3)
-      ..write(obj.unit)
-      ..writeByte(4)
-      ..write(obj.imageUrl);
+      ..write(obj.nameInVietnamese);
   }
 
   @override
@@ -47,7 +41,7 @@ class IngredientAdapter extends TypeAdapter<Ingredient> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is IngredientAdapter &&
+      other is IngredientSuggestionAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
