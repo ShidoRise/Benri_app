@@ -50,6 +50,8 @@ dependencies:
   hive_generator: ^2.0.1
   build_runner: ^2.4.13
   path_provider: ^2.0.15
+  flutter_svg: ^2.0.10+1
+  flutter_secure_storage: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,7 @@ flutter:
       - assets/images/ingredient/
       - assets/images/deco/
       - assets/images/recipe/
+      - assets/icons/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
