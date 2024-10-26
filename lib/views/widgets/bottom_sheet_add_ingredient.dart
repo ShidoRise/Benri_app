@@ -359,6 +359,8 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                             backgroundColor: BColors.accent),
                         onPressed: () {
                           setState(() {
+                            final ingredientToSave =
+                                selectedIngredient ?? ingredientController.text;
                             // Check if ingredient field is empty
                             ingredientError = ingredientController.text.isEmpty;
 
