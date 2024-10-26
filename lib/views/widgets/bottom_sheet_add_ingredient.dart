@@ -397,7 +397,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                                 ? unitController.text
                                 : selectedUnit ?? "";
 
-                            final newIngredient = FridgeIngredients(
+                            final newIngredient = FridgeIngredient(
                               name: ingredientToSave,
                               quantity:
                                   '${quantityController.text} $unitToSave',
