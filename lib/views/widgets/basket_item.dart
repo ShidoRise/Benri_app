@@ -94,7 +94,7 @@ class BasketItem extends StatelessWidget {
                           : TextDecoration.none),
                 ),
                 Text(
-                  ingredient.quantity + ' ' + ingredient.unit,
+                  '${ingredient.quantity} ${ingredient.unit}',
                   style: TextStyle(
                       fontSize: 16,
                       decoration: ingredient.isSelected

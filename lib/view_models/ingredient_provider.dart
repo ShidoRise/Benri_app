@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import '../models/ingredients/fridge_ingredients.dart';
 
 class IngredientProvider with ChangeNotifier {
-  // Use a map to track ingredients per drawer
+  // Map to track ingredients per drawer
   final Map<String, List<FridgeIngredient>> _drawerIngredients = {};
 
-  // Getter to get the list of ingredients for a specific drawer
+  // Getter to retrieve ingredients for a specific drawer
   List<FridgeIngredient> getIngredientsForDrawer(String drawerName) {
     return _drawerIngredients[drawerName] ?? [];
   }
@@ -34,7 +34,7 @@ class IngredientProvider with ChangeNotifier {
     _drawerIngredients.forEach((drawerName, ingredients) {
       for (var ingredient in ingredients) {
         allIngredients.add({
-          'drawerName': drawerName, // Store the drawer name with the ingredient
+          'drawerName': drawerName,
           'ingredient': ingredient,
         });
       }
