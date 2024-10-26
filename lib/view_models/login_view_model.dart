@@ -4,12 +4,12 @@ import 'package:benri_app/views/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final storage = FlutterSecureStorage();
+  // final storage = FlutterSecureStorage();
 
   bool _isLoading = false;
   String _errorMessage = '';
@@ -48,7 +48,6 @@ class LoginViewModel extends ChangeNotifier {
           "password": passwordController.text,
         }),
       );
-      debugPrint("11qqq1");
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body)['metadata'];
@@ -80,9 +79,9 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> _saveUserData(
       String userId, String refreshToken, String accessToken) async {
     try {
-      await storage.write(key: 'userId', value: userId);
-      await storage.write(key: 'refreshToken', value: refreshToken);
-      await storage.write(key: 'accessToken', value: accessToken);
+      // await storage.write(key: 'userId', value: userId);
+      // await storage.write(key: 'refreshToken', value: refreshToken);
+      // await storage.write(key: 'accessToken', value: accessToken);
     } catch (e) {
       print('save data user into storage failed');
     }

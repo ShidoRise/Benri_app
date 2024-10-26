@@ -10,6 +10,8 @@ class BasketItem extends StatelessWidget {
   final bool isSelected;
   final BasketViewModel basketViewModel;
   Function(BuildContext)? deleteFunction;
+  Function(BuildContext)? editFunction;
+  Function(BuildContext)? addToFridgeFunction;
 
   BasketItem({
     super.key,
@@ -18,6 +20,8 @@ class BasketItem extends StatelessWidget {
     required this.basketViewModel,
     required this.index,
     required this.deleteFunction,
+    required this.editFunction,
+    this.addToFridgeFunction,
   });
 
   @override
@@ -27,12 +31,15 @@ class BasketItem extends StatelessWidget {
         motion: StretchMotion(),
         children: [
           SlidableAction(
+            onPressed: editFunction,
+            icon: Icons.edit,
+            backgroundColor: BColors.grey,
+          ),
+          SlidableAction(
             onPressed: deleteFunction,
             icon: Icons.delete,
             backgroundColor: Colors.red.shade300,
-            flex: 1,
-            autoClose: true,
-          )
+          ),
         ],
       ),
       child: Container(
@@ -63,13 +70,38 @@ class BasketItem extends StatelessWidget {
                 },
               ),
             ),
-            Text(
-              ingredient.name,
-              style: TextStyle(
-                  fontSize: 16,
-                  decoration: ingredient.isSelected
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none),
+            (ingredient.imageUrl != ''
+                ? Image.network(
+                    ingredient.imageUrl,
+                    width: 80,
+                  )
+                : Image.asset(
+                    'assets/images/ingredient/default.png',
+                    width: 80,
+                  )),
+            SizedBox(
+              width: 15,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  ingredient.name,
+                  style: TextStyle(
+                      fontSize: 16,
+                      decoration: ingredient.isSelected
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none),
+                ),
+                Text(
+                  '${ingredient.quantity} ${ingredient.unit}',
+                  style: TextStyle(
+                      fontSize: 16,
+                      decoration: ingredient.isSelected
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none),
+                ),
+              ],
             ),
           ],
         ),
