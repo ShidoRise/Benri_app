@@ -59,35 +59,35 @@ class FavouriteRecipeProvider extends ChangeNotifier {
         name: 'Steak',
         description:
             'Steak is a well-known dish made from high-quality cuts of beef, cooked to various degrees of doneness, from rare to well-done. Popular cuts include ribeye, sirloin, filet mignon, and T-bone, each offering different textures and flavors. The preparation method, whether grilled, pan-seared, or broiled, greatly impacts the taste and tenderness of the steak. Often seasoned with just salt and pepper, steak can be accompanied by sauces such as béarnaise, peppercorn, or chimichurri to enhance its flavor. Common side dishes include mashed potatoes, roasted vegetables, and salads. Steak is celebrated for its rich, savory flavor and remains a favorite for special occasions or indulgent meals around the world.',
-        imgPath: 'assets/images/recipe/Steak.png',
+        imgPath: 'assets/images/ingredient/default.png',
         rating: '5.0',
         timeCooking: '20 mins'),
     Recipes(
         name: 'Fried Chicken',
         description:
             'Fried chicken is a popular dish loved for its crispy, golden-brown exterior and juicy, tender meat. The chicken is typically seasoned, coated in flour or breadcrumbs, and deep-fried to achieve its signature crunch. Common seasonings include salt, pepper, garlic, paprika, and herbs, giving the chicken a flavorful kick. Different variations exist around the world, such as Southern-style fried chicken in the U.S., which is often paired with sides like mashed potatoes, coleslaw, and biscuits. In Korea, fried chicken is coated with a sweet and spicy sauce. Whether served as fast food or a home-cooked meal, fried chicken is a universally enjoyed comfort food, perfect for casual dining or celebratory gatherings.',
-        imgPath: 'assets/images/recipe/Fried Chicken.png',
+        imgPath: 'assets/images/ingredient/default.png',
         rating: '4.8',
         timeCooking: '30 mins'),
     Recipes(
         name: 'Bánh mì',
         description:
             'Bánh mì is a flavorful and iconic Vietnamese sandwich that reflects the fusion of French and Vietnamese culinary influences. It consists of a crispy, airy baguette filled with a variety of ingredients, typically including savory meats like pork, pâté, or chicken, along with pickled vegetables (daikon, carrots), fresh cucumber, cilantro, and chili peppers. Mayonnaise and a drizzle of soy or fish sauce often enhance the flavors. The contrast of the crunchy bread with the vibrant, fresh fillings creates a balanced, satisfying meal. Originally influenced by French colonialism, bánh mì has become a beloved street food worldwide, praised for its delicious simplicity and versatility in flavors.',
-        imgPath: 'assets/images/recipe/Banh Mi.png',
+        imgPath: 'assets/images/ingredient/default.png',
         rating: '4.8',
         timeCooking: '30 mins'),
     Recipes(
         name: 'Sushi',
         description:
             'Sushi is a traditional Japanese dish that showcases simplicity and elegance, made with vinegared rice combined with various ingredients, primarily raw or cooked seafood, vegetables, and sometimes tropical fruits. The most common types of sushi include nigiri (a slice of fish over rice), maki (rolled sushi with seaweed), and sashimi (thinly sliced raw fish served without rice). Popular fillings and toppings range from fresh tuna, salmon, and shrimp to cucumber and avocado. Wasabi, soy sauce, and pickled ginger are typically served on the side to complement the delicate flavors. Sushi is not just a meal but also a refined culinary art, appreciated for its freshness, balance, and the craftsmanship involved in its preparation.',
-        imgPath: 'assets/images/recipe/Sushi.png',
+        imgPath: 'assets/images/ingredient/default.png',
         rating: '4.8',
         timeCooking: '50 mins'),
     Recipes(
         name: 'Chinese Hot Pot',
         description:
             'Chinese hot pot is a beloved and interactive meal where diners cook various ingredients in a simmering pot of flavorful broth at the table. This communal dish has regional variations across China, with different broths ranging from mild and herbal to spicy Sichuan style, infused with chili peppers and numbing Sichuan peppercorns. Common ingredients for dipping include thinly sliced meats (like beef or lamb), seafood, tofu, mushrooms, vegetables, and noodles. Once cooked, these ingredients are often dipped into a variety of sauces, such as sesame, soy, or chili oil, to enhance the flavors. Hot pot is a social and fun dining experience, ideal for gatherings, allowing everyone to customize their meal.',
-        imgPath: 'assets/images/recipe/Chinese Hot Pot.png',
+        imgPath: 'assets/images/ingredient/default.png',
         rating: '4.8',
         timeCooking: '15 mins'),
   ];

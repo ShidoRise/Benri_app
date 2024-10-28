@@ -27,6 +27,8 @@ class DrawerDetailsScreen extends StatelessWidget {
         .removeIngredient(drawerName, index); // Remove from specific drawer
   }
 
+  void editIngredientFridge(BuildContext context, int index) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +49,7 @@ class DrawerDetailsScreen extends StatelessWidget {
                       ingredient: ingredients[index],
                       deleteIngredient: (context) =>
                           deleteIngredientFridge(context, index),
+                      editIngredient: (p0) {},
                     );
                   },
                 );

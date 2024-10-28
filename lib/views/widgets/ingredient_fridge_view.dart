@@ -6,24 +6,19 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart'; // For formatting the date
 
 // ignore: must_be_immutable
-class IngredientFridgeView extends StatefulWidget {
+class IngredientFridgeView extends StatelessWidget {
   final FridgeIngredient ingredient;
-
   final String? drawerName;
+  Function(BuildContext)? editIngredient;
   Function(BuildContext)? deleteIngredient;
 
-  IngredientFridgeView({
-    super.key,
-    required this.ingredient,
-    this.drawerName,
-    required this.deleteIngredient,
-  });
+  IngredientFridgeView(
+      {super.key,
+      required this.ingredient,
+      this.drawerName,
+      required this.deleteIngredient,
+      required this.editIngredient});
 
-  @override
-  State<IngredientFridgeView> createState() => _IngredientFridgeViewState();
-}
-
-class _IngredientFridgeViewState extends State<IngredientFridgeView> {
   // Format the expiration date
   String getFormattedExpirationDate(DateTime date) {
     return DateFormat('dd-MM-yyyy').format(date);
@@ -31,37 +26,32 @@ class _IngredientFridgeViewState extends State<IngredientFridgeView> {
 
   @override
   Widget build(BuildContext context) {
-    bool isExpired = DateTime.now().isAfter(widget.ingredient.expirationDate);
+    bool isExpired = DateTime.now().isAfter(ingredient.expirationDate);
     String expirationText = isExpired
-        ? 'Expired on: ${getFormattedExpirationDate(widget.ingredient.expirationDate)}'
-        : 'Expires on: ${getFormattedExpirationDate(widget.ingredient.expirationDate)}';
+        ? 'Expired on: ${getFormattedExpirationDate(ingredient.expirationDate)}'
+        : 'Expires on: ${getFormattedExpirationDate(ingredient.expirationDate)}';
 
     return Padding(
       padding: const EdgeInsets.all(0),
       child: Slidable(
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
-            onPressed: (context) => widget.deleteIngredient!(context),
+            onPressed: (context) => deleteIngredient!(context),
+            icon: Icons.edit,
+            backgroundColor: Colors.grey,
+            // borderRadius: BorderRadius.circular(12),
+          ),
+          SlidableAction(
+            onPressed: (context) => deleteIngredient!(context),
             icon: Icons.delete,
             backgroundColor: Colors.red,
             // borderRadius: BorderRadius.circular(12),
           )
         ]),
         child: Container(
-          // margin: const EdgeInsets.all(8.0),
-          // padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            // borderRadius: BorderRadius.circular(10),
             border: Border(bottom: BorderSide(color: BColors.grey, width: 0.5)),
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.grey.withOpacity(0.5),
-            //     spreadRadius: 2,
-            //     blurRadius: 5,
-            //     offset: const Offset(0, 3), // changes position of shadow
-            //   ),
-            // ],
           ),
           child: ListTile(
             leading: Padding(
@@ -74,18 +64,20 @@ class _IngredientFridgeViewState extends State<IngredientFridgeView> {
                     border: Border.all(width: 0.5, color: BColors.grey)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    widget.ingredient
-                        .getImagePath(), // Use the getImagePath method
-                    width: 70,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
+                  child: (ingredient.imgPath != ''
+                      ? Image.network(
+                          ingredient.imgPath,
+                          width: 80,
+                        )
+                      : Image.asset(
+                          'assets/images/ingredient/default.png',
+                          width: 80,
+                        )),
                 ),
               ),
             ),
             title: Text(
-              widget.ingredient.name,
+              ingredient.name,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -95,7 +87,7 @@ class _IngredientFridgeViewState extends State<IngredientFridgeView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Quantity: ${widget.ingredient.quantity}',
+                  'Quantity: ${ingredient.quantity}',
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 4),
@@ -106,11 +98,11 @@ class _IngredientFridgeViewState extends State<IngredientFridgeView> {
                     color: isExpired ? Colors.red : Colors.green,
                   ),
                 ),
-                if (widget.drawerName != null)
+                if (drawerName != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Text(
-                      'Stored in ${widget.drawerName}',
+                      'Stored in $drawerName',
                       style: TextStyle(color: Colors.blueGrey, fontSize: 14),
                     ),
                   ),
