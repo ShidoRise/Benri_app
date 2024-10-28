@@ -40,6 +40,7 @@ class DetailFridgeScreen extends StatelessWidget {
                       deleteIngredient: (context) {
                         // Handle deletion if needed
                       },
+                      editIngredient: (context) {},
                     );
                   },
                 );

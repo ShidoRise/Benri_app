@@ -1,8 +1,11 @@
 // ignore_for_file: unused_local_variable
 import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
+import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../utils/constants/colors.dart';
+import '../../view_models/basket_viewmodel.dart';
 
 Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
   final List<String> ingredients = [
@@ -17,6 +20,9 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
     'Salmon',
     'Beef'
   ];
+
+  final basketViewModel = Provider.of<BasketViewModel>(context, listen: false);
+  bool isInitialized = false;
 
   String? selectedIngredient;
   String? selectedUnit;
@@ -90,66 +96,52 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                 const SizedBox(
                   height: 20,
                 ),
-                // Autocomplete for ingredient selection, or allow free text input
-                Autocomplete<String>(
+
+                Autocomplete<IngredientSuggestion>(
                   optionsBuilder: (TextEditingValue textEditingValue) {
-                    // If user hasn't typed anything, return empty list
-                    if (textEditingValue.text.isEmpty) {
-                      return const Iterable<String>.empty();
-                    }
-                    // Filter ingredients based on user input
-                    return ingredients.where((String ingredient) {
-                      return ingredient
-                          .toLowerCase()
-                          .contains(textEditingValue.text.toLowerCase());
-                    });
-                  },
-                  onSelected: (String selection) {
-                    setState(() {
-                      selectedIngredient = selection;
-                      ingredientController.text =
-                          selection; // Autofill the text field with selected suggestion
-                    });
+                    basketViewModel
+                        .filterIngredientSuggestions(textEditingValue.text);
+                    return basketViewModel.filteredIngredientSuggestions;
                   },
                   fieldViewBuilder: (BuildContext context,
-                      TextEditingController textEditingController,
-                      FocusNode focusNode,
+                      TextEditingController fieldTextEditingController,
+                      FocusNode fieldFocusNode,
                       VoidCallback onFieldSubmitted) {
-                    return TextField(
-                      controller: textEditingController,
-                      onChanged: (text) {
-                        setState(() {
-                          selectedIngredient = text;
-                          ingredientController.text =
-                              text; // Store free text input as the selected ingredient
-                        });
-                      },
+                    if (!isInitialized) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        fieldTextEditingController.text =
+                            ingredientController.text;
+                      });
+                      isInitialized = true;
+                    }
+                    return TextFormField(
+                      controller: fieldTextEditingController,
+                      focusNode: fieldFocusNode,
+                      cursorColor: Colors.black,
                       decoration: InputDecoration(
-                        labelText: 'Enter Ingredient Name',
-                        labelStyle: TextStyle(
-                          color: ingredientError
-                              ? Colors.red
-                              : Colors.black, // Red label on error
-                        ),
+                        labelText: 'Ingredient Name',
+                        labelStyle: TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: ingredientError
-                                ? Colors.red
-                                : Colors.grey, // Red border on error
-                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: BColors.black),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: ingredientError
-                                ? Colors.red
-                                : BColors.grey, // Red focused border on error
-                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: BColors.black),
                         ),
                       ),
+                      onChanged: (value) {
+                        ingredientController.text = value;
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          basketViewModel.filterIngredientSuggestions(value);
+                        });
+                      },
                     );
                   },
+                  displayStringForOption: (IngredientSuggestion option) =>
+                      option.name,
+                  onSelected: (IngredientSuggestion option) =>
+                      ingredientController.text = option.name,
                 ),
 
                 const SizedBox(height: 20), // Space between inputs
@@ -168,7 +160,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                                 : Colors.black, // Red label on error
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide(
                               color: quantityError
                                   ? Colors.red
@@ -176,7 +168,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide(
                               color: quantityError
                                   ? Colors.red
@@ -195,7 +187,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                         decoration: InputDecoration(
                           labelText: 'Units',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                       ),
@@ -212,7 +204,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: BColors.accent,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         onPressed: () {
@@ -223,7 +215,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: BColors.accent,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         onPressed: () {
@@ -234,7 +226,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: BColors.accent,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         onPressed: () {
@@ -245,7 +237,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: BColors.accent,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         onPressed: () {
@@ -256,7 +248,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: BColors.accent,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         onPressed: () {
@@ -277,7 +269,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                           : Colors.black, // Red label on error
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(20),
                       borderSide: BorderSide(
                         color: expirationDateError
                             ? Colors.red
@@ -285,7 +277,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(20),
                       borderSide: BorderSide(
                         color: expirationDateError
                             ? Colors.red
@@ -305,7 +297,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: BColors.accent,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         padding: const EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 36.0),
@@ -317,7 +309,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: BColors.accent,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         padding: const EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 36.0),
@@ -329,7 +321,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: BColors.accent,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         padding: const EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 36.0),
@@ -365,21 +357,6 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                             // Check if quantity field is empty
                             quantityError = quantityController.text.isEmpty;
 
-                            // final unitToSave = unitController.text.isNotEmpty
-                            //     ? unitController.text
-                            //     : selectedUnit ?? "";
-                            // Create a new Ingredient object
-                            // final newIngredient = FridgeIngredient(
-                            //   name: ingredientToSave, // Allow custom ingredient
-                            //   quantity: '${quantityController.text} $unitToSave',
-                            //   imgPath: ingredients
-                            //           .contains(ingredientController.text)
-                            //       ? 'assets/images/ingredient/${ingredientController.text}.png'
-                            //       : 'assets/images/ingredient/.png', // Add the appropriate path
-                            //   expirationDate: expirationDate!,
-                            // );
-
-                            // Check if expiration date is not selected
                             expirationDateError = expirationDate == null;
                           });
 
@@ -393,15 +370,14 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                             final unitToSave = unitController.text.isNotEmpty
                                 ? unitController.text
                                 : selectedUnit ?? "";
+                            final imageUrl = basketViewModel
+                                .getImageUrlFromLocalStorage(ingredientToSave);
 
                             final newIngredient = FridgeIngredient(
                               name: ingredientToSave,
                               quantity:
                                   '${quantityController.text} $unitToSave',
-                              imgPath: ingredients
-                                      .contains(ingredientController.text)
-                                  ? 'assets/images/ingredient/${ingredientController.text}.png'
-                                  : 'assets/images/ingredient/default.png',
+                              imgPath: imageUrl,
                               expirationDate: expirationDate!,
                             );
 
