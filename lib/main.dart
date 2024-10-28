@@ -12,8 +12,7 @@ import 'view_models/drawer_provider.dart';
 import 'view_models/ingredient_provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Ensure Flutter bindings are initialized
+  WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
   Hive.registerAdapter(IngredientAdapter());
@@ -28,7 +27,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => BasketViewModel()),
         ChangeNotifierProvider(
-            create: (context) => DrawerProvider()), // Drawer state
+          create: (context) => DrawerProvider(),
+        ), // Drawer state
         ChangeNotifierProvider(create: (context) => IngredientProvider()),
         ChangeNotifierProvider(create: (context) => FridgeScreenProvider()),
         ChangeNotifierProvider(create: (context) => FavouriteRecipeProvider())
@@ -49,9 +49,11 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Nunito',
         scaffoldBackgroundColor: BColors.white,
         useMaterial3: true,
-        colorScheme: ColorScheme.light(),
+        colorScheme: ColorScheme.light(
+          primary: BColors.darkGrey,
+        ),
       ),
-      home: const NavigationMenu(), // Entry point of the app
+      home: const NavigationMenu(),
     );
   }
 }
