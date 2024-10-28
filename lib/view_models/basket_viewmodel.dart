@@ -19,7 +19,6 @@ class BasketViewModel extends ChangeNotifier {
   final DateFormat _dateFormat = DateFormat('yMd');
   DateTime _focusDate = DateTime.now();
 
-  // Constructor to initialize data
   BasketViewModel() {
     _initializeData();
   }
@@ -36,7 +35,6 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Initialize data when the app is first opened
   void _initializeData() {
     if (_basketBox.get('isFirstTime') == null) {
       db.createInitialData();
@@ -118,9 +116,7 @@ class BasketViewModel extends ChangeNotifier {
     return _dateFormat.format(date);
   }
 
-  // Filter ingredient suggestions based on user input
   void filterIngredientSuggestions(String query) {
-    print('Query length: ${query.length}');
     if (query.isNotEmpty) {
       filteredIngredientSuggestions = ingredientsDB.ingredientSuggestions
           .where((ingredient) =>
@@ -132,7 +128,6 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Clear the suggestion list
   void clearIngredientSuggestions() {
     filteredIngredientSuggestions = [];
     notifyListeners();
@@ -143,12 +138,10 @@ class BasketViewModel extends ChangeNotifier {
       final ingredient = ingredientsDB.ingredientSuggestions.firstWhere(
         (i) => i.name.toLowerCase() == ingredientName.toLowerCase(),
         orElse: () => IngredientSuggestion(
-            name: '',
-            thumbnailUrl: '',
-            nameInVietnamese: ''), // If not found, return null
+            name: '', thumbnailUrl: '', nameInVietnamese: ''),
       );
       return ingredient.thumbnailUrl;
     }
-    return ''; // Return empty string if ingredient is not found or name is empty
+    return '';
   }
 }
