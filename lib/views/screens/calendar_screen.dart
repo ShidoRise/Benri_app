@@ -11,7 +11,6 @@ class CalendarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use addPostFrameCallback to ensure updateFocusDate is called after the build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<BasketViewModel>(context, listen: false)
           .updateFocusDate(DateTime.now());
