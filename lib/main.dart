@@ -1,5 +1,5 @@
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
-import 'package:benri_app/models/ingredients/ingredients.dart';
+import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/fridge_screen_provider.dart';
@@ -19,7 +19,7 @@ void main() async {
 
   Hive.registerAdapter(IngredientSuggestionAdapter());
 
-  await Hive.openBox('basketBox');
+  await Hive.openBox<List<BasketIngredient>>('basketBox');
   await Hive.openBox('ingredientSuggestionsBox');
 
   runApp(

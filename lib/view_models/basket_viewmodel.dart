@@ -1,5 +1,5 @@
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
-import 'package:benri_app/models/ingredients/ingredients.dart';
+import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/utils/constants/ingredient_suggestions_db.dart';
 import 'package:benri_app/utils/constants/local_db.dart';
 import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
@@ -68,7 +68,7 @@ class BasketViewModel extends ChangeNotifier {
     }
   }
 
-  void addIngredient(Ingredient ingredient) {
+  void addIngredient(BasketIngredient ingredient) {
     _initializeBasketsForDate(_focusDate);
     db.baskets[focusDateFormatted]!.add(ingredient);
     db.updateDatabase();
@@ -94,9 +94,10 @@ class BasketViewModel extends ChangeNotifier {
 
   void editBasketItem(BuildContext context, int index) async {
     if (index >= 0 && index < db.baskets[focusDateFormatted]!.length) {
-      Ingredient currentIngredient = db.baskets[focusDateFormatted]![index];
+      BasketIngredient currentIngredient =
+          db.baskets[focusDateFormatted]![index];
 
-      Ingredient? updatedIngredient =
+      BasketIngredient? updatedIngredient =
           await addIngredientDialog(context, ingredient: currentIngredient);
 
       if (updatedIngredient != null) {
@@ -119,8 +120,9 @@ class BasketViewModel extends ChangeNotifier {
   void filterIngredientSuggestions(String query) {
     if (query.isNotEmpty) {
       filteredIngredientSuggestions = ingredientsDB.ingredientSuggestions
-          .where((ingredient) =>
-              ingredient.name.toLowerCase().contains(query.toLowerCase()))
+          .where((ingredient) => ingredient.nameInVietnamese
+              .toLowerCase()
+              .contains(query.toLowerCase()))
           .toList();
     } else {
       filteredIngredientSuggestions = [];

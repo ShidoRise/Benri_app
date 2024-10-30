@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'ingredients.g.dart'; // This will generate the adapter
+part 'basket_ingredients.g.dart';
 
 @HiveType(typeId: 0)
-class Ingredient {
+class BasketIngredient {
   @HiveField(0)
   String name;
 
@@ -11,15 +11,15 @@ class Ingredient {
   bool isSelected;
 
   @HiveField(2)
-  String quantity; // New field for quantity
+  String quantity;
 
   @HiveField(3)
-  String unit; // New field for unit
+  String unit;
 
   @HiveField(4)
-  String imageUrl; // New field for image URL (nullable)
+  String imageUrl;
 
-  Ingredient({
+  BasketIngredient({
     required this.name,
     this.isSelected = false,
     this.quantity = '',
@@ -27,7 +27,6 @@ class Ingredient {
     this.imageUrl = '',
   });
 
-  // Convert Ingredient to Map
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -38,9 +37,8 @@ class Ingredient {
     };
   }
 
-  // Create Ingredient from Map
-  factory Ingredient.fromMap(Map<String, dynamic> map) {
-    return Ingredient(
+  factory BasketIngredient.fromMap(Map<String, dynamic> map) {
+    return BasketIngredient(
       name: map['name'],
       isSelected: map['isSelected'] ?? false,
       quantity: map['quantity'] ?? '',

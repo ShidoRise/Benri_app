@@ -17,10 +17,10 @@ class IngredientSuggestionsDB {
     if (loadedData != null) {
       ingredientSuggestions = List<IngredientSuggestion>.from(
         (loadedData as List).map(
-          (item) => IngredientSuggestion(
-            name: item.name,
-            thumbnailUrl: item.thumbnailUrl,
-            nameInVietnamese: item.nameInVietnamese,
+          (ingredient) => IngredientSuggestion(
+            name: ingredient.name,
+            thumbnailUrl: ingredient.thumbnailUrl,
+            nameInVietnamese: ingredient.nameInVietnamese,
           ),
         ),
       );
