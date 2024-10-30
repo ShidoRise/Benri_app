@@ -8,7 +8,7 @@ part of 'ingredient_suggestions.dart';
 
 class IngredientSuggestionAdapter extends TypeAdapter<IngredientSuggestion> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
   IngredientSuggestion read(BinaryReader reader) {

@@ -1,3 +1,4 @@
+import 'package:benri_app/models/baskets/baskets.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
@@ -15,11 +16,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
-  Hive.registerAdapter(IngredientAdapter());
-
+  Hive.registerAdapter(BasketIngredientAdapter());
+  Hive.registerAdapter(BasketAdapter());
   Hive.registerAdapter(IngredientSuggestionAdapter());
 
-  await Hive.openBox<List<BasketIngredient>>('basketBox');
+  await Hive.openBox<Basket>('basketBox');
   await Hive.openBox('ingredientSuggestionsBox');
 
   runApp(

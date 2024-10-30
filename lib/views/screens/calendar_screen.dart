@@ -1,3 +1,4 @@
+import 'package:benri_app/services/basket_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
@@ -63,16 +64,16 @@ class CalendarScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              (basketViewModel.db.baskets[basketViewModel.focusDateFormatted]
-                          ?.isNotEmpty ??
-                      false)
+              (BasketService.baskets
+                          .containsKey(basketViewModel.focusDateFormatted) &&
+                      BasketService.baskets[basketViewModel.focusDateFormatted]!
+                          .basketIngredients.isNotEmpty)
                   ? Expanded(
                       child: ListView.builder(
-                        itemCount: basketViewModel
-                                .db
-                                .baskets[basketViewModel.focusDateFormatted]
-                                ?.length ??
-                            0,
+                        itemCount: BasketService
+                            .baskets[basketViewModel.focusDateFormatted]!
+                            .basketIngredients
+                            .length,
                         itemBuilder: (BuildContext context, int index) {
                           return _buildBasketItem(
                               context, basketViewModel, index);
@@ -108,7 +109,9 @@ class CalendarScreen extends StatelessWidget {
               color: isSelected ? Colors.white : Colors.black,
             ),
           ),
-          if (basketViewModel.db.baskets[formattedDate]?.isNotEmpty ?? false)
+          if (BasketService.baskets.containsKey(formattedDate) &&
+              BasketService
+                  .baskets[formattedDate]!.basketIngredients.isNotEmpty)
             Icon(
               Icons.circle,
               size: 8,
@@ -121,8 +124,8 @@ class CalendarScreen extends StatelessWidget {
 
   Widget _buildBasketItem(
       BuildContext context, BasketViewModel basketViewModel, int index) {
-    final ingredient =
-        basketViewModel.db.baskets[basketViewModel.focusDateFormatted]![index];
+    final ingredient = BasketService
+        .baskets[basketViewModel.focusDateFormatted]!.basketIngredients[index];
 
     return BasketItem(
       ingredient: ingredient,
