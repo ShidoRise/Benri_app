@@ -2,11 +2,11 @@ import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:benri_app/models/ingredients/ingredients.dart';
+import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 
-Future<Ingredient?> addIngredientDialog(BuildContext context,
-    {Ingredient? ingredient}) {
+Future<BasketIngredient?> addIngredientDialog(BuildContext context,
+    {BasketIngredient? ingredient}) {
   final TextEditingController nameInputController =
       TextEditingController(text: ingredient?.name ?? '');
   final TextEditingController quantityInputController =
@@ -19,7 +19,7 @@ Future<Ingredient?> addIngredientDialog(BuildContext context,
 
   bool isInitialized = false;
 
-  return showModalBottomSheet<Ingredient>(
+  return showModalBottomSheet<BasketIngredient>(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.white,
@@ -145,7 +145,6 @@ Future<Ingredient?> addIngredientDialog(BuildContext context,
                             onSelected: (bool selected) {
                               basketViewModel
                                   .updateSelectedUnit(selected ? unit : null);
-                              // Update unitInputController only when ChoiceChip is selected
                               unitInputController.text =
                                   basketViewModel.selectedUnit ?? '';
                             },
@@ -164,7 +163,7 @@ Future<Ingredient?> addIngredientDialog(BuildContext context,
                       backgroundColor: BColors.primaryFirst,
                     ),
                     onPressed: () {
-                      final updatedIngredient = Ingredient(
+                      final updatedIngredient = BasketIngredient(
                         name: nameInputController.text,
                         quantity: quantityInputController.text,
                         unit: unitInputController.text,

@@ -1,6 +1,7 @@
+import 'package:benri_app/models/baskets/baskets.dart';
 import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
-import 'package:benri_app/models/ingredients/ingredients.dart';
+import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/models/recipes/recipes.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
@@ -17,8 +18,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
-  Hive.registerAdapter(IngredientAdapter());
-
+  Hive.registerAdapter(BasketIngredientAdapter());
+  Hive.registerAdapter(BasketAdapter());
   Hive.registerAdapter(IngredientSuggestionAdapter());
 
   Hive.registerAdapter(FridgeIngredientAdapter());
@@ -26,7 +27,7 @@ void main() async {
   Hive.registerAdapter(RecipesAdapter());
 
   await Hive.openBox('fridgeIngredientBox');
-  await Hive.openBox('basketBox');
+  await Hive.openBox<Basket>('basketBox');
   await Hive.openBox('ingredientSuggestionsBox');
   await Hive.openBox('recipeBox');
   await Hive.openBox('drawerBox');

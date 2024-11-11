@@ -1,11 +1,11 @@
-import 'package:benri_app/models/ingredients/ingredients.dart';
+import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class BasketItem extends StatelessWidget {
-  final Ingredient ingredient;
+  final BasketIngredient ingredient;
   final int index;
   final bool isSelected;
   final BasketViewModel basketViewModel;

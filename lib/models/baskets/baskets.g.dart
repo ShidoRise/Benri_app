@@ -1,38 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ingredient_suggestions.dart';
+part of 'baskets.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class IngredientSuggestionAdapter extends TypeAdapter<IngredientSuggestion> {
+class BasketAdapter extends TypeAdapter<Basket> {
   @override
-  final int typeId = 2;
+  final int typeId = 0;
 
   @override
-  IngredientSuggestion read(BinaryReader reader) {
+  Basket read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return IngredientSuggestion(
-      name: fields[0] as String,
-      thumbnailUrl: fields[1] as String,
-      nameInVietnamese: fields[2] as String,
+    return Basket(
+      date: fields[0] as String,
+      basketIngredients: (fields[1] as List).cast<BasketIngredient>(),
+      totalMoney: fields[2] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, IngredientSuggestion obj) {
+  void write(BinaryWriter writer, Basket obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.date)
       ..writeByte(1)
-      ..write(obj.thumbnailUrl)
+      ..write(obj.basketIngredients)
       ..writeByte(2)
-      ..write(obj.nameInVietnamese);
+      ..write(obj.totalMoney);
   }
 
   @override
@@ -41,7 +41,7 @@ class IngredientSuggestionAdapter extends TypeAdapter<IngredientSuggestion> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is IngredientSuggestionAdapter &&
+      other is BasketAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

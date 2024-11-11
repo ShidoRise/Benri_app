@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ingredients.dart';
+part of 'basket_ingredients.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class IngredientAdapter extends TypeAdapter<Ingredient> {
+class BasketIngredientAdapter extends TypeAdapter<BasketIngredient> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  Ingredient read(BinaryReader reader) {
+  BasketIngredient read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Ingredient(
+    return BasketIngredient(
       name: fields[0] as String,
       isSelected: fields[1] as bool,
       quantity: fields[2] as String,
@@ -26,7 +26,7 @@ class IngredientAdapter extends TypeAdapter<Ingredient> {
   }
 
   @override
-  void write(BinaryWriter writer, Ingredient obj) {
+  void write(BinaryWriter writer, BasketIngredient obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -47,7 +47,7 @@ class IngredientAdapter extends TypeAdapter<Ingredient> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is IngredientAdapter &&
+      other is BasketIngredientAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

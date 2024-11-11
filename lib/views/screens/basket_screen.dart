@@ -1,3 +1,4 @@
+import 'package:benri_app/services/baskets_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
@@ -174,7 +175,7 @@ class BasketScreen extends StatelessWidget {
         alignment: Alignment.topRight,
         children: [
           _calendarItem(date, isSelected),
-          if (basketViewModel.db.baskets[formattedDate]?.isNotEmpty ?? false)
+          if (basketViewModel.checkBasketIngredientsEmpty(formattedDate))
             Padding(
               padding: const EdgeInsets.all(6.0),
               child: Icon(
@@ -225,13 +226,13 @@ class BasketScreen extends StatelessWidget {
 
   Widget _basketContent(BasketViewModel basketViewModel) {
     return (basketViewModel
-                .db.baskets[basketViewModel.focusDateFormatted]?.isNotEmpty ??
-            false)
+            .checkBasketIngredientsEmpty(basketViewModel.focusDateFormatted))
         ? Expanded(
             child: ListView.builder(
-              itemCount: basketViewModel
-                      .db.baskets[basketViewModel.focusDateFormatted]?.length ??
-                  0,
+              itemCount: BasketService
+                  .baskets[basketViewModel.focusDateFormatted]!
+                  .basketIngredients
+                  .length,
               itemBuilder: (BuildContext context, int index) {
                 return _buildBasketItem(context, basketViewModel, index);
               },
@@ -242,8 +243,8 @@ class BasketScreen extends StatelessWidget {
 
   Widget _buildBasketItem(
       BuildContext context, BasketViewModel basketViewModel, int index) {
-    final ingredient =
-        basketViewModel.db.baskets[basketViewModel.focusDateFormatted]![index];
+    final ingredient = BasketService
+        .baskets[basketViewModel.focusDateFormatted]!.basketIngredients[index];
 
     return BasketItem(
       ingredient: ingredient,
