@@ -82,7 +82,7 @@ class FridgeManageScreen extends StatelessWidget {
       floatingActionButton: Container(
         height: 65,
         width: 65,
-        margin: EdgeInsets.all(5.0),
+        margin: const EdgeInsets.all(5.0),
         child: FloatingActionButton(
           onPressed: addNewDrawer,
           backgroundColor: BColors.white,

@@ -46,7 +46,7 @@ class RecipeDetailScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -57,17 +57,17 @@ class RecipeDetailScreen extends StatelessWidget {
                             color: Colors.yellow[800],
                             size: 25,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
                             recipe.rating,
-                            style: TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                           ),
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 15),
+                        padding: const EdgeInsets.only(right: 15),
                         child: GestureDetector(
                           onTap: () {
                             // Toggle favourite status using the provider
@@ -95,37 +95,37 @@ class RecipeDetailScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     recipe.name,
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     "Description",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     recipe.description,
                     style: TextStyle(color: Colors.grey[600], height: 2),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 ),
               ],

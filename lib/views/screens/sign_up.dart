@@ -18,6 +18,8 @@ class SignUp extends StatelessWidget {
 }
 
 class SignUpView extends StatelessWidget {
+  const SignUpView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SignUpViewModel>(context);
@@ -30,12 +32,12 @@ class SignUpView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 338,
                 height: 40,
                 child: Text(
@@ -49,10 +51,10 @@ class SignUpView extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 274,
                 height: 50,
                 child: Text(
@@ -65,7 +67,7 @@ class SignUpView extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               _buildInputField('FULL NAME', 'Nguyen Van An',
@@ -76,7 +78,7 @@ class SignUpView extends StatelessWidget {
                   'PASSWORD', 'Abc123', viewModel.passwordController, true),
               _buildInputField('CONFIRM PASSWORD', 'Abc123',
                   viewModel.confirmPasswordController, true),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -87,18 +89,18 @@ class SignUpView extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, '/login');
                     },
-                    child: Text(
+                    child: const Text(
                       "Have an account?",
                       style: TextStyle(color: BColors.primary),
                     ),
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               if (viewModel.isLoading)
-                Center(child: CircularProgressIndicator())
+                const Center(child: CircularProgressIndicator())
               else
                 SizedBox(
                   height: 50,
@@ -124,14 +126,14 @@ class SignUpView extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               content: Text(viewModel.errorMessage,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: BColors.white,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400))),
                         );
                       }
                     },
-                    child: Text('SIGN UP'),
+                    child: const Text('SIGN UP'),
                   ),
                 ),
             ],
@@ -148,22 +150,22 @@ class SignUpView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
             label,
-            style: TextStyle(color: BColors.textSecondary, fontSize: 16),
+            style: const TextStyle(color: BColors.textSecondary, fontSize: 16),
           ),
         ),
         TextField(
           controller: controller,
           cursorColor: BColors.primary,
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
           obscureText: isPassword,
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: TextStyle(color: BColors.textSecondary, fontSize: 16),
+            hintStyle: const TextStyle(color: BColors.textSecondary, fontSize: 16),
             // hintStyle: TextStyle(color: BColors.textSecondary, fontSize: 16),
-            focusedBorder: UnderlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: BColors.primary, width: 2),
             ),
           ),
@@ -171,7 +173,7 @@ class SignUpView extends StatelessWidget {
               ? TextInputType.visiblePassword
               : TextInputType.emailAddress,
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }

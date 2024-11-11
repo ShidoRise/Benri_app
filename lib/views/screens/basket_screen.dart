@@ -114,7 +114,7 @@ class BasketScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CalendarScreen(),
+            builder: (context) => const CalendarScreen(),
           ),
         );
       },
@@ -261,7 +261,7 @@ class BasketScreen extends StatelessWidget {
   }
 
   Widget _emptyBasketMessage() {
-    return Expanded(
+    return const Expanded(
       child: Center(
         child: Text(
           'No ingredients here,\nclick + to add',
@@ -276,7 +276,7 @@ class BasketScreen extends StatelessWidget {
     return Container(
       width: 65,
       height: 65,
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       child: FloatingActionButton(
         backgroundColor: BColors.white,
         onPressed: () async {

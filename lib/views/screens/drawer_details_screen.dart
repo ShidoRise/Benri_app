@@ -58,7 +58,7 @@ class DrawerDetailsScreen extends StatelessWidget {
       floatingActionButton: Container(
         height: 65,
         width: 65,
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         child: FloatingActionButton(
           onPressed: () => addIngredientIntoFridge(context),
           backgroundColor: BColors.white,

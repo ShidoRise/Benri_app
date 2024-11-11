@@ -42,7 +42,7 @@ class FridgeScreen extends StatelessWidget {
                   return TabBar(
                     controller: provider
                         .tabController, // Use TabController from provider
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: BColors.black),

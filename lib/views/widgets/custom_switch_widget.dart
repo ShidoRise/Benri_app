@@ -6,10 +6,10 @@ class CustomSwitch extends StatelessWidget {
   final ValueChanged<bool> onChanged;
 
   const CustomSwitch({
-    Key? key,
+    super.key,
     required this.value,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class CustomSwitch extends StatelessWidget {
             child: Container(
               width: 26.0,
               height: 26.0,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
               ),

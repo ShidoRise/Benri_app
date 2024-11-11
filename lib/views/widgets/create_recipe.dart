@@ -81,7 +81,7 @@ class CreateRecipe extends StatelessWidget {
                   builder: (context, recipeProvider, child) {
                     return Column(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -90,7 +90,7 @@ class CreateRecipe extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         // Buttons to pick an image or capture one
@@ -114,7 +114,7 @@ class CreateRecipe extends StatelessWidget {
                                               .watch<FavouriteRecipeProvider>()
                                               .imageFile ==
                                           null
-                                      ? Center(
+                                      ? const Center(
                                           child: Icon(Icons
                                               .add_photo_alternate_outlined)) // Placeholder text
                                       : Image.file(

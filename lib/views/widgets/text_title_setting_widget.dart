@@ -12,7 +12,7 @@ Widget textTitleSettingWidget(String title) {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: BColors.textPrimary),

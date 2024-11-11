@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
           builder: (context, viewModel, child) {
             return ListView(
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 settingItemWidget(context, Icons.person, 'Profile Information'),
                 textTitleSettingWidget('Profile'),
                 settingItemWidget(

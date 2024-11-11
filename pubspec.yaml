@@ -52,6 +52,7 @@ dependencies:
   path_provider: ^2.0.15
   flutter_svg: ^2.0.10+1
   image_picker: ^0.8.7+4
+  flutter_secure_storage: ^9.2.2
 
 dev_dependencies:
   flutter_test:

@@ -61,14 +61,14 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           labelText: 'Tên nguyên liệu',
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelStyle: const TextStyle(color: Colors.black),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: BColors.black),
+                            borderSide: const BorderSide(color: BColors.black),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: BColors.black),
+                            borderSide: const BorderSide(color: BColors.black),
                           ),
                         ),
                         onChanged: (value) {
@@ -84,38 +84,38 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                     onSelected: (IngredientSuggestion option) =>
                         nameInputController.text = option.name,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextFormField(
                     controller: quantityInputController,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                       labelText: 'Số lượng',
-                      labelStyle: TextStyle(color: BColors.black),
+                      labelStyle: const TextStyle(color: BColors.black),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: BColors.black),
+                        borderSide: const BorderSide(color: BColors.black),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: BColors.black),
+                        borderSide: const BorderSide(color: BColors.black),
                       ),
                     ),
                     keyboardType: TextInputType.number,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextFormField(
                     controller: unitInputController,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                       labelText: 'Đơn vị',
-                      labelStyle: TextStyle(color: BColors.black),
+                      labelStyle: const TextStyle(color: BColors.black),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: BColors.black),
+                        borderSide: const BorderSide(color: BColors.black),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: BColors.black),
+                        borderSide: const BorderSide(color: BColors.black),
                       ),
                     ),
                     keyboardType: TextInputType.text,
@@ -127,7 +127,7 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                       }
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Wrap(
                     alignment: WrapAlignment.spaceBetween,
                     spacing: 20.0,

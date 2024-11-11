@@ -22,7 +22,7 @@ class ProfileViewModel extends ChangeNotifier {
     // TODO: Implement login
     print('login');
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   void logout() {}

@@ -1,5 +1,6 @@
 import 'package:benri_app/utils/styles/elevated_button_style.dart';
 import 'package:benri_app/view_models/otp_view_model.dart';
+import 'package:benri_app/views/screens/basket_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +35,7 @@ class VerifyOTPScreenView extends StatelessWidget {
     String password = data['password']!;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Verify OTP'),
+        title: const Text('Verify OTP'),
         centerTitle: true,
       ),
       body: Padding(
@@ -42,16 +43,16 @@ class VerifyOTPScreenView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Enter the verification code sent to',
               style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               email,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
@@ -65,7 +66,7 @@ class VerifyOTPScreenView extends StatelessWidget {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
                     maxLength: 1,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       counterText: '',
                       border: OutlineInputBorder(),
                     ),
@@ -81,7 +82,7 @@ class VerifyOTPScreenView extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () async {
                 if (await viewModel.verifyOTP(
@@ -90,7 +91,11 @@ class VerifyOTPScreenView extends StatelessWidget {
                   password,
                   name,
                 )) {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BasketScreen()),
+                  );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -99,16 +104,16 @@ class VerifyOTPScreenView extends StatelessWidget {
                   );
                 }
               },
-              child: Text('Verify'),
               style: ElevatedButtonStyle.primary(),
+              child: Text('Verify'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextButton(
               onPressed: () {
                 // TODO: Implement resend OTP logic
                 print('Resending OTP');
               },
-              child: Text('Resend OTP'),
+              child: const Text('Resend OTP'),
             ),
           ],
         ),

@@ -52,7 +52,7 @@ class RecipeTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                   child: recipe.imgPath.startsWith('/data/')
                       ? Image.file(
                           File(recipe.imgPath),
@@ -75,7 +75,7 @@ class RecipeTile extends StatelessWidget {
                     children: [
                       Text(
                         recipe.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
@@ -89,13 +89,13 @@ class RecipeTile extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 14, color: Colors.grey[700]),
                           ),
-                          SizedBox(width: 4),
-                          Icon(
+                          const SizedBox(width: 4),
+                          const Icon(
                             Icons.star,
                             color: Colors.amber,
                             size: 16,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 80,
                           ),
                           Icon(
@@ -109,7 +109,7 @@ class RecipeTile extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.lock_clock,
                             size: 10,
                           ),

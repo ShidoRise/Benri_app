@@ -43,8 +43,8 @@ class BasketItem extends StatelessWidget {
         ],
       ),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8.0),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
               color: BColors.grey,
@@ -54,7 +54,7 @@ class BasketItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Transform.scale(
@@ -79,7 +79,7 @@ class BasketItem extends StatelessWidget {
                     'assets/images/ingredient/default.png',
                     width: 80,
                   )),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Column(

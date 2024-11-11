@@ -40,19 +40,19 @@ class YourRecipeScreen extends StatelessWidget {
         body: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: MySearchBar(hintText: 'Search your recipe here'),
             ),
             SizedBox(
               height: 0.5,
               child: Container(
-                decoration: BoxDecoration(color: BColors.grey),
+                decoration: const BoxDecoration(color: BColors.grey),
               ),
             ),
             value.favouriteRecipes.isEmpty
                 ? Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Center(
@@ -83,14 +83,14 @@ class YourRecipeScreen extends StatelessWidget {
                                   )
                                 ]),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
                                         color: BColors.grey, width: 0.5)),
                               ),
                               child: ListTile(
                                 leading: Padding(
-                                  padding: EdgeInsets.only(right: 6, left: 4),
+                                  padding: const EdgeInsets.only(right: 6, left: 4),
                                   child: Container(
                                     height: 100,
                                     width: 70,
@@ -131,10 +131,10 @@ class YourRecipeScreen extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(recipe.rating),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 4,
                                         ),
-                                        Icon(
+                                        const Icon(
                                           Icons.star,
                                           color: Colors.amber,
                                           size: 18,
@@ -143,7 +143,7 @@ class YourRecipeScreen extends StatelessWidget {
                                     ),
                                     Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.lock_clock,
                                           size: 18,
                                           color: Colors.grey,
@@ -166,11 +166,11 @@ class YourRecipeScreen extends StatelessWidget {
         floatingActionButton: Container(
           height: 65,
           width: 65,
-          margin: EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(5.0),
           child: FloatingActionButton(
             onPressed: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => CreateRecipe()));
+                  MaterialPageRoute(builder: (context) => const CreateRecipe()));
             },
             backgroundColor: BColors.white,
             child: const Icon(

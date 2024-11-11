@@ -54,7 +54,7 @@ Widget settingItemWidget(
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0),
-          side: BorderSide(color: Colors.transparent),
+          side: const BorderSide(color: Colors.transparent),
         ),
       ),
       child: SizedBox(

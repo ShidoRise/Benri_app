@@ -49,13 +49,13 @@ class IngredientFridgeView extends StatelessWidget {
           )
         ]),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             border: Border(bottom: BorderSide(color: BColors.grey, width: 0.5)),
           ),
           child: ListTile(
             leading: Padding(
-              padding: EdgeInsets.only(right: 6, left: 4),
+              padding: const EdgeInsets.only(right: 6, left: 4),
               child: Container(
                 height: 100,
                 width: 70,
@@ -103,7 +103,7 @@ class IngredientFridgeView extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Text(
                       'Stored in $drawerName',
-                      style: TextStyle(color: Colors.blueGrey, fontSize: 14),
+                      style: const TextStyle(color: Colors.blueGrey, fontSize: 14),
                     ),
                   ),
               ],

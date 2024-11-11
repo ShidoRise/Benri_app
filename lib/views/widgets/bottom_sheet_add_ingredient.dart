@@ -120,14 +120,14 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
                         labelText: 'Ingredient Name',
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: const TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: BColors.black),
+                          borderSide: const BorderSide(color: BColors.black),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: BColors.black),
+                          borderSide: const BorderSide(color: BColors.black),
                         ),
                       ),
                       onChanged: (value) {
@@ -284,7 +284,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                             : Colors.grey, // Red focused border on error
                       ),
                     ),
-                    suffixIcon: Icon(Icons.calendar_today),
+                    suffixIcon: const Icon(Icons.calendar_today),
                   ),
                   readOnly: true, // Ensures it only triggers DatePicker
                   onTap: () => selectExpirationDate(context, setState),
@@ -344,7 +344,7 @@ Future<FridgeIngredient?> addIngredientDialog(BuildContext context) {
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: BColors.accent),
-                        child: Text("Cancel"),
+                        child: const Text("Cancel"),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(

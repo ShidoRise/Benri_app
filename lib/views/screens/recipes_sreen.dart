@@ -38,8 +38,8 @@ class RecipesScreen extends StatelessWidget {
               child: MySearchBar(hintText: 'Search your favourite recipe'),
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 12, left: 20),
-              margin: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.only(bottom: 12, left: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                   color: BColors.accent,
                   borderRadius: BorderRadius.circular(12)),
@@ -49,7 +49,7 @@ class RecipesScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Get your Recipes",
                         style: TextStyle(
                             fontFamily: 'Nunito',
@@ -57,7 +57,7 @@ class RecipesScreen extends StatelessWidget {
                             fontSize: 20,
                             color: BColors.white),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       ),
                       GestureDetector(
@@ -66,8 +66,8 @@ class RecipesScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: BColors.white,
                               borderRadius: BorderRadius.circular(12)),
-                          padding: EdgeInsets.all(16),
-                          child: Row(
+                          padding: const EdgeInsets.all(16),
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
@@ -90,7 +90,7 @@ class RecipesScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Padding(
@@ -108,7 +108,7 @@ class RecipesScreen extends StatelessWidget {
                           color: Colors.grey[800],
                         ),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.whatshot,
                         color: Colors.red,
                         size: 30,
@@ -159,10 +159,10 @@ class RecipesScreen extends StatelessWidget {
                           color: Colors.grey[800],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.favorite_border_outlined,
                         color: Colors.red,
                       ),
@@ -174,7 +174,7 @@ class RecipesScreen extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              YourRecipeScreen(), // Replace with your target page widget
+                              const YourRecipeScreen(), // Replace with your target page widget
                         ),
                       );
                     },
@@ -192,7 +192,7 @@ class RecipesScreen extends StatelessWidget {
                 final favouriteRecipe = value.favouriteRecipes;
                 if (favouriteRecipe.isEmpty) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                       "You dont have any favourite recipes\nPlease find more!!!",
                       style: TextStyle(fontSize: 16, color: Colors.grey[500]),
@@ -226,7 +226,7 @@ class RecipesScreen extends StatelessWidget {
                       color: Colors.grey[800],
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.whatshot,
                     color: Colors.red,
                     size: 30,
@@ -242,7 +242,7 @@ class RecipesScreen extends StatelessWidget {
                     .take(min(shuffedRecipes.length, 10))
                     .toList();
                 return GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
