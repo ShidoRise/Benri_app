@@ -1,6 +1,6 @@
 import 'package:benri_app/utils/styles/elevated_button_style.dart';
 import 'package:benri_app/view_models/otp_view_model.dart';
-import 'package:benri_app/views/screens/basket_screen.dart';
+import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +94,7 @@ class VerifyOTPScreenView extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const BasketScreen()),
+                        builder: (context) => const NavigationMenu()),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

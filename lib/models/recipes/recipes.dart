@@ -31,4 +31,15 @@ class Recipes extends HiveObject {
     required this.timeCooking,
     required this.ingredients,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'imgPath': imgPath,
+      'rating': rating,
+      'timeCooking': timeCooking,
+      'ingredients': ingredients.map((i) => i.toJson()).toList(),
+    };
+  }
 }

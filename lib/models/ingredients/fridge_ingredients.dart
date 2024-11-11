@@ -40,4 +40,12 @@ class FridgeIngredient {
   String toString() {
     return 'FridgeIngredient{name: $name, quantity: $quantity, imagePath: $imgPath, expirationDate: $expirationDate}';
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'quantity': quantity,
+      'imgPath': imgPath,
+    };
+  }
 }

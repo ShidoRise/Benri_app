@@ -8,6 +8,7 @@ import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/fridge_screen_provider.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
@@ -29,6 +30,8 @@ void main() async {
   await Hive.openBox('ingredientSuggestionsBox');
   await Hive.openBox('recipeBox');
   await Hive.openBox('drawerBox');
+
+  await dotenv.load(fileName: ".env");
 
   runApp(
     MultiProvider(

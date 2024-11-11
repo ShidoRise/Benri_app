@@ -1,14 +1,17 @@
 import 'package:benri_app/utils/constants/constant.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
   final storage = FlutterSecureStorage();
+  final String baseUrl = dotenv.get('API_URL');
   Future<bool> login(String email, String password) async {
+    print('baseUrl: $baseUrl');
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.41.106:3056/v1/api/login'),
+        Uri.parse('$baseUrl/login'),
         headers: {
           'x-api-key': Constants.apiKey,
           'content-type': 'application/json'
@@ -40,7 +43,7 @@ class AuthService {
   Future<bool> preSignUp(String email, String password, String name) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.41.106:3056/v1/api/pre_signup'),
+        Uri.parse('$baseUrl/pre_signup'),
         headers: {
           'x-api-key': Constants.apiKey,
           'content-type': 'application/json'
@@ -63,7 +66,7 @@ class AuthService {
       String email, String password, String name, String otp) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.41.106:3056/v1/api/verify_otp_and_signup'),
+        Uri.parse('$baseUrl/verify_otp_and_signup'),
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': Constants.apiKey,
