@@ -1,28 +1,43 @@
+import 'package:hive/hive.dart';
+
+part 'fridge_ingredients.g.dart';
+
+@HiveType(typeId: 2)
 class FridgeIngredient {
+  @HiveField(0)
   final String name;
+
+  @HiveField(1)
   final String quantity;
+
+  @HiveField(2)
   final String imgPath;
-  final DateTime expirationDate;
-  // Define the default image path here
-  static const String defaultImagePath = 'assets/images/ingredient/default.png';
+
+  @HiveField(3)
+  final DateTime? expirationDate;
+
   FridgeIngredient({
     required this.name,
     required this.quantity,
     required this.imgPath,
-    required this.expirationDate,
+    this.expirationDate,
   });
-  // Method to format the expiration date for display
-  String getFormattedExpirationDate() {
-    return "${expirationDate.day}-${expirationDate.month}-${expirationDate.year}";
+
+  factory FridgeIngredient.fromMap(Map<String, dynamic> map) {
+    return FridgeIngredient(
+      name: map['name'],
+      quantity: map['quantity'] ?? '',
+      imgPath: map['imgPath'] ?? '',
+      expirationDate: map['expirationDate'] ?? '',
+    );
   }
 
-  // Method to check if the ingredient is expired
   bool isExpired() {
-    return DateTime.now().isAfter(expirationDate);
+    return DateTime.now().isAfter(expirationDate!);
   }
 
-  // Method to get the image path, returning default if no image is available
-  String getImagePath() {
-    return imgPath.isNotEmpty ? imgPath : defaultImagePath;
+  @override
+  String toString() {
+    return 'FridgeIngredient{name: $name, quantity: $quantity, imagePath: $imgPath, expirationDate: $expirationDate}';
   }
 }

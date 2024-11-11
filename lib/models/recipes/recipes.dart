@@ -1,18 +1,34 @@
-class Recipes {
-  String name;
-  String description;
-  String imgPath;
-  String rating;
-  String timeCooking;
-  static const String defaultImagePath = 'assets/images/ingredient/default.png';
-  Recipes(
-      {required this.name,
-      required this.description,
-      required this.imgPath,
-      required this.rating,
-      required this.timeCooking});
+import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
+import 'package:hive/hive.dart';
 
-  String getImagePath() {
-    return imgPath.isNotEmpty ? imgPath : defaultImagePath;
-  }
+part 'recipes.g.dart';
+
+@HiveType(typeId: 4) // Assign a unique type ID for each model
+class Recipes extends HiveObject {
+  @HiveField(0)
+  String name;
+
+  @HiveField(1)
+  String description;
+
+  @HiveField(2)
+  String imgPath;
+
+  @HiveField(3)
+  String rating;
+
+  @HiveField(4)
+  String timeCooking;
+
+  @HiveField(5)
+  List<FridgeIngredient> ingredients;
+
+  Recipes({
+    required this.name,
+    required this.description,
+    required this.imgPath,
+    required this.rating,
+    required this.timeCooking,
+    required this.ingredients,
+  });
 }

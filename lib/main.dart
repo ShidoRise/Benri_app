@@ -1,6 +1,8 @@
 import 'package:benri_app/models/baskets/baskets.dart';
+import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/models/recipes/recipes.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/fridge_screen_provider.dart';
@@ -19,9 +21,14 @@ void main() async {
   Hive.registerAdapter(BasketIngredientAdapter());
   Hive.registerAdapter(BasketAdapter());
   Hive.registerAdapter(IngredientSuggestionAdapter());
+  Hive.registerAdapter(FridgeIngredientAdapter());
+  Hive.registerAdapter(RecipesAdapter());
 
+  await Hive.openBox('fridgeIngredientBox');
   await Hive.openBox<Basket>('basketBox');
   await Hive.openBox('ingredientSuggestionsBox');
+  await Hive.openBox('recipeBox');
+  await Hive.openBox('drawerBox');
 
   runApp(
     MultiProvider(
@@ -29,7 +36,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => BasketViewModel()),
         ChangeNotifierProvider(
           create: (context) => DrawerProvider(),
-        ), // Drawer state
+        ),
         ChangeNotifierProvider(create: (context) => IngredientProvider()),
         ChangeNotifierProvider(create: (context) => FridgeScreenProvider()),
         ChangeNotifierProvider(create: (context) => FavouriteRecipeProvider())

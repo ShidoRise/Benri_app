@@ -3,32 +3,21 @@ import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/view_models/ingredient_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../utils/constants/colors.dart';
 
-Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
+Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
     {FridgeIngredient? fridgeIngredient}) {
   final ingredientProvider =
       Provider.of<IngredientProvider>(context, listen: false);
-
-  if (fridgeIngredient == null) {
-    ingredientProvider.clearExpirationDate(); // Clear for new ingredient
-  } else {
-    ingredientProvider
-        .initializeExpirationDate(fridgeIngredient.expirationDate);
-  }
 
   bool isInitialized = false;
 
   String? selectedIngredient;
   String? selectedUnit;
-  DateTime? expirationDate;
 
   final TextEditingController ingredientController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
-  final TextEditingController expirationDateController =
-      TextEditingController();
   final TextEditingController unitController = TextEditingController();
 
   bool ingredientError = false;
@@ -41,8 +30,6 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
         .split(' ')[0]; // Assuming the format is "amount unit"
     unitController.text =
         fridgeIngredient.quantity.split(' ')[1]; // Get the unit
-    expirationDateController.text =
-        DateFormat('yyyy-MM-dd').format(fridgeIngredient.expirationDate!);
   }
 
   void setUnits(String unit, StateSetter setState) {
@@ -107,11 +94,11 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                             color: ingredientError ? Colors.red : Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(color: BColors.black),
+                          borderSide: BorderSide(color: BColors.black),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(color: BColors.black),
+                          borderSide: BorderSide(color: BColors.black),
                         ),
                       ),
                       onChanged: (value) {
@@ -244,87 +231,8 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                 const SizedBox(height: 20),
                 // TextField for expiration date
 
-                Consumer<IngredientProvider>(
-                  builder: (context, ingredientProvider, child) {
-                    expirationDateController.text =
-                        ingredientProvider.expirationDate != null
-                            ? DateFormat('yyyy-MM-dd')
-                                .format(ingredientProvider.expirationDate!)
-                            : '';
-                    return TextField(
-                      controller: expirationDateController,
-                      decoration: InputDecoration(
-                        labelText: 'Enter Expiration Date',
-                        labelStyle: TextStyle(
-                          color: expirationDateError
-                              ? Colors.red
-                              : Colors.black, // Red label on error
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(
-                            color: expirationDateError
-                                ? Colors.red
-                                : Colors.grey, // Red border on error
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(
-                            color: expirationDateError
-                                ? Colors.red
-                                : Colors.grey, // Red focused border on error
-                          ),
-                        ),
-                        suffixIcon: Icon(Icons.calendar_today),
-                      ),
-                      readOnly: true, // Ensures it only triggers DatePicker
-                      onTap: () => ingredientProvider.setExpirationDate,
-                    );
-                  },
-                ),
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: BColors.accent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 36.0),
-                      ),
-                      onPressed: () => ingredientProvider.setExpirationDays(3),
-                      child: const Text('3 days'),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: BColors.accent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 36.0),
-                      ),
-                      onPressed: () => ingredientProvider.setExpirationDays(7),
-                      child: const Text('7 days'),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: BColors.accent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 36.0),
-                      ),
-                      onPressed: () => ingredientProvider.setExpirationDays(15),
-                      child: const Text('15 days'),
-                    ),
-                  ],
-                ),
+
                 const SizedBox(height: 70),
                 // Add Ingredient button
                 Align(
@@ -338,7 +246,7 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: BColors.accent),
-                        child: const Text("Cancel"),
+                        child: Text("Cancel"),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -348,9 +256,6 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                             ingredientError = ingredientController.text.isEmpty;
 
                             quantityError = quantityController.text.isEmpty;
-
-                            expirationDateError =
-                                expirationDateController.text.isEmpty;
                           });
 
                           // Only proceed if all fields are valid (no errors)
@@ -370,17 +275,14 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                               quantity:
                                   '${quantityController.text} $unitToSave',
                               imgPath: imageUrl,
-                              expirationDate:
-                                  ingredientProvider.expirationDate!,
+                              expirationDate: null,
                             );
 
                             // Return the new ingredient to the previous screen
                             Navigator.of(context).pop(newIngredient);
                           }
                         },
-                        child: Text(fridgeIngredient != null
-                            ? 'Update Ingredient'
-                            : 'Add Ingredient'),
+                        child: Text('Thêm nguyên liệu'),
                       ),
                     ],
                   ),

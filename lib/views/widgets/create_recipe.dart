@@ -1,6 +1,9 @@
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
+import 'package:benri_app/view_models/recipe_creation_provider.dart';
+import 'package:benri_app/views/widgets/add_ingredient_recipe_dialog.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
+import 'package:benri_app/views/widgets/ingredient_recipe_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,163 +12,229 @@ class CreateRecipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController descriptionController = TextEditingController();
-    final TextEditingController timeCookingController = TextEditingController();
-    final TextEditingController ratingController = TextEditingController();
-
-    return WillPopScope(
-      onWillPop: () async {
-        // Clear input fields and image when user navigates back
-        context.read<FavouriteRecipeProvider>().clearImageFile();
-        return true; // Allow the pop action (exit the screen)
-      },
-      child: Scaffold(
-        appBar: BAppBar(title: 'Create Recipe'),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    label: const Text('Your recipe name'),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: ratingController,
-                  decoration: InputDecoration(
-                    label: const Text('Your rating'),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: timeCookingController,
-                  decoration: InputDecoration(
-                    label: const Text('Time Cooking'),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: descriptionController,
-                  decoration: InputDecoration(
-                    label: const Text('Description'),
-                    alignLabelWithHint: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                  minLines: 5,
-                  maxLines: null,
-                ),
-                const SizedBox(height: 16),
-
-                // Use Consumer to show image or default text
-                Consumer<FavouriteRecipeProvider>(
-                  builder: (context, recipeProvider, child) {
-                    return Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text('Choose a photo'),
-                            ],
+    return ChangeNotifierProvider(
+      create: (_) => RecipeCreationProvider(),
+      child: Consumer<RecipeCreationProvider>(
+        builder: (context, recipeCreationProvider, child) {
+          return WillPopScope(
+            onWillPop: () async {
+              context.read<FavouriteRecipeProvider>().clearImageFile();
+              return true; // Allow the pop action (exit the screen)
+            },
+            child: Scaffold(
+              appBar: BAppBar(title: 'Create Recipe'),
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: recipeCreationProvider.nameController,
+                        decoration: InputDecoration(
+                          label: const Text('Your recipe name'),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: Colors.grey),
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: recipeCreationProvider.ratingController,
+                        decoration: InputDecoration(
+                          label: const Text('Your rating'),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
                         ),
-                        // Buttons to pick an image or capture one
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Center(
-                              child: InkWell(
-                                onTap: () => context
-                                    .read<FavouriteRecipeProvider>()
-                                    .pickImageFromGallery(),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller:
+                            recipeCreationProvider.timeCookingController,
+                        decoration: InputDecoration(
+                          label: const Text('Time Cooking'),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 6, top: 4),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Ingredients',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+
+                      // Display the list of ingredients added
+                      recipeCreationProvider.ingredients.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                                  recipeCreationProvider.ingredients.length,
+                              itemBuilder: (context, index) {
+                                final ingredient =
+                                    recipeCreationProvider.ingredients[index];
+                                return IngredientRecipeTile(
+                                  ingredient: ingredient,
+                                  isAvailable: null,
+                                  imgUrl:
+                                      'assets/images/ingredient/default.png',
+                                );
+                              },
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text('Bạn chưa thêm nguyên liệu'),
+                                ),
+                              ],
+                            ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: BColors.accent),
+                            onPressed: () async {
+                              final newIngredient =
+                                  await addIngredientRecipeDialog(context);
+                              if (newIngredient != null) {
+                                recipeCreationProvider
+                                    .addIngredient(newIngredient);
+                              }
+                            },
+                            child: Text('Thêm nguyên liệu'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller:
+                            recipeCreationProvider.descriptionController,
+                        decoration: InputDecoration(
+                          label: const Text('Description'),
+                          alignLabelWithHint: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                        minLines: 5,
+                        maxLines: null,
+                      ),
+                      const SizedBox(height: 8),
+                      Consumer<FavouriteRecipeProvider>(
+                        builder: (context, recipeProvider, child) {
+                          return Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text('Choose a photo'),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              InkWell(
+                                onTap: () =>
+                                    recipeProvider.pickImageFromGallery(),
                                 child: Container(
                                   height: 200,
-                                  width: 380,
+                                  width: double.infinity,
                                   decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.grey,
-                                      ),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: context
-                                              .watch<FavouriteRecipeProvider>()
-                                              .imageFile ==
-                                          null
-                                      ? const Center(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: recipeProvider.imageFile == null
+                                      ? Center(
                                           child: Icon(Icons
-                                              .add_photo_alternate_outlined)) // Placeholder text
+                                              .add_photo_alternate_outlined))
                                       : Image.file(
-                                          context
-                                              .watch<FavouriteRecipeProvider>()
-                                              .imageFile!,
+                                          recipeProvider.imageFile!,
                                           fit: BoxFit.cover,
                                         ),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        // Button to save recipe
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: BColors.accent,
-                          ),
-                          onPressed: () {
-                            if (nameController.text.isNotEmpty &&
-                                timeCookingController.text.isNotEmpty &&
-                                ratingController.text.isNotEmpty) {
-                              context
-                                  .read<FavouriteRecipeProvider>()
-                                  .addNewRecipe(
-                                    nameController.text,
-                                    descriptionController.text,
-                                    timeCookingController.text,
-                                    ratingController.text,
-                                  );
-                              Navigator.of(context)
-                                  .pop(); // Return to the previous screen
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Please fill all the text fields')),
-                              );
-                            }
-                          },
-                          child: const Text('Add New Recipe'),
-                        ),
-                      ],
-                    );
-                  },
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 4),
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: BColors.accent,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Cancel')),
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: BColors.accent,
+                                    ),
+                                    onPressed: () {
+                                      if (recipeCreationProvider.nameController.text.isNotEmpty &&
+                                          recipeCreationProvider
+                                              .timeCookingController
+                                              .text
+                                              .isNotEmpty &&
+                                          recipeCreationProvider
+                                              .ratingController
+                                              .text
+                                              .isNotEmpty) {
+                                        recipeProvider.addNewRecipe(
+                                          recipeCreationProvider
+                                              .nameController.text,
+                                          recipeCreationProvider
+                                              .descriptionController.text,
+                                          // ignore: prefer_interpolation_to_compose_strings
+                                          recipeCreationProvider
+                                                  .timeCookingController.text +
+                                              ' mins',
+                                          recipeCreationProvider
+                                              .ratingController.text,
+                                          recipeCreationProvider.ingredients,
+                                        );
+                                        Navigator.of(context).pop();
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Please fill all the text fields')),
+                                        );
+                                      }
+                                    },
+                                    child: const Text('Add New Recipe'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

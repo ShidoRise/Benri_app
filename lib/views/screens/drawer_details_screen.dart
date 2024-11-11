@@ -11,24 +11,6 @@ class DrawerDetailsScreen extends StatelessWidget {
   final String drawerName;
   const DrawerDetailsScreen({super.key, required this.drawerName});
 
-  // Method to show the BottomSheet and add an ingredient
-  void addIngredientIntoFridge(BuildContext context) async {
-    final newIngredient =
-        await addIngredientDialog(context); // Using your BottomSheet dialog
-    if (newIngredient != null) {
-      Provider.of<IngredientProvider>(context, listen: false)
-          .addIngredient(drawerName, newIngredient); // Add to specific drawer
-    }
-  }
-
-  // Method to delete an ingredient from the fridge
-  void deleteIngredientFridge(BuildContext context, int index) {
-    Provider.of<IngredientProvider>(context, listen: false)
-        .removeIngredient(drawerName, index); // Remove from specific drawer
-  }
-
-  void editIngredientFridge(BuildContext context, int index) {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,21 +20,25 @@ class DrawerDetailsScreen extends StatelessWidget {
       ),
       body: Consumer<IngredientProvider>(
         builder: (context, provider, child) {
-          final ingredients = provider.getIngredientsForDrawer(
-              drawerName); // Get ingredients for this drawer
-          return ingredients.isEmpty
-              ? const Center(child: Text('No ingredients in the fridge yet.'))
-              : ListView.builder(
-                  itemCount: ingredients.length,
-                  itemBuilder: (context, index) {
+          final ingredients = provider.db.fridgeIngredients[drawerName];
+          return (ingredients?.isNotEmpty ?? false)
+              ? ListView.builder(
+                  itemCount: ingredients?.length ?? 0,
+                  itemBuilder: (
+                    context,
+                    index,
+                  ) {
                     return IngredientFridgeView(
-                      ingredient: ingredients[index],
+                      ingredient: ingredients![index],
                       deleteIngredient: (context) =>
-                          deleteIngredientFridge(context, index),
-                      editIngredient: (p0) {},
+                          provider.removeIngredient(drawerName, index),
+                      editIngredient: (context) =>
+                          {provider.editIngredient(context, drawerName, index)},
+                      ingredientProvider: provider,
                     );
                   },
-                );
+                )
+              : const Center(child: Text('No ingredients in the fridge yet.'));
         },
       ),
       floatingActionButton: Container(
@@ -60,7 +46,13 @@ class DrawerDetailsScreen extends StatelessWidget {
         width: 65,
         margin: const EdgeInsets.all(5),
         child: FloatingActionButton(
-          onPressed: () => addIngredientIntoFridge(context),
+          onPressed: () async {
+            final newIngredient = await addFridgeIngredientDialog(context);
+            if (newIngredient != null) {
+              Provider.of<IngredientProvider>(context, listen: false)
+                  .addIngredient(drawerName, newIngredient);
+            }
+          },
           backgroundColor: BColors.white,
           child: const Icon(
             Icons.add,

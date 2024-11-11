@@ -44,6 +44,8 @@ class BasketService {
     await initializeBasketsForDate(date);
     baskets[date]!.basketIngredients.add(basketIngredient);
     await _updateLocalDatabase();
+
+    // add in remote
   }
 
   static Future<void> toggleIngredientSelection(String date, int index) async {
