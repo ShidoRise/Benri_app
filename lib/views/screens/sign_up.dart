@@ -18,6 +18,8 @@ class SignUp extends StatelessWidget {
 }
 
 class SignUpView extends StatelessWidget {
+  const SignUpView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SignUpViewModel>(context);

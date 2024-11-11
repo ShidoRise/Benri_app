@@ -10,27 +10,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/constants/colors.dart';
-import 'recipe_detail_screen.dart';
 
 class YourRecipeScreen extends StatelessWidget {
   const YourRecipeScreen({super.key});
-
-  void removeFromFavourite(Recipes recipe, BuildContext context) {
-    final Recipe = context.read<FavouriteRecipeProvider>();
-    Recipe.removeFromFavourite(recipe);
-  }
-
-  void navigateToRecipeDetails(BuildContext context, Recipes recipe) {
-    final recipes = context.read<FavouriteRecipeProvider>();
-    final recipeMenu = recipes.recipes;
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => RecipeDetailScreen(
-                  recipe: recipe,
-                )));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,16 +54,7 @@ class YourRecipeScreen extends StatelessWidget {
 
                           return Slidable(
                             endActionPane: ActionPane(
-                                motion: const StretchMotion(),
-                                children: [
-                                  SlidableAction(
-                                    onPressed: (context) =>
-                                        removeFromFavourite(recipe, context),
-                                    icon: Icons.delete,
-                                    backgroundColor: Colors.red,
-                                    // borderRadius: BorderRadius.circular(12),
-                                  )
-                                ]),
+                                motion: const StretchMotion(), children: []),
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border(
@@ -130,19 +103,6 @@ class YourRecipeScreen extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(recipe.rating),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 18,
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
                                         Icon(
                                           Icons.lock_clock,
                                           size: 18,
@@ -150,11 +110,49 @@ class YourRecipeScreen extends StatelessWidget {
                                         ),
                                         Text(recipe.timeCooking),
                                       ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .center, // Center alignment as a starting point
+                                      children: [
+                                        Baseline(
+                                          baseline:
+                                              14.0, // Adjust this value for perfect alignment
+                                          baselineType: TextBaseline.alphabetic,
+                                          child: Text(
+                                            recipe.rating,
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                        SizedBox(width: 4),
+                                        Baseline(
+                                          baseline:
+                                              14.0, // Ensure this matches the baseline of the previous text
+                                          baselineType: TextBaseline.alphabetic,
+                                          child: Text(
+                                            '/5',
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                        Baseline(
+                                          baseline:
+                                              16.0, // Same baseline to keep everything aligned
+                                          baselineType: TextBaseline.alphabetic,
+                                          child: Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      ],
                                     )
                                   ],
                                 ),
                                 onTap: () {
-                                  navigateToRecipeDetails(context, recipe);
+                                  value.navigateToRecipeDetails(
+                                      context, recipe);
                                 },
                               ),
                             ),

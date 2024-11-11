@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class OtpViewModel extends ChangeNotifier {
   // final storage = FlutterSecureStorage();
-  String _errorMessage = '';
+  final String _errorMessage = '';
   bool _isLoading = false;
   String get errorMessage => _errorMessage;
   Future<bool> verifyOTP(

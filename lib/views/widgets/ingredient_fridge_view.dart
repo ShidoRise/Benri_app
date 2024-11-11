@@ -1,14 +1,15 @@
 import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
+import 'package:benri_app/view_models/ingredient_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-import 'package:intl/intl.dart'; // For formatting the date
+import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class IngredientFridgeView extends StatelessWidget {
   final FridgeIngredient ingredient;
   final String? drawerName;
+  final IngredientProvider? ingredientProvider;
   Function(BuildContext)? editIngredient;
   Function(BuildContext)? deleteIngredient;
 
@@ -17,7 +18,8 @@ class IngredientFridgeView extends StatelessWidget {
       required this.ingredient,
       this.drawerName,
       required this.deleteIngredient,
-      required this.editIngredient});
+      required this.editIngredient,
+      required this.ingredientProvider});
 
   // Format the expiration date
   String getFormattedExpirationDate(DateTime date) {
@@ -26,26 +28,24 @@ class IngredientFridgeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isExpired = DateTime.now().isAfter(ingredient.expirationDate);
+    bool isExpired = DateTime.now().isAfter(ingredient.expirationDate!);
     String expirationText = isExpired
-        ? 'Expired on: ${getFormattedExpirationDate(ingredient.expirationDate)}'
-        : 'Expires on: ${getFormattedExpirationDate(ingredient.expirationDate)}';
+        ? 'Expired on: ${getFormattedExpirationDate(ingredient.expirationDate!)}'
+        : 'Expires on: ${getFormattedExpirationDate(ingredient.expirationDate!)}';
 
     return Padding(
       padding: const EdgeInsets.all(0),
       child: Slidable(
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
-            onPressed: (context) => deleteIngredient!(context),
+            onPressed: (context) => editIngredient!(context),
             icon: Icons.edit,
             backgroundColor: Colors.grey,
-            // borderRadius: BorderRadius.circular(12),
           ),
           SlidableAction(
             onPressed: (context) => deleteIngredient!(context),
             icon: Icons.delete,
             backgroundColor: Colors.red,
-            // borderRadius: BorderRadius.circular(12),
           )
         ]),
         child: Container(
@@ -68,6 +68,14 @@ class IngredientFridgeView extends StatelessWidget {
                       ? Image.network(
                           ingredient.imgPath,
                           width: 80,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/ingredient/default.png',
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            );
+                          },
                         )
                       : Image.asset(
                           'assets/images/ingredient/default.png',
