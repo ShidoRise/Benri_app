@@ -99,8 +99,8 @@ class VerifyOTPScreenView extends StatelessWidget {
                   );
                 }
               },
-              child: Text('Verify'),
               style: ElevatedButtonStyle.primary(),
+              child: Text('Verify'),
             ),
             SizedBox(height: 16),
             TextButton(

@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
-import 'package:benri_app/views/screens/recipe_detail_screen.dart';
 import 'package:benri_app/views/screens/your_recipe_screen.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
 import 'package:benri_app/views/widgets/my_search_bar.dart';
@@ -11,19 +10,6 @@ import 'package:provider/provider.dart';
 
 class RecipesScreen extends StatelessWidget {
   const RecipesScreen({super.key});
-
-  //navigate to detail page
-  void navigateToRecipeDetails(BuildContext context, int index) {
-    final recipes = context.read<FavouriteRecipeProvider>();
-    final recipeMenu = recipes.recipes;
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => RecipeDetailScreen(
-                  recipe: recipeMenu[index],
-                )));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,22 +26,31 @@ class RecipesScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(bottom: 12, left: 20),
               margin: EdgeInsets.symmetric(horizontal: 12),
+              height: 180,
               decoration: BoxDecoration(
                   color: BColors.accent,
-                  borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/deco/background_explore.png',
+                      ),
+                      fit: BoxFit.cover)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: 30,
+                      ),
                       Text(
                         "Get your Recipes",
                         style: TextStyle(
                             fontFamily: 'Nunito',
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
-                            color: BColors.white),
+                            color: Colors.grey[800]),
                       ),
                       SizedBox(
                         height: 12,
@@ -64,8 +59,9 @@ class RecipesScreen extends StatelessWidget {
                         onTap: () {},
                         child: Container(
                           decoration: BoxDecoration(
-                              color: BColors.white,
-                              borderRadius: BorderRadius.circular(12)),
+                            color: BColors.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           padding: EdgeInsets.all(16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,10 +79,6 @@ class RecipesScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  Image.asset(
-                    'assets/images/deco/Pho Bo.png',
-                    height: 140,
-                  )
                 ],
               ),
             ),
@@ -136,7 +128,8 @@ class RecipesScreen extends StatelessWidget {
                     itemCount: randomRecipeMenu.length,
                     itemBuilder: (context, index) => RecipeTile(
                       recipe: randomRecipeMenu[index],
-                      onTap: () => navigateToRecipeDetails(context, index),
+                      onTap: () => value.navigateToRecipeDetails(
+                          context, randomRecipeMenu[index]),
                     ),
                   );
                 },
@@ -207,7 +200,8 @@ class RecipesScreen extends StatelessWidget {
                       itemCount: min(10, favouriteRecipe.length),
                       itemBuilder: (context, index) => RecipeTile(
                         recipe: favouriteRecipe[index],
-                        onTap: () => navigateToRecipeDetails(context, index),
+                        onTap: () => value.navigateToRecipeDetails(
+                            context, favouriteRecipe[index]),
                       ),
                     ),
                   );
@@ -241,28 +235,34 @@ class RecipesScreen extends StatelessWidget {
                 final randomRecipes = shuffedRecipes
                     .take(min(shuffedRecipes.length, 10))
                     .toList();
-                return GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 0.76),
-                    itemCount: randomRecipes.length,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        child: Column(
-                          children: [
-                            RecipeTile(
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 7,
+                              mainAxisSpacing: 4,
+                              childAspectRatio: 0.72),
+                      itemCount: randomRecipes.length,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          child: Column(
+                            children: [
+                              RecipeTile(
                                 recipe: randomRecipes[index],
-                                onTap: () =>
-                                    navigateToRecipeDetails(context, index)),
-                          ],
-                        ),
-                      );
-                    });
+                                onTap: () => value.navigateToRecipeDetails(
+                                  context,
+                                  randomRecipes[index],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      }),
+                );
               },
             )
           ],

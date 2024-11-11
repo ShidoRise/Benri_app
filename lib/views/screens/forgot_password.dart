@@ -60,7 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
