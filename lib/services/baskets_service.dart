@@ -12,7 +12,7 @@ class BasketService {
     await _loadDatabase();
     if (_basketBox.get('isFirstTime') == null) {
       _basketBox.put('isFirstTime',
-          new Basket(date: '', basketIngredients: [], totalMoney: ''));
+          Basket(date: '', basketIngredients: [], totalMoney: ''));
     }
   }
 
@@ -34,7 +34,7 @@ class BasketService {
   static Future<void> initializeBasketsForDate(String date) async {
     if (!baskets.containsKey(date)) {
       baskets[date] =
-          new Basket(date: date, basketIngredients: [], totalMoney: '0');
+          Basket(date: date, basketIngredients: [], totalMoney: '0');
     }
   }
 
@@ -44,6 +44,8 @@ class BasketService {
     await initializeBasketsForDate(date);
     baskets[date]!.basketIngredients.add(basketIngredient);
     await _updateLocalDatabase();
+
+    // add in remote
   }
 
   static Future<void> toggleIngredientSelection(String date, int index) async {
@@ -66,7 +68,7 @@ class BasketService {
   static Future<void> editBasketItem(
       BuildContext context, String date, int index) async {
     // edit in local
-    if (index >= 0 && index < baskets[date]!.basketIngredients!.length) {
+    if (index >= 0 && index < baskets[date]!.basketIngredients.length) {
       BasketIngredient currentIngredient =
           baskets[date]!.basketIngredients[index];
 

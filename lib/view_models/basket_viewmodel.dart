@@ -1,6 +1,6 @@
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
-import 'package:benri_app/services/basket_service.dart';
+import 'package:benri_app/services/baskets_service.dart';
 import 'package:benri_app/utils/constants/ingredient_suggestions_db.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -107,5 +107,10 @@ class BasketViewModel extends ChangeNotifier {
       return ingredient.thumbnailUrl;
     }
     return '';
+  }
+
+  bool checkBasketIngredientsEmpty(String date) {
+    return BasketService.baskets.containsKey(date) &&
+        BasketService.baskets[date]!.basketIngredients.isNotEmpty;
   }
 }

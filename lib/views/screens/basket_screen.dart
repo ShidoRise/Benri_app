@@ -1,4 +1,4 @@
-import 'package:benri_app/services/basket_service.dart';
+import 'package:benri_app/services/baskets_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
@@ -175,9 +175,7 @@ class BasketScreen extends StatelessWidget {
         alignment: Alignment.topRight,
         children: [
           _calendarItem(date, isSelected),
-          if (BasketService.baskets.containsKey(formattedDate) &&
-              BasketService
-                  .baskets[formattedDate]!.basketIngredients.isNotEmpty)
+          if (basketViewModel.checkBasketIngredientsEmpty(formattedDate))
             Padding(
               padding: const EdgeInsets.all(6.0),
               child: Icon(
@@ -227,10 +225,8 @@ class BasketScreen extends StatelessWidget {
   }
 
   Widget _basketContent(BasketViewModel basketViewModel) {
-    return (BasketService.baskets
-                .containsKey(basketViewModel.focusDateFormatted) &&
-            BasketService.baskets[basketViewModel.focusDateFormatted]!
-                .basketIngredients.isNotEmpty)
+    return (basketViewModel
+            .checkBasketIngredientsEmpty(basketViewModel.focusDateFormatted))
         ? Expanded(
             child: ListView.builder(
               itemCount: BasketService
