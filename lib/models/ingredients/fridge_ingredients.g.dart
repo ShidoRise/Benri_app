@@ -20,7 +20,7 @@ class FridgeIngredientAdapter extends TypeAdapter<FridgeIngredient> {
       name: fields[0] as String,
       quantity: fields[1] as String,
       imgPath: fields[2] as String,
-      expirationDate: fields[3] as DateTime,
+      expirationDate: fields[3] as DateTime?,
     );
   }
 

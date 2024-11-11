@@ -8,7 +8,7 @@ part of 'recipes.dart';
 
 class RecipesAdapter extends TypeAdapter<Recipes> {
   @override
-  final int typeId = 3; // Make sure this matches the typeId in your model
+  final int typeId = 4;
 
   @override
   Recipes read(BinaryReader reader) {
@@ -29,7 +29,7 @@ class RecipesAdapter extends TypeAdapter<Recipes> {
   @override
   void write(BinaryWriter writer, Recipes obj) {
     writer
-      ..writeByte(6) // Number of fields in the Recipes class
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)

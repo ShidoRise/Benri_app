@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 part 'recipes.g.dart';
 
-@HiveType(typeId: 3) // Assign a unique type ID for each model
+@HiveType(typeId: 4) // Assign a unique type ID for each model
 class Recipes extends HiveObject {
   @HiveField(0)
   String name;

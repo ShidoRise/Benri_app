@@ -21,9 +21,7 @@ void main() async {
   Hive.registerAdapter(BasketIngredientAdapter());
   Hive.registerAdapter(BasketAdapter());
   Hive.registerAdapter(IngredientSuggestionAdapter());
-
   Hive.registerAdapter(FridgeIngredientAdapter());
-
   Hive.registerAdapter(RecipesAdapter());
 
   await Hive.openBox('fridgeIngredientBox');
