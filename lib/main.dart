@@ -3,6 +3,7 @@ import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/models/recipes/recipes.dart';
+import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/fridge_screen_provider.dart';
@@ -32,7 +33,8 @@ void main() async {
   await Hive.openBox('drawerBox');
 
   await dotenv.load(fileName: ".env");
-
+  print(dotenv.env['API_URL']);
+  Map<String, String> userInfo = await UserLocal.getUserInfo();
   runApp(
     MultiProvider(
       providers: [

@@ -19,14 +19,13 @@ Widget settingItemWidget(
       onPressed: () {
         switch (title) {
           case 'Login':
-            print('login1');
             viewModel.login(context);
             break;
           case 'Logout':
             viewModel.logout();
             break;
           case 'Profile Information':
-            viewModel.profileInformation();
+            viewModel.profileInformation(context);
             break;
           case 'Notification':
             viewModel.toggleNotification();

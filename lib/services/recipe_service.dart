@@ -21,7 +21,6 @@ class RecipeService {
   }
 
   Future<List<Recipes>> getAllRecipes() async {
-    final box = await _openBox();
     return box.values.toList();
   }
 
@@ -45,12 +44,10 @@ class RecipeService {
   }
 
   Future<void> removeRecipe(Recipes recipe) async {
-    final box = await _openBox();
     box.delete(recipe);
   }
 
   Future<void> updateRecipe(Recipes recipe) async {
-    final box = await _openBox();
     await box.put(recipe.key, recipe);
   }
 

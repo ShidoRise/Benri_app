@@ -32,8 +32,10 @@ class ProfileScreen extends StatelessWidget {
                 settingItemWidget(context, Icons.mail_outline, 'Contact'),
                 settingItemWidget(context, Icons.feedback_outlined, 'Feedback'),
                 textTitleSettingWidget('Privacy'),
-                settingItemWidget(context, Icons.login, 'Login'),
-                settingItemWidget(context, Icons.logout, 'Logout'),
+                if (!viewModel.isLoggedIn)
+                  settingItemWidget(context, Icons.login, 'Login'),
+                if (viewModel.isLoggedIn)
+                  settingItemWidget(context, Icons.logout, 'Logout'),
               ],
             );
           },
