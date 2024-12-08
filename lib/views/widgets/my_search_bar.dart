@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 
 class MySearchBar extends StatelessWidget {
   final String hintText;
-  const MySearchBar({super.key, required this.hintText});
+  final TextEditingController searchController;
+
+  const MySearchBar({
+    super.key,
+    required this.hintText,
+    required this.searchController,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 25),
       child: TextField(
+        controller: searchController,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search),
           filled: true,
@@ -17,21 +24,15 @@ class MySearchBar extends StatelessWidget {
           hintStyle: TextStyle(
             color: Colors.grey[500],
           ),
-          // Border when the TextField is enabled
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(
-              color: Colors.grey, // Set the border color when enabled
-              width: 1.5, // Set the width of the border
+              color: Colors.grey,
+              width: 1.5,
             ),
           ),
-          // Border when the TextField is focused
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(
-              color: Colors.black, // Set the border color when focused
-              width: 2.0, // Set the width of the border when focused
-            ),
           ),
         ),
       ),

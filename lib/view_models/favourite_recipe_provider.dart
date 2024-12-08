@@ -4,9 +4,10 @@ import 'package:benri_app/views/screens/recipe_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:benri_app/models/recipes/recipes.dart';
-import 'package:benri_app/services/recipe_service.dart';
+import 'package:benri_app/services/recipes_service.dart';
 
 class FavouriteRecipeProvider extends ChangeNotifier {
+  TextEditingController searchController = TextEditingController();
   final List<Recipes> _recipes = [
     Recipes(
         name: 'Grilled Pork Belly',
@@ -136,23 +137,46 @@ class FavouriteRecipeProvider extends ChangeNotifier {
         ingredients: []),
   ];
 
-  final List<Recipes> _favouriteRecipes = [];
-  final RecipeService _recipeService = RecipeService();
-
-  File? _imageFile; // Image file for the recipe
-  final _picker = ImagePicker(); // Image picker instance
+  File? _imageFile;
+  final _picker = ImagePicker();
 
   List<Recipes> get recipes => _recipes;
-  List<Recipes> get favouriteRecipes => _favouriteRecipes;
   File? get imageFile => _imageFile;
 
-  FavouriteRecipeProvider() {
-    loadRecipes();
+  bool _isShowAll = false;
+  bool get isShowAll => _isShowAll;
+
+  void toggleShowAll() {
+    _isShowAll = !_isShowAll;
+    notifyListeners();
   }
 
-  Future<void> loadRecipes() async {
-    _recipes.addAll(await _recipeService.getAllRecipes());
+  FavouriteRecipeProvider() {
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    await RecipesService.initializeLocalData();
+    // Add default recipes to service
+    for (var recipe in _recipes) {
+      if (!RecipesService.recipes.containsKey(recipe.name)) {
+        await RecipesService.addRecipe(recipe);
+      }
+    }
     notifyListeners();
+  }
+
+  Future<List<Recipes>> getAllRecipes() async {
+    final serviceRecipes = await RecipesService.getAllRecipes();
+    return [
+      ..._recipes,
+      ...serviceRecipes
+          .where((r) => !_recipes.any((local) => local.name == r.name))
+    ];
+  }
+
+  bool isFavourite(Recipes recipe) {
+    return RecipesService.isFavourite(recipe);
   }
 
   Future<void> addNewRecipe(String name, String description, String timeCooking,
@@ -165,25 +189,18 @@ class FavouriteRecipeProvider extends ChangeNotifier {
       timeCooking: timeCooking,
       ingredients: ingredients,
     );
-    _recipeService.addRecipe(newRecipe);
-    _favouriteRecipes.add(newRecipe);
+    await RecipesService.addRecipe(newRecipe);
     _imageFile = null;
     notifyListeners();
   }
 
   Future<void> removeRecipe(Recipes recipe) async {
-    await _recipeService.removeRecipe(recipe);
-    _recipes.remove(recipe);
+    await RecipesService.removeRecipe(recipe);
     notifyListeners();
   }
 
-  // Toggle the favorite status of a recipe
-  void toggleFavourite(Recipes recipe) {
-    if (_favouriteRecipes.contains(recipe)) {
-      _favouriteRecipes.remove(recipe);
-    } else {
-      _favouriteRecipes.add(recipe);
-    }
+  Future<void> updateRecipe(Recipes recipe) async {
+    await RecipesService.updateRecipe(recipe);
     notifyListeners();
   }
 
@@ -199,8 +216,10 @@ class FavouriteRecipeProvider extends ChangeNotifier {
 
   // Image handling methods
   Future<void> pickImageFromGallery() async {
-    final pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+    );
     if (pickedFile != null) {
       _imageFile = File(pickedFile.path);
       notifyListeners();
@@ -220,7 +239,14 @@ class FavouriteRecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isFavourite(Recipes recipe) {
-    return _favouriteRecipes.contains(recipe);
+  void toggleFavourite(Recipes recipe) async {
+    await RecipesService.toggleFavorite(recipe);
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 }

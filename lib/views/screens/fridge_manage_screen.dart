@@ -11,18 +11,16 @@ class FridgeManageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final drawerProvider = Provider.of<DrawerProvider>(context);
-
     final TextEditingController drawerController = TextEditingController();
 
-    // Save the new drawer via DrawerProvider
     void saveNewDrawer() {
       if (drawerController.text.isNotEmpty) {
         drawerProvider.addDrawer(drawerController.text);
         Navigator.of(context).pop();
+        drawerController.clear();
       }
     }
 
-    // Function to show the dialog to add a new drawer
     void addNewDrawer() {
       showDialog(
         context: context,
@@ -31,6 +29,7 @@ class FridgeManageScreen extends StatelessWidget {
             controller: drawerController,
             onSave: saveNewDrawer,
             onCancel: () {
+              drawerController.clear();
               Navigator.of(context).pop();
             },
           );
@@ -38,7 +37,6 @@ class FridgeManageScreen extends StatelessWidget {
       );
     }
 
-    // Function to show the delete confirmation dialog
     void deleteNotify(BuildContext context, int index) {
       showDialog(
         context: context,
@@ -48,8 +46,8 @@ class FridgeManageScreen extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
-                  drawerProvider
-                      .removeDrawer(index); // Remove drawer using provider
+                  Provider.of<DrawerProvider>(context, listen: false)
+                      .removeDrawer(index);
                   Navigator.of(context).pop();
                 },
                 child: const Text("Yes"),
@@ -84,6 +82,7 @@ class FridgeManageScreen extends StatelessWidget {
         width: 65,
         margin: const EdgeInsets.all(5.0),
         child: FloatingActionButton(
+          heroTag: 'fridge_manage_fab',
           onPressed: addNewDrawer,
           backgroundColor: BColors.white,
           child: const Icon(

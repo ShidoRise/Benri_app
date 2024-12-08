@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 part 'recipes.g.dart';
 
-@HiveType(typeId: 4) // Assign a unique type ID for each model
+@HiveType(typeId: 4)
 class Recipes extends HiveObject {
   @HiveField(0)
   String name;
@@ -32,6 +32,11 @@ class Recipes extends HiveObject {
     required this.ingredients,
   });
 
+  @override
+  String toString() {
+    return 'Recipes{name: $name, description: $description, imgPath: $imgPath, rating: $rating, timeCooking: $timeCooking, ingredients: $ingredients}';
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'name': name,
@@ -39,7 +44,36 @@ class Recipes extends HiveObject {
       'imgPath': imgPath,
       'rating': rating,
       'timeCooking': timeCooking,
-      'ingredients': ingredients.map((i) => i.toJson()).toList(),
+      'ingredients': ingredients
+          .map((ingredient) => {
+                'name': ingredient.name,
+                'quantity': ingredient.quantity,
+                'imgPath': ingredient.imgPath,
+                'expirationDate': ingredient.expirationDate?.toIso8601String(),
+              })
+          .toList(),
     };
+  }
+
+  factory Recipes.fromJson(Map<String, dynamic> json) {
+    return Recipes(
+      name: json['name'] as String,
+      description: json['description'] as String,
+      imgPath: json['imgPath'] as String,
+      rating: json['rating'] as String,
+      timeCooking: json['timeCooking'] as String,
+      ingredients: (json['ingredients'] as List<dynamic>?)
+              ?.map((ingredientJson) => FridgeIngredient(
+                    name: ingredientJson['name'] as String,
+                    quantity: ingredientJson['quantity'] as String,
+                    imgPath: ingredientJson['imgPath'] as String,
+                    expirationDate: ingredientJson['expirationDate'] != null
+                        ? DateTime.parse(
+                            ingredientJson['expirationDate'] as String)
+                        : null,
+                  ))
+              .toList() ??
+          [],
+    );
   }
 }

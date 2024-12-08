@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 
 class FridgeScreenProvider with ChangeNotifier {
-  late TabController tabController;
+  int _currentTabIndex = 0;
   TextEditingController searchController = TextEditingController();
 
-  // Initialize the tab controller
-  void initialize(BuildContext context) {
-    tabController = TabController(length: 2, vsync: Navigator.of(context));
+  int get currentTabIndex => _currentTabIndex;
+
+  void changeTab(int index) {
+    _currentTabIndex = index;
     notifyListeners();
   }
 
-  // Dispose the controllers
-  void disposeControllers() {
-    tabController.dispose();
-    notifyListeners();
-  }
-
-  // Notify listeners if something changes
-  void notify() {
-    notifyListeners();
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 }

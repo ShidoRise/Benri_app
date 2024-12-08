@@ -1,4 +1,5 @@
 import 'package:benri_app/models/baskets/baskets.dart';
+import 'package:benri_app/models/fridge_drawers/fridge_drawers.dart';
 import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
@@ -25,26 +26,25 @@ void main() async {
   Hive.registerAdapter(IngredientSuggestionAdapter());
   Hive.registerAdapter(FridgeIngredientAdapter());
   Hive.registerAdapter(RecipesAdapter());
+  Hive.registerAdapter(FridgeDrawerAdapter());
 
   await Hive.openBox('fridgeIngredientBox');
   await Hive.openBox<Basket>('basketBox');
   await Hive.openBox('ingredientSuggestionsBox');
-  await Hive.openBox('recipeBox');
-  await Hive.openBox('drawerBox');
+  await Hive.openBox<Recipes>('recipeBox');
+  await Hive.openBox<FridgeDrawer>('fridgeDrawerBox');
+  await Hive.openBox<bool>('favoriteBox');
 
   await dotenv.load(fileName: ".env");
-  print(dotenv.env['API_URL']);
   Map<String, String> userInfo = await UserLocal.getUserInfo();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => BasketViewModel()),
-        ChangeNotifierProvider(
-          create: (context) => DrawerProvider(),
-        ),
-        ChangeNotifierProvider(create: (context) => IngredientProvider()),
-        ChangeNotifierProvider(create: (context) => FridgeScreenProvider()),
-        ChangeNotifierProvider(create: (context) => FavouriteRecipeProvider())
+        ChangeNotifierProvider(create: (_) => IngredientProvider()),
+        ChangeNotifierProvider(create: (_) => FridgeScreenProvider()),
+        ChangeNotifierProvider(create: (_) => FavouriteRecipeProvider()),
+        ChangeNotifierProvider(create: (_) => DrawerProvider()),
       ],
       child: const MyApp(),
     ),

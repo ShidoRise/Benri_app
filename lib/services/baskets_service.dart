@@ -8,6 +8,8 @@ class BasketService {
   static Map<String, Basket> baskets = {};
   static final _basketBox = Hive.box<Basket>('basketBox');
 
+  BasketService._();
+
   static Future<void> initializeLocalData() async {
     await _loadDatabase();
     if (_basketBox.get('isFirstTime') == null) {

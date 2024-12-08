@@ -23,15 +23,6 @@ class FridgeIngredient {
     this.expirationDate,
   });
 
-  factory FridgeIngredient.fromMap(Map<String, dynamic> map) {
-    return FridgeIngredient(
-      name: map['name'],
-      quantity: map['quantity'] ?? '',
-      imgPath: map['imgPath'] ?? '',
-      expirationDate: map['expirationDate'] ?? '',
-    );
-  }
-
   bool isExpired() {
     return DateTime.now().isAfter(expirationDate!);
   }
@@ -39,13 +30,5 @@ class FridgeIngredient {
   @override
   String toString() {
     return 'FridgeIngredient{name: $name, quantity: $quantity, imagePath: $imgPath, expirationDate: $expirationDate}';
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'quantity': quantity,
-      'imgPath': imgPath,
-    };
   }
 }
