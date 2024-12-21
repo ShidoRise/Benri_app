@@ -16,12 +16,12 @@ class RecipeDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FavouriteRecipeProvider>(
       builder: (context, provider, _) {
-        final isFavourite = RecipesService.isFavorite(recipe);
         final ingredientStatus =
             RecipesService.checkIngredientsAvailable(recipe.ingredients);
         final ingredientProvider =
             Provider.of<IngredientProvider>(context, listen: false);
-
+        print(recipe.imgPath);
+        print('2222');
         return Scaffold(
           extendBodyBehindAppBar: true,
           body: Stack(
@@ -39,12 +39,13 @@ class RecipeDetailScreen extends StatelessWidget {
                         children: [
                           // Recipe Image
                           Positioned.fill(
-                            child: Image(
-                              image: recipe.imgPath.startsWith('/data/')
-                                  ? FileImage(File(recipe.imgPath))
-                                  : AssetImage(recipe.imgPath) as ImageProvider,
-                              fit: BoxFit.cover,
-                            ),
+                            child: recipe.imgPath ==
+                                    'assets/images/ingredient/default.png'
+                                ? Image.asset(recipe.imgPath)
+                                : Image.network(
+                                    recipe.imgPath,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                           // Recipe Info Card
                           Positioned(
@@ -74,54 +75,6 @@ class RecipeDetailScreen extends StatelessWidget {
                                           style: const TextStyle(
                                             fontSize: 26,
                                             fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          provider.toggleFavourite(recipe);
-                                          if (!context.mounted) return;
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Row(
-                                                children: [
-                                                  Icon(
-                                                    isFavourite
-                                                        ? Icons.favorite_border
-                                                        : Icons.favorite,
-                                                    color: Colors.white,
-                                                  ),
-                                                  const SizedBox(width: 8),
-                                                  Text(
-                                                    isFavourite
-                                                        ? "Removed from Favorites"
-                                                        : "Added to Favorites",
-                                                  ),
-                                                ],
-                                              ),
-                                              backgroundColor: isFavourite
-                                                  ? Colors.red
-                                                  : Colors.green,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                            ),
-                                          );
-                                        },
-                                        child: AnimatedSwitcher(
-                                          duration:
-                                              const Duration(milliseconds: 300),
-                                          child: Icon(
-                                            isFavourite
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            key: ValueKey<bool>(isFavourite),
-                                            color: isFavourite
-                                                ? Colors.red
-                                                : Colors.grey,
-                                            size: 24,
                                           ),
                                         ),
                                       ),
@@ -172,7 +125,7 @@ class RecipeDetailScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          // const SizedBox(height: 16),
                           ConstrainedBox(
                             constraints: provider.isShowAll
                                 ? BoxConstraints(
@@ -221,6 +174,7 @@ class RecipeDetailScreen extends StatelessWidget {
                             ),
                           // Description Section
                           const SizedBox(height: 16),
+
                           const Text(
                             "Description",
                             style: TextStyle(

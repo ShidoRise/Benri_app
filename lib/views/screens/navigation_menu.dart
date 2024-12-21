@@ -30,8 +30,11 @@ class NavigationMenu extends StatelessWidget {
                 ],
               ),
               child: NavigationBar(
-                backgroundColor: BColors.white,
-                indicatorColor: BColors.grey,
+                backgroundColor:
+                    Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                indicatorColor: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
                 height: 70,
                 elevation: 0,
                 selectedIndex: viewModel.selectedIndex,
@@ -40,19 +43,19 @@ class NavigationMenu extends StatelessWidget {
                 destinations: const [
                   NavigationDestination(
                     icon: Icon(Iconsax.bag_2),
-                    label: 'Basket',
+                    label: 'Giỏ Hàng',
                   ),
                   NavigationDestination(
                     icon: Icon(Iconsax.external_drive),
-                    label: 'Fridge',
+                    label: 'Tủ Lạnh',
                   ),
                   NavigationDestination(
                     icon: Icon(Iconsax.reserve),
-                    label: 'Recipes',
+                    label: 'Công thức',
                   ),
                   NavigationDestination(
                     icon: Icon(Iconsax.user),
-                    label: 'Profile',
+                    label: 'Cài đặt',
                   ),
                 ],
               ),

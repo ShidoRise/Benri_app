@@ -1,5 +1,6 @@
 // recipe_tile.dart
 import 'dart:io';
+import 'package:benri_app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:benri_app/models/recipes/recipes.dart';
 import 'package:iconsax/iconsax.dart';
@@ -21,14 +22,14 @@ class RecipeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FavouriteRecipeProvider>(
       builder: (context, provider, child) {
-        final isFavorite = RecipesService.isFavorite(recipe);
+        final isFavorite = recipe.isFavorite;
 
         return GestureDetector(
           onTap: onTap,
           child: SizedBox(
             width: 200, // Fixed width for the tile
             child: Card(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -42,12 +43,13 @@ class RecipeTile extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius:
                           const BorderRadius.vertical(top: Radius.circular(12)),
-                      child: Image(
-                        image: recipe.imgPath.startsWith('/data/')
-                            ? FileImage(File(recipe.imgPath))
-                            : AssetImage(recipe.imgPath) as ImageProvider,
-                        fit: BoxFit.cover,
-                      ),
+                      child: recipe.imgPath ==
+                              'assets/images/ingredient/default.png'
+                          ? Image.asset(recipe.imgPath)
+                          : Image.network(
+                              recipe.imgPath,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                   Padding(
@@ -143,6 +145,22 @@ class RecipeTile extends StatelessWidget {
                             ),
                           ],
                         ),
+                        if (recipe.category.isNotEmpty)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: BColors.primaryFirst.withOpacity(0.95),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Text(
+                              recipe.category,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),

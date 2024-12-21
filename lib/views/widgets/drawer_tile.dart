@@ -24,10 +24,15 @@ class DrawerTile extends StatelessWidget {
           )
         ]),
         child: Card(
-          color: BColors.accent,
+          color: BColors.primaryFirst,
           elevation: 3,
           child: ListTile(
-            title: Text(drawerName),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            title: Text(
+              drawerName,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
             trailing: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [

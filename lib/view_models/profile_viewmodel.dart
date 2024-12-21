@@ -1,8 +1,11 @@
 import 'package:benri_app/services/user_local.dart';
+import 'package:benri_app/views/screens/change_pasword_screen.dart';
 import 'package:benri_app/views/screens/detail_profile_screen.dart';
 import 'package:benri_app/views/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:benri_app/view_models/theme_provider.dart';
 
 class ProfileViewModel extends ChangeNotifier {
   bool _notificationEnabled = true;
@@ -11,13 +14,22 @@ class ProfileViewModel extends ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
 
   bool get notificationEnabled => _notificationEnabled;
-  bool get darkModeEnabled => _darkModeEnabled;
+  bool get darkModeEnabled =>
+      Provider.of<ThemeProvider>(navigatorKey.currentContext!, listen: false)
+          .isDarkMode;
+
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
+  Map<String, dynamic> userInfo = {};
   ProfileViewModel() {
     checkLoginStatus();
   }
   Future<void> checkLoginStatus() async {
-    final userInfo = await UserLocal.getUserInfo();
-    _isLoggedIn = userInfo['userId']?.isNotEmpty == true;
+    final fetchUserInfo = await UserLocal.getUserInfo();
+    _isLoggedIn = fetchUserInfo['userId']?.isNotEmpty == true;
+    userInfo.addAll(fetchUserInfo);
+    print('User info: ${userInfo['email']}');
     notifyListeners();
   }
 
@@ -27,7 +39,9 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   void toggleDarkMode() {
-    _darkModeEnabled = !_darkModeEnabled;
+    final themeProvider =
+        Provider.of<ThemeProvider>(navigatorKey.currentContext!, listen: false);
+    themeProvider.toggleTheme();
     notifyListeners();
   }
 
@@ -40,6 +54,7 @@ class ProfileViewModel extends ChangeNotifier {
 
   void logout() {
     UserLocal.logout();
+    userInfo = {};
     _isLoggedIn = false;
     notifyListeners();
     Fluttertoast.showToast(
@@ -55,6 +70,11 @@ class ProfileViewModel extends ChangeNotifier {
     // TODO: Implement profile information
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const DetailProfileScreen()));
+  }
+
+  void changePassWord(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ChangePassWordScreen()));
   }
 
   void rateApp() {

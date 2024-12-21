@@ -22,7 +22,7 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
   return showModalBottomSheet<BasketIngredient>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: Theme.of(context).colorScheme.background,
     builder: (context) {
       return ChangeNotifierProvider<BasketViewModel>.value(
         value: basketViewModel,
@@ -58,17 +58,17 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                       return TextFormField(
                         controller: fieldTextEditingController,
                         focusNode: fieldFocusNode,
-                        cursorColor: Colors.black,
                         decoration: InputDecoration(
                           labelText: 'Tên nguyên liệu',
-                          labelStyle: const TextStyle(color: Colors.black),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(color: BColors.black),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.outline),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(color: BColors.black),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary),
                           ),
                         ),
                         onChanged: (value) {
@@ -87,17 +87,18 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: quantityInputController,
-                    cursorColor: Colors.black,
+                    cursorColor: Theme.of(context).colorScheme.primary,
                     decoration: InputDecoration(
                       labelText: 'Số lượng',
-                      labelStyle: const TextStyle(color: BColors.black),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(color: BColors.black),
+                        borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.outline),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(color: BColors.black),
+                        borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                     ),
                     keyboardType: TextInputType.number,
@@ -105,17 +106,20 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: unitInputController,
-                    cursorColor: Colors.black,
+                    cursorColor: Theme.of(context).colorScheme.primary,
                     decoration: InputDecoration(
                       labelText: 'Đơn vị',
-                      labelStyle: const TextStyle(color: BColors.black),
+                      labelStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(color: BColors.black),
+                        borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.outline),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(color: BColors.black),
+                        borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                     ),
                     keyboardType: TextInputType.text,
@@ -140,7 +144,9 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                           });
                           return ChoiceChip(
                             label: Text(unit),
-                            backgroundColor: BColors.accent,
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
                             selected: basketViewModel.selectedUnit == unit,
                             onSelected: (bool selected) {
                               basketViewModel
@@ -148,7 +154,8 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                               unitInputController.text =
                                   basketViewModel.selectedUnit ?? '';
                             },
-                            selectedColor: BColors.primaryFirst,
+                            selectedColor:
+                                Theme.of(context).colorScheme.primary,
                           );
                         },
                       );
@@ -160,7 +167,7 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      backgroundColor: BColors.primaryFirst,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                     onPressed: () {
                       final updatedIngredient = BasketIngredient(
@@ -172,11 +179,10 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                       );
                       Navigator.pop(context, updatedIngredient);
                     },
-                    child: const Text(
-                      'Add',
+                    child: Text(
+                      'Thêm',
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -12,4 +12,15 @@ class ElevatedButtonStyle {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
     );
   }
+
+  static ButtonStyle primaryFirst({bool isLoading = false}) {
+    return ElevatedButton.styleFrom(
+      backgroundColor: isLoading ? Colors.grey : BColors.primaryFirst,
+      foregroundColor: Colors.white,
+      textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      elevation: 0,
+      shadowColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+    );
+  }
 }

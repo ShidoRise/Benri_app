@@ -42,7 +42,8 @@ class FridgeManageScreen extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Are you sure you want to delete this drawer?"),
+            title: const Text("Bạn có chắc chắn muốn xóa ngăn kéo này không?"),
+            backgroundColor: Theme.of(context).colorScheme.background,
             actions: [
               TextButton(
                 onPressed: () {
@@ -50,13 +51,13 @@ class FridgeManageScreen extends StatelessWidget {
                       .removeDrawer(index);
                   Navigator.of(context).pop();
                 },
-                child: const Text("Yes"),
+                child: const Text("Đồng ý"),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text("Cancel"),
+                child: const Text("Quay lại"),
               ),
             ],
           );
@@ -84,11 +85,11 @@ class FridgeManageScreen extends StatelessWidget {
         child: FloatingActionButton(
           heroTag: 'fridge_manage_fab',
           onPressed: addNewDrawer,
-          backgroundColor: BColors.white,
-          child: const Icon(
+          backgroundColor: BColors.primary,
+          child: Icon(
             Icons.add,
             size: 30,
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.secondaryFixed,
           ),
         ),
       ),

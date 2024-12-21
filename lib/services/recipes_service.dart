@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/models/recipes/recipes.dart';
 import 'package:benri_app/services/user_local.dart';
@@ -10,116 +11,107 @@ import '../utils/constants/constant.dart';
 class RecipesService {
   static final String baseUrl = dotenv.get('API_URL');
   static final _recipeBox = Hive.box<Recipes>('recipeBox');
-  static final _favoriteBox = Hive.box<bool>('favoriteBox');
-  static Map<String, Recipes> recipes = {};
-  static Set<String> favoriteRecipes = {};
+  static List<Recipes> recipes = [];
+  static List<Recipes> favoriteRecipes = [];
 
   RecipesService._();
 
-  static Future<void> initializeLocalData() async {
-    await _loadDatabase();
-    await _loadFavorites();
+  static Future<List<Recipes>> fetchDataFromDb() async {
+    return await _loadDatabase();
   }
 
-  static Future<void> _loadDatabase() async {
-    recipes.clear();
+  static Future<List<String>> fetchCategories() async {
+    try {
+      final response = await await http.get(
+        Uri.parse('$baseUrl/recipe/categories'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'content-type': 'application/json'
+        },
+      );
+      if (response.statusCode == 200) {
+        print('111');
+
+        final List<dynamic> responseData =
+            jsonDecode(response.body)['metadata'];
+        List<String> categories = [];
+        print('111a');
+        for (var category in responseData) {
+          categories.add(category);
+        }
+        print('===categories :: $categories');
+        return categories;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  static Future<List<Recipes>> fetchData() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/recipe/all'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'content-type': 'application/json'
+        },
+      );
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData =
+            jsonDecode(response.body)['metadata'];
+        print('1111');
+        recipes = responseData.map((json) => Recipes.fromJson(json)).toList();
+        print('11');
+        return recipes;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  static Future<List<Recipes>> _loadDatabase() async {
+    favoriteRecipes.clear();
     for (var key in _recipeBox.keys) {
       final recipe = _recipeBox.get(key);
       if (recipe != null) {
-        recipes[recipe.name] = recipe;
+        favoriteRecipes.add(recipe);
       }
     }
-  }
-
-  static Future<void> _loadFavorites() async {
-    favoriteRecipes.clear();
-    final favorites = _favoriteBox.keys;
-    for (var key in favorites) {
-      if (_favoriteBox.get(key) == true) {
-        favoriteRecipes.add(key.toString());
-      }
-    }
+    print('===favoriteRecipes :: $favoriteRecipes');
+    return favoriteRecipes;
   }
 
   static Future<void> toggleFavorite(Recipes recipe) async {
-    final isFavorite = favoriteRecipes.contains(recipe.name);
-    if (isFavorite) {
-      favoriteRecipes.remove(recipe.name);
-      await _favoriteBox.delete(recipe.name);
+    if (recipe.isFavorite) {
+      await _recipeBox.put(recipe.name, recipe);
     } else {
-      favoriteRecipes.add(recipe.name);
-      await _favoriteBox.put(recipe.name, true);
+      await _recipeBox.delete(recipe.name);
     }
-    await _updateLocalDatabase();
   }
 
-  static bool isFavorite(Recipes recipe) {
-    return favoriteRecipes.contains(recipe.name);
-  }
+  static Future<void> deleteFromFavourite(Recipes recipe) async {
+    _recipeBox.delete(recipe.name);
 
-  static Future<void> _updateLocalDatabase() async {
-    await _recipeBox.clear();
-    await _recipeBox.putAll(recipes);
+    favoriteRecipes.clear();
+    _loadDatabase();
   }
 
   static Future<List<Recipes>> getAllRecipes() async {
-    return recipes.values.toList();
+    return recipes;
   }
 
-  static Future<void> addRecipe(Recipes recipe) async {
-    // Add to local storage
-    recipes[recipe.name] = recipe;
-    await _updateLocalDatabase();
-
-    // Add to remote API
-    // try {
-    //   final userInfo = await UserLocal.getUserInfo();
-    //   final response = await http.post(
-    //     Uri.parse('$baseUrl/recipe'),
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'x-api-key': Constants.apiKey,
-    //       'x-rtoken-id': userInfo['token'] ?? '',
-    //     },
-    //     body: jsonEncode(recipe.toJson()),
-    //   );
-
-    //   if (response.statusCode != 200) {
-    //     throw Exception('Failed to add recipe: ${response.body}');
-    //   }
-    // } catch (e) {
-    //   print('Error adding recipe to remote: $e');
-    // }
+  static Future<List<Recipes>> getAllFavouriteRecipes() async {
+    return await _loadDatabase();
   }
 
   static Future<void> removeRecipe(Recipes recipe) async {
     recipes.remove(recipe.name);
-    await _updateLocalDatabase();
-  }
-
-  static Future<void> updateRecipe(Recipes recipe) async {
-    if (recipes.containsKey(recipe.name)) {
-      recipes[recipe.name] = recipe;
-      await _updateLocalDatabase();
-    }
-
-    // try {
-    //   final userInfo = await UserLocal.getUserInfo();
-    //   final response = await http.delete(
-    //     Uri.parse('$baseUrl/recipe/${recipe.name}'),
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'x-api-key': Constants.apiKey,
-    //       'x-rtoken-id': userInfo['token'] ?? '',
-    //     },
-    //   );
-
-    //   if (response.statusCode != 200) {
-    //     throw Exception('Failed to delete recipe: ${response.body}');
-    //   }
-    // } catch (e) {
-    //   print('Error removing recipe from remote: $e');
-    // }
   }
 
   static List<Map<String, dynamic>> checkIngredientsAvailable(
@@ -135,33 +127,7 @@ class RecipesService {
     return availabilityStatus;
   }
 
-  static bool isFavourite(Recipes recipe) {
-    return recipes.containsKey(recipe.name);
-  }
-
-  static Future<void> syncWithRemote() async {
-    try {
-      final userInfo = await UserLocal.getUserInfo();
-      final response = await http.get(
-        Uri.parse('$baseUrl/recipes'),
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': Constants.apiKey,
-          'x-rtoken-id': userInfo['token'] ?? '',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body)['data'];
-        recipes.clear();
-        for (var item in data) {
-          final recipe = Recipes.fromJson(item);
-          recipes[recipe.name] = recipe;
-        }
-        await _updateLocalDatabase();
-      }
-    } catch (e) {
-      print('Error syncing with remote: $e');
-    }
+  static Future<void> addRecipe(Recipes recipe) async {
+    await _recipeBox.put(recipe.name, recipe);
   }
 }

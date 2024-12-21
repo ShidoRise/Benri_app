@@ -16,48 +16,36 @@ class FridgeScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: BAppBar(
-          title: 'My Fridge',
+          title: 'Tủ Lạnh',
         ),
-        backgroundColor: Colors.white,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Consumer<FridgeScreenProvider>(
-                  builder: (context, provider, child) {
-                    return MySearchBar(
-                      searchController: provider.searchController,
-                      hintText: 'Search Your Ingredient',
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Consumer<FridgeScreenProvider>(
-                  builder: (context, provider, child) {
-                    return TabBar(
-                      onTap: provider.changeTab,
-                      labelStyle: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: BColors.black,
+              Consumer<FridgeScreenProvider>(
+                builder: (context, provider, child) {
+                  return TabBar(
+                    onTap: provider.changeTab,
+                    labelStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    unselectedLabelStyle: TextStyle(
+                      fontSize: 16,
+                    ),
+                    indicatorWeight: 3.0,
+                    tabs: const [
+                      Tab(
+                        text: 'Tủ lạnh',
+                        height: 62,
                       ),
-                      unselectedLabelStyle: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[700],
+                      Tab(
+                        text: 'Thực phẩm',
+                        height: 62,
                       ),
-                      indicatorColor: Colors.black,
-                      indicatorWeight: 3.0,
-                      tabs: const [
-                        Tab(text: 'Fridge'),
-                        Tab(text: 'Detail'),
-                      ],
-                    );
-                  },
-                ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 10),
               Expanded(

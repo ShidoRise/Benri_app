@@ -30,7 +30,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: Text(
                 'Forgot Password',
                 style: TextStyle(
-                  color: Color(0xFF010F07),
                   fontSize: 33,
                   fontFamily: 'Yu Gothic UI',
                   fontWeight: FontWeight.w300,
@@ -65,8 +64,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     "EMAIL",
-                    style:
-                        TextStyle(color: BColors.textSecondary, fontSize: 16),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
                 const TextField(

@@ -19,23 +19,36 @@ class AddDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return AlertDialog(
-      title: const Text("Add new drawer"),
+      title: Text(
+        "Add new drawer",
+        style: TextStyle(
+          color: isDark ? Colors.white : Colors.black,
+        ),
+      ),
+      backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
       content: SizedBox(
         height: 120,
         child: Column(
           children: [
             Container(
               decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(12),
+                color: isDark ? const Color(0xFF2C2C2C) : Colors.grey[200],
+              ),
               child: TextField(
                 controller: controller,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                style: TextStyle(
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                   border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: isDark ? Colors.grey[400] : Colors.grey[600],
+                  ),
                 ),
               ),
             ),
@@ -48,9 +61,18 @@ class AddDrawer extends StatelessWidget {
                 TextButton(
                   onPressed: onSave,
                   style: TextButton.styleFrom(
-                      backgroundColor: BColors.accent,
-                      padding: const EdgeInsets.symmetric(horizontal: 36)),
-                  child: const Text("Add"),
+                      backgroundColor:
+                          isDark ? const Color(0xFF3A3A3A) : BColors.primary,
+                      padding: const EdgeInsets.symmetric(horizontal: 36),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      )),
+                  child: Text(
+                    "Thêm",
+                    style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   width: 10,
@@ -58,9 +80,19 @@ class AddDrawer extends StatelessWidget {
                 TextButton(
                   onPressed: onCancel,
                   style: TextButton.styleFrom(
-                      backgroundColor: BColors.accent,
-                      padding: const EdgeInsets.symmetric(horizontal: 24)),
-                  child: const Text("Cancel"),
+                    backgroundColor:
+                        isDark ? const Color(0xFF3A3A3A) : BColors.primary,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    "Huỷ bỏ",
+                    style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
+                  ),
                 ),
               ],
             )

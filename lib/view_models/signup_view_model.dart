@@ -13,7 +13,7 @@ class SignUpViewModel extends ChangeNotifier {
       TextEditingController();
 
   bool _isLoading = false;
-  String _errorMessage = 'Check your inputs';
+  String _errorMessage = 'Kiểm tra lại thông tin';
 
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
@@ -35,27 +35,53 @@ class SignUpViewModel extends ChangeNotifier {
     return password.length >= 6;
   }
 
+  String? validateInputs() {
+    if (nameController.text.trim().isEmpty) {
+      return 'Vui lòng nhập tên';
+    }
+
+    if (!_isValidEmail(emailController.text.trim())) {
+      return 'Email không hợp lệ';
+    }
+
+    if (!_isValidPassword(passwordController.text)) {
+      return 'Mật khẩu phải có ít nhất 6 ký tự';
+    }
+
+    if (passwordController.text != confirmPasswordController.text) {
+      return 'Mật khẩu xác nhận không khớp';
+    }
+
+    return null;
+  }
+
   Future<bool> signUp() async {
-    print('111');
-    if (true) {
-      try {
-        _isLoading = true;
-        notifyListeners();
-        if (await authService.preSignUp(
-          emailController.text.trim(),
-          passwordController.text.trim(),
-          nameController.text.trim(),
-        )) {
-          _isLoading = false;
-          return true;
-        } else {
-          return false;
-        }
-      } catch (e) {
-        _errorMessage = e.toString();
-        notifyListeners();
+    final validationError = validateInputs();
+    if (validationError != null) {
+      _errorMessage = validationError;
+      notifyListeners();
+      return false;
+    }
+
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      if (await authService.preSignUp(
+        emailController.text.trim(),
+        passwordController.text.trim(),
+        nameController.text.trim(),
+      )) {
+        _isLoading = false;
+        return true;
+      } else {
+        _errorMessage = 'Đăng ký thất bại';
         return false;
       }
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
     }
   }
 

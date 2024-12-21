@@ -15,11 +15,14 @@ class FridgeIngredient {
 
   @HiveField(3)
   final DateTime? expirationDate;
+  @HiveField(4)
+  final String? unit;
 
   FridgeIngredient({
     required this.name,
     required this.quantity,
-    required this.imgPath,
+    this.imgPath = "",
+    this.unit = "",
     this.expirationDate,
   });
 

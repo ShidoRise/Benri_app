@@ -23,18 +23,26 @@ class Recipes extends HiveObject {
   @HiveField(5)
   List<FridgeIngredient> ingredients;
 
-  Recipes({
-    required this.name,
-    required this.description,
-    required this.imgPath,
-    required this.rating,
-    required this.timeCooking,
-    required this.ingredients,
-  });
+  @HiveField(6)
+  String category;
+  @HiveField(7)
+  String recipeYoutubeUrl;
+  @HiveField(8)
+  bool isFavorite = false;
+
+  Recipes(
+      {required this.name,
+      required this.description,
+      required this.imgPath,
+      required this.rating,
+      required this.timeCooking,
+      required this.ingredients,
+      this.category = '',
+      this.recipeYoutubeUrl = ''});
 
   @override
   String toString() {
-    return 'Recipes{name: $name, description: $description, imgPath: $imgPath, rating: $rating, timeCooking: $timeCooking, ingredients: $ingredients}';
+    return 'Recipes{name: $name, description: $description, imgPath: $imgPath, rating: $rating, timeCooking: $timeCooking, ingredients: $ingredients} $isFavorite';
   }
 
   Map<String, dynamic> toJson() {
@@ -57,16 +65,17 @@ class Recipes extends HiveObject {
 
   factory Recipes.fromJson(Map<String, dynamic> json) {
     return Recipes(
-      name: json['name'] as String,
-      description: json['description'] as String,
-      imgPath: json['imgPath'] as String,
-      rating: json['rating'] as String,
-      timeCooking: json['timeCooking'] as String,
-      ingredients: (json['ingredients'] as List<dynamic>?)
+      name: json['recipe_name']?.toString() ?? '',
+      description: json['recipe_desciption']?.toString() ?? '',
+      imgPath: json['recipe_image']?.toString() ?? '',
+      rating: json['recipe_rating']?.toString() ?? '4.5',
+      timeCooking: json['recipe_cook_time']?.toString() ?? '',
+      category: json['recipe_category']?.toString() ?? '',
+      ingredients: (json['recipe_ingredients'] as List<dynamic>?)
               ?.map((ingredientJson) => FridgeIngredient(
-                    name: ingredientJson['name'] as String,
-                    quantity: ingredientJson['quantity'] as String,
-                    imgPath: ingredientJson['imgPath'] as String,
+                    name: ingredientJson['name']?.toString() ?? '',
+                    quantity: ingredientJson['quantity']?.toString() ?? '',
+                    unit: ingredientJson['unit']?.toString() ?? '',
                     expirationDate: ingredientJson['expirationDate'] != null
                         ? DateTime.parse(
                             ingredientJson['expirationDate'] as String)

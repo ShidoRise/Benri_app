@@ -1,5 +1,6 @@
 import 'package:benri_app/view_models/profile_viewmodel.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
+import 'package:benri_app/views/widgets/profile_info_card.dart';
 import 'package:benri_app/views/widgets/setting_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,28 +15,50 @@ class ProfileScreen extends StatelessWidget {
       create: (_) => ProfileViewModel(),
       child: Scaffold(
         appBar: BAppBar(
-          title: 'Profile Settings',
+          title: 'Cài đặt',
         ),
         body: Consumer<ProfileViewModel>(
           builder: (context, viewModel, child) {
             return ListView(
               children: [
                 const SizedBox(height: 20),
-                settingItemWidget(context, Icons.person, 'Profile Information'),
-                textTitleSettingWidget('Profile'),
-                settingItemWidget(
-                    context, Icons.notifications_none, 'Notification'),
-                settingItemWidget(context, Icons.dark_mode, 'Dark Mode'),
-                textTitleSettingWidget('Settings'),
-                settingItemWidget(context, Icons.star_border, 'Rate App'),
-                settingItemWidget(context, Icons.share, 'Share App'),
-                settingItemWidget(context, Icons.mail_outline, 'Contact'),
-                settingItemWidget(context, Icons.feedback_outlined, 'Feedback'),
-                textTitleSettingWidget('Privacy'),
-                if (!viewModel.isLoggedIn)
-                  settingItemWidget(context, Icons.login, 'Login'),
                 if (viewModel.isLoggedIn)
-                  settingItemWidget(context, Icons.logout, 'Logout'),
+                  ProfileInfoCard(
+                    title: 'Thông tin hồ sơ',
+                    name: viewModel.userInfo['name'] ?? '',
+                    email: viewModel.userInfo['email'] ?? '',
+                    children: [],
+                  ),
+                if (!viewModel.isLoggedIn)
+                  ProfileInfoCard(
+                    title: 'Thông tin hồ sơ',
+                    name: 'Khách',
+                    email: 'abcxyz@gmail.com',
+                    children: [
+                      Text('Vui lòng đăng nhập để truy cập thêm tính năng',
+                          style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold))
+                    ],
+                  ),
+                textTitleSettingWidget('Cài đặt', context),
+                settingItemWidget(
+                    context, Icons.notifications_none, 'Thông báo'),
+                settingItemWidget(context, Icons.dark_mode, 'Chế độ tối'),
+                textTitleSettingWidget('Quyền riêng tư', context),
+                settingItemWidget(
+                    context, Icons.star_border, 'Đánh giá ứng dụng'),
+                settingItemWidget(context, Icons.share, 'Chia sẻ ứng dụng'),
+                settingItemWidget(context, Icons.mail_outline, 'Liên hệ'),
+                settingItemWidget(context, Icons.feedback_outlined, 'Phản hồi'),
+                textTitleSettingWidget('Tài khoản', context),
+                if (!viewModel.isLoggedIn)
+                  settingItemWidget(context, Icons.login, 'Đăng nhập'),
+                if (viewModel.isLoggedIn) ...[
+                  settingItemWidget(context, Icons.password, 'Đổi mật khẩu'),
+                  settingItemWidget(context, Icons.logout, 'Đăng xuất'),
+                ]
               ],
             );
           },

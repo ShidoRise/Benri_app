@@ -9,6 +9,7 @@ class DetailProfileViewModel extends ChangeNotifier {
 
   Future<void> getUserInfo() async {
     userInfo = await UserLocal.getUserInfo();
+
     notifyListeners();
   }
 }

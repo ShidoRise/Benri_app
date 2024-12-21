@@ -22,13 +22,6 @@ class YourRecipeScreen extends StatelessWidget {
         appBar: BAppBar(title: "Your Recipe"),
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: MySearchBar(
-                searchController: provider.searchController,
-                hintText: 'Search your recipe here',
-              ),
-            ),
             SizedBox(
               height: 0.5,
               child: Container(
@@ -37,15 +30,13 @@ class YourRecipeScreen extends StatelessWidget {
             ),
             Expanded(
               child: FutureBuilder<List<Recipes>>(
-                future: RecipesService.getAllRecipes(),
+                future: RecipesService.getAllFavouriteRecipes(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  final recipes = snapshot.data!
-                      .where((recipe) => RecipesService.isFavorite(recipe))
-                      .toList();
+                  final recipes = snapshot.data!;
 
                   if (recipes.isEmpty) {
                     return Column(
@@ -72,7 +63,7 @@ class YourRecipeScreen extends StatelessWidget {
                           children: [
                             SlidableAction(
                               onPressed: (_) {
-                                provider.toggleFavourite(recipe);
+                                provider.deleteFromFavourite(recipe);
                               },
                               icon: Icons.favorite,
                               backgroundColor: Colors.red,
@@ -87,22 +78,17 @@ class YourRecipeScreen extends StatelessWidget {
                             ),
                           ),
                           child: ListTile(
-                            leading: Padding(
-                              padding: const EdgeInsets.only(right: 6, left: 4),
-                              child: Container(
-                                height: 100,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  image: DecorationImage(
-                                    image: recipe.imgPath.startsWith('/data/')
-                                        ? FileImage(File(recipe.imgPath))
-                                        : AssetImage(recipe.imgPath)
-                                            as ImageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
+                            leading: ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(12)),
+                              child: recipe.imgPath ==
+                                      'assets/images/ingredient/default.png'
+                                  ? Image.asset(
+                                      'assets/images/ingredient/default.png')
+                                  : Image.network(
+                                      recipe.imgPath,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                             title: Text(recipe.name),
                             subtitle: Column(
@@ -149,11 +135,11 @@ class YourRecipeScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const CreateRecipe()),
               );
             },
-            backgroundColor: BColors.white,
+            backgroundColor: BColors.primaryFirst,
             child: const Icon(
               Icons.add,
               size: 30,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
         ),

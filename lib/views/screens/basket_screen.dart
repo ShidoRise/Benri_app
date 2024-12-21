@@ -274,7 +274,7 @@ class BasketScreen extends StatelessWidget {
       height: 65,
       margin: const EdgeInsets.all(5.0),
       child: FloatingActionButton(
-        backgroundColor: BColors.white,
+        backgroundColor: BColors.primary,
         onPressed: () async {
           final basketViewModel = context.read<BasketViewModel>();
           final ingredient = await addIngredientDialog(context);
@@ -282,10 +282,10 @@ class BasketScreen extends StatelessWidget {
             basketViewModel.addIngredient(ingredient);
           }
         },
-        child: const Icon(
+        child: Icon(
           Icons.add,
           size: 30,
-          color: BColors.black,
+          color: Theme.of(context).colorScheme.secondaryFixed,
         ),
       ),
     );

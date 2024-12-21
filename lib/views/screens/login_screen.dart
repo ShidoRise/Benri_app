@@ -30,8 +30,7 @@ class LoginScreenContent extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In', style: AppTextStyle.title()),
-        backgroundColor: BColors.white,
+        title: Text('Đăng nhập'),
         centerTitle: true,
         automaticallyImplyLeading: true,
       ),
@@ -45,9 +44,8 @@ class LoginScreenContent extends StatelessWidget {
                 width: 338,
                 height: 40,
                 child: Text(
-                  'Welcome to Benri',
+                  'Chào mừng đến với Benri',
                   style: TextStyle(
-                    color: Color(0xFF010F07),
                     fontSize: 33,
                     fontFamily: 'Yu Gothic UI',
                     fontWeight: FontWeight.w300,
@@ -60,7 +58,7 @@ class LoginScreenContent extends StatelessWidget {
                 width: 274,
                 height: 50,
                 child: Text(
-                  'Enter your Phone number or Email address for sign in. Enjoy your food :)',
+                  'Nhập địa chỉ email của bạn để đăng nhập. Thưởng thức món ăn nhé :)',
                   style: TextStyle(
                     color: Color(0xFF868686),
                     fontSize: 16,
@@ -72,46 +70,43 @@ class LoginScreenContent extends StatelessWidget {
               const SizedBox(height: 25),
               _buildTextField("Email", viewModel.emailController, false),
               const SizedBox(height: 10),
-              _buildTextField("Password", viewModel.passwordController, true),
+              _buildTextField("Mật khẩu", viewModel.passwordController, true),
               const SizedBox(height: 20),
               Center(
                   child: GestureDetector(
                       onTap: () {
                         viewModel.routeToForgotPassword(context);
                       },
-                      child: const Text("Forget Password?",
+                      child: const Text("Quên mật khẩu?",
                           style: TextStyle(fontSize: 16)))),
               const SizedBox(height: 20),
               _buildSignInButton(context, viewModel),
               const SizedBox(height: 20),
               _buildCreateAccountRow(context, viewModel),
               const SizedBox(height: 10),
-              const Center(child: Text("Or")),
+              const Center(child: Text("Hoặc")),
               const SizedBox(height: 10),
               _buildSocialButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Check your network connection')),
+                    const SnackBar(content: Text('Kiểm tra kết nối mạng')),
                   );
                 },
                 color: const Color(0xFF395998),
-                text: 'CONNECT WITH FACEBOOK',
+                text: 'KẾT NỐI VỚI FACEBOOK',
                 icon: 'assets/icons/facebook.svg',
               ),
               const SizedBox(height: 10),
               _buildSocialButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Check your network connection')),
+                    const SnackBar(content: Text('Kiểm tra kết nối mạng')),
                   );
                 },
                 color: const Color(0xFF4285F4),
-                text: 'CONNECT WITH GOOGLE',
+                text: 'KẾT NỐI VỚI GOOGLE',
                 icon: 'assets/icons/google.svg',
                 textColor: Colors.white,
-                borderColor: Colors.grey.shade300,
               ),
             ],
           ),
@@ -129,7 +124,7 @@ class LoginScreenContent extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             label,
-            style: const TextStyle(color: BColors.textPrimary, fontSize: 18),
+            style: const TextStyle(fontSize: 18),
           ),
         ),
         TextField(
@@ -137,7 +132,7 @@ class LoginScreenContent extends StatelessWidget {
           obscureText: isPassword,
           cursorColor: BColors.primary,
           decoration: InputDecoration(
-            hintText: isPassword ? 'Abc123' : 'Xample@gmail.com',
+            hintText: isPassword ? 'Abc123' : 'abcxyz@gmail.com',
             hintStyle:
                 const TextStyle(color: BColors.textSecondary, fontSize: 16),
             focusedBorder: const UnderlineInputBorder(
@@ -172,7 +167,13 @@ class LoginScreenContent extends StatelessWidget {
                 if (!viewModel.isLoading) {
                   viewModel.setLoading(true);
                   try {
-                    if (await viewModel.login()) {
+                    if (viewModel.emailController.text.isEmpty ||
+                        viewModel.passwordController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Kiểm tra thông tin đăng nhập')),
+                      );
+                    } else if (await viewModel.login()) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -180,8 +181,7 @@ class LoginScreenContent extends StatelessWidget {
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Check your network connection')),
+                        const SnackBar(content: Text('Kiểm tra kết nối mạng')),
                       );
                     }
                   } finally {
@@ -198,7 +198,7 @@ class LoginScreenContent extends StatelessWidget {
                   strokeWidth: 2,
                 ),
               )
-            : const Text('SIGN IN'),
+            : const Text('Đăng nhập'),
       ),
     );
   }
@@ -208,13 +208,13 @@ class LoginScreenContent extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have an account", style: TextStyle(fontSize: 16)),
+        const Text("Chưa có tài khoản", style: TextStyle(fontSize: 16)),
         const SizedBox(width: 10),
         GestureDetector(
           onTap: () {
             viewModel.routeToSignUp(context);
           },
-          child: const Text('Create new account',
+          child: const Text('Tạo tài khoản mới',
               style: TextStyle(color: BColors.primary, fontSize: 16)),
         ),
       ],

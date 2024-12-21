@@ -106,7 +106,11 @@ class CreateRecipe extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: BColors.accent),
+                              backgroundColor: BColors.primaryFirst,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
                             onPressed: () async {
                               final newIngredient =
                                   await addIngredientRecipeDialog(context);
@@ -115,7 +119,9 @@ class CreateRecipe extends StatelessWidget {
                                     .addIngredient(newIngredient);
                               }
                             },
-                            child: Text('Thêm nguyên liệu'),
+                            child: Text('Thêm nguyên liệu',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14)),
                           ),
                         ],
                       ),
@@ -176,16 +182,27 @@ class CreateRecipe extends StatelessWidget {
                                     padding: const EdgeInsets.only(left: 4),
                                     child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: BColors.accent,
+                                          backgroundColor: BColors.primaryFirst,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
                                         ),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child: Text('Cancel')),
+                                        child: Text('Cancel',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14))),
                                   ),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: BColors.accent,
+                                      // foregroundColor: Colors.white,
+                                      backgroundColor: BColors.primaryFirst,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
                                     ),
                                     onPressed: () {
                                       if (recipeCreationProvider.nameController.text.isNotEmpty &&
@@ -220,7 +237,9 @@ class CreateRecipe extends StatelessWidget {
                                         );
                                       }
                                     },
-                                    child: const Text('Add New Recipe'),
+                                    child: const Text('Add New Recipe',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 14)),
                                   ),
                                 ],
                               ),

@@ -25,8 +25,9 @@ class SignUpView extends StatelessWidget {
     final viewModel = Provider.of<SignUpViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up', style: AppTextStyle.title()),
-        backgroundColor: BColors.white,
+        title: Text(
+          'Tạo tài khoản',
+        ),
         centerTitle: true,
         automaticallyImplyLeading: true,
       ),
@@ -41,9 +42,8 @@ class SignUpView extends StatelessWidget {
                 width: 338,
                 height: 40,
                 child: Text(
-                  'Create Account',
+                  'Tạo tài khoản',
                   style: TextStyle(
-                    color: Color(0xFF010F07),
                     fontSize: 33,
                     fontFamily: 'Yu Gothic UI',
                     fontWeight: FontWeight.w300,
@@ -58,7 +58,7 @@ class SignUpView extends StatelessWidget {
                 width: 274,
                 height: 50,
                 child: Text(
-                  'Enter your Name, Email and Password for sign up.',
+                  'Nhập Tên, Email và Mật khẩu của bạn để đăng ký.',
                   style: TextStyle(
                     color: Color(0xFF868686),
                     fontSize: 16,
@@ -70,13 +70,13 @@ class SignUpView extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              _buildInputField('FULL NAME', 'Nguyen Van An',
+              _buildInputField('TÊN ĐĂNG NHẬP', 'Nguyen Van An',
                   viewModel.nameController, false),
               _buildInputField('EMAIL', 'xample@gmail.com',
                   viewModel.emailController, false),
               _buildInputField(
-                  'PASSWORD', 'Abc123', viewModel.passwordController, true),
-              _buildInputField('CONFIRM PASSWORD', 'Abc123',
+                  'MẬT KHẨU', 'Abc123', viewModel.passwordController, true),
+              _buildInputField('XÁC NHẬN MẬT KHẨU', 'Abc123',
                   viewModel.confirmPasswordController, true),
               const SizedBox(
                 height: 20,
@@ -90,7 +90,7 @@ class SignUpView extends StatelessWidget {
                       Navigator.pushNamed(context, '/login');
                     },
                     child: const Text(
-                      "Have an account?",
+                      "Đã có tài khoản?",
                       style: TextStyle(color: BColors.primary),
                     ),
                   )
@@ -133,7 +133,7 @@ class SignUpView extends StatelessWidget {
                         );
                       }
                     },
-                    child: const Text('SIGN UP'),
+                    child: const Text('ĐĂNG KÝ'),
                   ),
                 ),
             ],
@@ -153,7 +153,7 @@ class SignUpView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             label,
-            style: const TextStyle(color: BColors.textSecondary, fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         ),
         TextField(
@@ -163,7 +163,8 @@ class SignUpView extends StatelessWidget {
           obscureText: isPassword,
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: const TextStyle(color: BColors.textSecondary, fontSize: 16),
+            hintStyle:
+                const TextStyle(color: BColors.textSecondary, fontSize: 16),
             // hintStyle: TextStyle(color: BColors.textSecondary, fontSize: 16),
             focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: BColors.primary, width: 2),
