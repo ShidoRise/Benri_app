@@ -16,7 +16,7 @@ class ElevatedButtonStyle {
   static ButtonStyle primaryFirst({bool isLoading = false}) {
     return ElevatedButton.styleFrom(
       backgroundColor: isLoading ? Colors.grey : BColors.primaryFirst,
-      foregroundColor: Colors.white,
+      foregroundColor: const Color.fromARGB(255, 80, 73, 73),
       textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       elevation: 0,
       shadowColor: Colors.transparent,

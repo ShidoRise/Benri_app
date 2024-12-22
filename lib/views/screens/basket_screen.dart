@@ -1,3 +1,4 @@
+import 'package:benri_app/services/family_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/screens/calendar_screen.dart';
@@ -5,6 +6,7 @@ import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
 import 'package:benri_app/views/widgets/family_basket_view.dart';
 import 'package:benri_app/views/widgets/personal_basket_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
@@ -29,7 +31,9 @@ class BasketScreen extends StatelessWidget {
                     Expanded(
                         child:
                             BasketModeToggle(basketViewModel: basketViewModel)),
-                    _calendarIcon(context),
+                    basketViewModel.selectedMode == 'Cá nhân'
+                        ? _calendarIcon(context)
+                        : _shareButton(context, basketViewModel),
                   ],
                 ),
                 Expanded(
@@ -75,6 +79,83 @@ class BasketScreen extends StatelessWidget {
         ),
         child: const Icon(Iconsax.calendar_1),
       ),
+    );
+  }
+
+  Widget _shareButton(BuildContext context, BasketViewModel viewModel) {
+    return IconButton(
+      icon: const Icon(Icons.share),
+      onPressed: () {
+        showModalBottomSheet(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          context: context,
+          builder: (context) => Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      'Family Code',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        viewModel.familyCode ?? 'No code available',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.copy),
+                        onPressed: () async {
+                          if (viewModel.familyCode != null) {
+                            await Clipboard.setData(
+                              ClipboardData(text: viewModel.familyCode!),
+                            );
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Code copied to clipboard'),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

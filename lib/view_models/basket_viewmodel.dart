@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/services/baskets_service.dart';
+import 'package:benri_app/services/family_service.dart';
 import 'package:benri_app/utils/constants/ingredient_suggestions_db.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
@@ -21,8 +25,12 @@ class BasketViewModel extends ChangeNotifier {
   String _selectedMode = 'Cá nhân';
   String get selectedMode => _selectedMode;
 
-  bool get hasFamily => _hasFamily;
   bool _hasFamily = false;
+  bool get hasFamily => _hasFamily;
+  bool _isInitialized = false;
+
+  String? _familyCode;
+  String? get familyCode => _familyCode;
 
   String get focusDateFormatted => _dateFormat.format(_focusDate);
   DateTime get focusDate => _focusDate;
@@ -33,7 +41,16 @@ class BasketViewModel extends ChangeNotifier {
   String? _selectedCategory;
   String? get selectedCategory => _selectedCategory;
 
+  bool _hasInternet = false;
+  bool get hasInternet => _hasInternet;
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   BasketViewModel() {
+    initConnectivity();
+    _setupConnectivityStream();
     _initializeData();
   }
 
@@ -49,7 +66,6 @@ class BasketViewModel extends ChangeNotifier {
 
   void _initializeData() {
     BasketService.initializeLocalData();
-    // Initialize ingredient suggestions
     if (_ingredientSuggestionsBox.get('isFirstTime') == null) {
       ingredientsDB.createInitialData();
       _ingredientSuggestionsBox.put('isFirstTime', false);
@@ -143,15 +159,69 @@ class BasketViewModel extends ChangeNotifier {
 
   void changeMode(String mode) {
     _selectedMode = mode;
-    if (mode == 'Gia đình') {
-      _hasFamily = true;
+    notifyListeners();
+  }
+
+  Future<void> initConnectivity() async {
+    try {
+      final result = await Connectivity().checkConnectivity();
+      _updateConnectionStatus(result != ConnectivityResult.none);
+    } catch (e) {
+      _updateConnectionStatus(false);
     }
+  }
+
+  void _setupConnectivityStream() {
+    _connectivitySubscription =
+        Connectivity().onConnectivityChanged.listen((result) {
+      _updateConnectionStatus(result != ConnectivityResult.none);
+    });
+  }
+
+  void _updateConnectionStatus(bool isConnected) {
+    _hasInternet = isConnected;
+    notifyListeners();
+  }
+
+  Future<void> createFamily(String famName) async {
+    _isLoading = true;
+    await FamilyService.createFamily(famName);
+    _hasFamily = true;
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> initializeFamilyStatus() async {
+    if (_isInitialized) return;
+
+    try {
+      final familyId = await FamilyService.storage.read(key: 'familyId');
+      _hasFamily = familyId != null && familyId.isNotEmpty;
+      _isInitialized = true;
+      notifyListeners();
+    } catch (e) {
+      print('Error initializing family status: $e');
+      _hasFamily = false;
+      _isInitialized = true;
+      notifyListeners();
+    }
+  }
+
+  void checkFamilyStatus() {
+    if (!_isInitialized) {
+      initializeFamilyStatus();
+    }
+  }
+
+  Future<void> loadFamilyCode() async {
+    _familyCode = await FamilyService.getFamilyCode();
     notifyListeners();
   }
 
   @override
   void dispose() {
     totalMoneyController.dispose();
+    _connectivitySubscription.cancel();
     super.dispose();
   }
 }

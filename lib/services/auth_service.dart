@@ -30,6 +30,11 @@ class AuthService {
         final userId = user['_id'];
         final name = user['user_name'];
 
+        if (user['user_family_group'] != null) {
+          final family = user['user_family_group'];
+          await storage.write(key: 'familyId', value: family);
+        }
+
         await _saveUserData(
             userId, tokens['refreshToken'], tokens['accessToken'], email, name);
         return true;
