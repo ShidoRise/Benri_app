@@ -19,16 +19,20 @@ class BasketIngredient {
   @HiveField(4)
   String imageUrl;
 
+  @HiveField(5)
+  String category;
+
   BasketIngredient({
     required this.name,
     this.isSelected = false,
     this.quantity = '',
     this.unit = '',
     this.imageUrl = '',
+    this.category = 'Other',
   });
 
   @override
   String toString() {
-    return 'Ingredient{name: $name, isSelected: $isSelected, quantity: $quantity, unit: $unit, imageUrl: $imageUrl}';
+    return 'Ingredient{name: $name, isSelected: $isSelected, quantity: $quantity, unit: $unit, imageUrl: $imageUrl, category: $category}';
   }
 }

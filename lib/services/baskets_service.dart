@@ -54,7 +54,7 @@ class BasketService {
     // toggle in local
     if (index >= 0 && index < baskets[date]!.basketIngredients.length) {
       baskets[date]!.basketIngredients[index].isSelected =
-          baskets[date]!.basketIngredients[index].isSelected;
+          !baskets[date]!.basketIngredients[index].isSelected;
       await _updateLocalDatabase();
     }
   }
@@ -81,6 +81,13 @@ class BasketService {
         baskets[date]!.basketIngredients[index] = updatedIngredient;
         await _updateLocalDatabase();
       }
+    }
+  }
+
+  static Future<void> updateTotalMoney(String date, String totalMoney) async {
+    if (baskets.containsKey(date)) {
+      baskets[date]!.totalMoney = totalMoney;
+      await _updateLocalDatabase();
     }
   }
 }

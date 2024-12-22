@@ -22,13 +22,14 @@ class BasketIngredientAdapter extends TypeAdapter<BasketIngredient> {
       quantity: fields[2] as String,
       unit: fields[3] as String,
       imageUrl: fields[4] as String,
+      category: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, BasketIngredient obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class BasketIngredientAdapter extends TypeAdapter<BasketIngredient> {
       ..writeByte(3)
       ..write(obj.unit)
       ..writeByte(4)
-      ..write(obj.imageUrl);
+      ..write(obj.imageUrl)
+      ..writeByte(5)
+      ..write(obj.category);
   }
 
   @override
