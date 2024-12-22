@@ -59,7 +59,7 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Add Ingredient",
+                  "Thêm nguyên liệu",
                   style: TextStyle(fontSize: 20),
                 ),
                 const SizedBox(
@@ -89,7 +89,7 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
                       focusNode: fieldFocusNode,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
-                        labelText: 'Ingredient Name',
+                        labelText: 'Tên nguyên liệu',
                         labelStyle: TextStyle(
                             color: ingredientError ? Colors.red : Colors.black),
                         border: OutlineInputBorder(
@@ -123,8 +123,9 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
                       flex: 4,
                       child: TextField(
                         controller: quantityController,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: 'Enter Quantity',
+                          labelText: 'Số lượng',
                           labelStyle: TextStyle(
                             color: quantityError
                                 ? Colors.red
@@ -156,7 +157,7 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
                         controller: unitController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          labelText: 'Units',
+                          labelText: 'Đơn vị',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -171,61 +172,56 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onPressed: () {
-                          setUnits('kg', setState);
-                        },
-                        child: const Text('kg')),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onPressed: () {
-                          setUnits('g', setState);
-                        },
-                        child: const Text('g')),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onPressed: () {
-                          setUnits('Box', setState);
-                        },
-                        child: const Text('Box')),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onPressed: () {
-                          setUnits('Lit', setState);
-                        },
-                        child: const Text('Lit')),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onPressed: () {
-                          setUnits('Bunch', setState);
-                        },
-                        child: const Text('Bunch')),
+                    ChoiceChip(
+                      label: const Text('gam'),
+                      backgroundColor:
+                          Theme.of(context).colorScheme.secondaryContainer,
+                      selected: selectedUnit == 'gam',
+                      onSelected: (bool selected) {
+                        setUnits('gam', setState);
+                      },
+                      selectedColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    ChoiceChip(
+                      label: const Text('kg'),
+                      backgroundColor:
+                          Theme.of(context).colorScheme.secondaryContainer,
+                      selected: selectedUnit == 'kg',
+                      onSelected: (bool selected) {
+                        setUnits('kg', setState);
+                      },
+                      selectedColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    ChoiceChip(
+                      label: const Text('hộp'),
+                      backgroundColor:
+                          Theme.of(context).colorScheme.secondaryContainer,
+                      selected: selectedUnit == 'hộp',
+                      onSelected: (bool selected) {
+                        setUnits('hộp', setState);
+                      },
+                      selectedColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    ChoiceChip(
+                      label: const Text('quả'),
+                      backgroundColor:
+                          Theme.of(context).colorScheme.secondaryContainer,
+                      selected: selectedUnit == 'quả',
+                      onSelected: (bool selected) {
+                        setUnits('quả', setState);
+                      },
+                      selectedColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    ChoiceChip(
+                      label: const Text('lít'),
+                      backgroundColor:
+                          Theme.of(context).colorScheme.secondaryContainer,
+                      selected: selectedUnit == 'lít',
+                      onSelected: (bool selected) {
+                        setUnits('lít', setState);
+                      },
+                      selectedColor: Theme.of(context).colorScheme.primary,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -240,49 +236,58 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: BColors.accent),
-                        child: Text("Cancel"),
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: BColors.primaryFirst),
+                          child: Text("Huỷ bỏ"),
+                        ),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: BColors.accent),
-                        onPressed: () {
-                          setState(() {
-                            ingredientError = ingredientController.text.isEmpty;
+                      SizedBox(
+                        width: 160,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: BColors.primaryFirst),
+                          onPressed: () {
+                            setState(() {
+                              ingredientError =
+                                  ingredientController.text.isEmpty;
 
-                            quantityError = quantityController.text.isEmpty;
-                          });
+                              quantityError = quantityController.text.isEmpty;
+                            });
 
-                          // Only proceed if all fields are valid (no errors)
-                          if (!ingredientError &&
-                              !quantityError &&
-                              !expirationDateError) {
-                            final ingredientToSave = ingredientController.text;
+                            // Only proceed if all fields are valid (no errors)
+                            if (!ingredientError &&
+                                !quantityError &&
+                                !expirationDateError) {
+                              final ingredientToSave =
+                                  ingredientController.text;
 
-                            final unitToSave = unitController.text.isNotEmpty
-                                ? unitController.text
-                                : selectedUnit ?? "";
-                            final imageUrl = ingredientProvider
-                                .getImageUrlFromLocalStorage(ingredientToSave);
+                              final unitToSave = unitController.text.isNotEmpty
+                                  ? unitController.text
+                                  : selectedUnit ?? "";
+                              final imageUrl = ingredientProvider
+                                  .getImageUrlFromLocalStorage(
+                                      ingredientToSave);
 
-                            final newIngredient = FridgeIngredient(
-                              name: ingredientToSave,
-                              quantity:
-                                  '${quantityController.text} $unitToSave',
-                              imgPath: imageUrl,
-                              expirationDate: null,
-                            );
+                              final newIngredient = FridgeIngredient(
+                                name: ingredientToSave,
+                                quantity:
+                                    '${quantityController.text} $unitToSave',
+                                imgPath: imageUrl,
+                                expirationDate: null,
+                              );
 
-                            // Return the new ingredient to the previous screen
-                            Navigator.of(context).pop(newIngredient);
-                          }
-                        },
-                        child: Text('Thêm nguyên liệu'),
+                              // Return the new ingredient to the previous screen
+                              Navigator.of(context).pop(newIngredient);
+                            }
+                          },
+                          child: Text('Thêm nguyên liệu'),
+                        ),
                       ),
                     ],
                   ),

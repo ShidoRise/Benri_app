@@ -28,18 +28,14 @@ class RecipesService {
           'x-api-key': Constants.apiKey,
           'content-type': 'application/json'
         },
-      );
+      ).timeout(Duration(seconds: 4));
       if (response.statusCode == 200) {
-        print('111');
-
         final List<dynamic> responseData =
             jsonDecode(response.body)['metadata'];
         List<String> categories = [];
-        print('111a');
         for (var category in responseData) {
           categories.add(category);
         }
-        print('===categories :: $categories');
         return categories;
       } else {
         return [];
@@ -58,7 +54,7 @@ class RecipesService {
           'x-api-key': Constants.apiKey,
           'content-type': 'application/json'
         },
-      );
+      ).timeout(Duration(seconds: 4));
       if (response.statusCode == 200) {
         final List<dynamic> responseData =
             jsonDecode(response.body)['metadata'];

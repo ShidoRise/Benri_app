@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:benri_app/services/recipes_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
+import 'package:benri_app/views/screens/ai_recommend_recipe_screen.dart';
 import 'package:benri_app/views/screens/all_recipe_screen.dart';
 import 'package:benri_app/views/screens/your_recipe_screen.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
@@ -32,39 +33,46 @@ class RecipesScreen extends StatelessWidget {
             children: [
               SizedBox(height: 24),
               // Explore Section
-              Container(
-                padding: EdgeInsets.only(bottom: 12, left: 20),
-                margin: EdgeInsets.symmetric(horizontal: 12),
-                height: 180,
-                decoration: BoxDecoration(
-                  color: BColors.accent,
-                  borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
-                    image:
-                        AssetImage('assets/images/deco/background_explore.png'),
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AIRecommendRecipeScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.only(bottom: 12, left: 20),
+                  margin: EdgeInsets.symmetric(horizontal: 12),
+                  height: 180,
+                  decoration: BoxDecoration(
+                    color: BColors.accent,
+                    borderRadius: BorderRadius.circular(12),
+                    image: DecorationImage(
+                      image: AssetImage(
+                          'assets/images/deco/background_explore.png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 30),
-                        Text(
-                          "Khám Phá Công Thức Nấu Ăn",
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.grey[800],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 30),
+                          Text(
+                            "Khám Phá Công Thức Nấu Ăn",
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.grey[800],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 12),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
+                          SizedBox(height: 12),
+                          Container(
                             decoration: BoxDecoration(
                               color: BColors.white,
                               borderRadius: BorderRadius.circular(12),
@@ -81,10 +89,10 @@ class RecipesScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
 

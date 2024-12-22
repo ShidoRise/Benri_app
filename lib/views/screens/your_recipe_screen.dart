@@ -132,7 +132,7 @@ class YourRecipeScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CreateRecipe()),
+                MaterialPageRoute(builder: (context) => CreateRecipe()),
               );
             },
             backgroundColor: BColors.primaryFirst,

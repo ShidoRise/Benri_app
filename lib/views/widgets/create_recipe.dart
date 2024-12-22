@@ -22,7 +22,7 @@ class CreateRecipe extends StatelessWidget {
               return true; // Allow the pop action (exit the screen)
             },
             child: Scaffold(
-              appBar: BAppBar(title: 'Create Recipe'),
+              appBar: BAppBar(title: 'Tạo công thức món ăn'),
               body: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
@@ -32,7 +32,7 @@ class CreateRecipe extends StatelessWidget {
                       TextField(
                         controller: recipeCreationProvider.nameController,
                         decoration: InputDecoration(
-                          label: const Text('Your recipe name'),
+                          label: const Text('Tên công thức'),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(color: Colors.grey),
@@ -42,8 +42,9 @@ class CreateRecipe extends StatelessWidget {
                       const SizedBox(height: 16),
                       TextField(
                         controller: recipeCreationProvider.ratingController,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          label: const Text('Your rating'),
+                          label: const Text('Đánh giá'),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(color: Colors.grey),
@@ -52,10 +53,11 @@ class CreateRecipe extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       TextField(
+                        keyboardType: TextInputType.number,
                         controller:
                             recipeCreationProvider.timeCookingController,
                         decoration: InputDecoration(
-                          label: const Text('Time Cooking'),
+                          label: const Text('Thời gian nấu'),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(color: Colors.grey),
@@ -68,7 +70,7 @@ class CreateRecipe extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Ingredients',
+                            'Nguyên liệu',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -104,24 +106,27 @@ class CreateRecipe extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: BColors.primaryFirst,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                          SizedBox(
+                            width: 200,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: BColors.primaryFirst,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
+                              onPressed: () async {
+                                final newIngredient =
+                                    await addIngredientRecipeDialog(context);
+                                if (newIngredient != null) {
+                                  recipeCreationProvider
+                                      .addIngredient(newIngredient);
+                                }
+                              },
+                              child: Text('Thêm nguyên liệu',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14)),
                             ),
-                            onPressed: () async {
-                              final newIngredient =
-                                  await addIngredientRecipeDialog(context);
-                              if (newIngredient != null) {
-                                recipeCreationProvider
-                                    .addIngredient(newIngredient);
-                              }
-                            },
-                            child: Text('Thêm nguyên liệu',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14)),
                           ),
                         ],
                       ),
@@ -130,7 +135,7 @@ class CreateRecipe extends StatelessWidget {
                         controller:
                             recipeCreationProvider.descriptionController,
                         decoration: InputDecoration(
-                          label: const Text('Description'),
+                          label: const Text('Mô tả'),
                           alignLabelWithHint: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -149,7 +154,7 @@ class CreateRecipe extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(horizontal: 8),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text('Choose a photo'),
+                                  child: Text('Chọn hình ảnh'),
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -180,66 +185,79 @@ class CreateRecipe extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(left: 4),
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: BColors.primaryFirst,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                    child: SizedBox(
+                                      width: 120,
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                BColors.primaryFirst,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
                                           ),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('Cancel',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14))),
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      // foregroundColor: Colors.white,
-                                      backgroundColor: BColors.primaryFirst,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('Huỷ bỏ',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14))),
                                     ),
-                                    onPressed: () {
-                                      if (recipeCreationProvider.nameController.text.isNotEmpty &&
-                                          recipeCreationProvider
-                                              .timeCookingController
-                                              .text
-                                              .isNotEmpty &&
-                                          recipeCreationProvider
-                                              .ratingController
-                                              .text
-                                              .isNotEmpty) {
-                                        recipeProvider.addNewRecipe(
-                                          recipeCreationProvider
-                                              .nameController.text,
-                                          recipeCreationProvider
-                                              .descriptionController.text,
-                                          // ignore: prefer_interpolation_to_compose_strings
-                                          recipeCreationProvider
-                                                  .timeCookingController.text +
-                                              ' mins',
-                                          recipeCreationProvider
-                                              .ratingController.text,
-                                          recipeCreationProvider.ingredients,
-                                        );
-                                        Navigator.of(context).pop();
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text(
-                                                  'Please fill all the text fields')),
-                                        );
-                                      }
-                                    },
-                                    child: const Text('Add New Recipe',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 14)),
+                                  ),
+                                  SizedBox(
+                                    width: 160,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        // foregroundColor: Colors.white,
+                                        backgroundColor: BColors.primaryFirst,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        if (recipeCreationProvider
+                                                .nameController
+                                                .text
+                                                .isNotEmpty &&
+                                            recipeCreationProvider
+                                                .timeCookingController
+                                                .text
+                                                .isNotEmpty &&
+                                            recipeCreationProvider
+                                                .ratingController
+                                                .text
+                                                .isNotEmpty) {
+                                          recipeProvider.addNewRecipe(
+                                            recipeCreationProvider
+                                                .nameController.text,
+                                            recipeCreationProvider
+                                                .descriptionController.text,
+                                            // ignore: prefer_interpolation_to_compose_strings
+                                            recipeCreationProvider
+                                                    .timeCookingController
+                                                    .text +
+                                                ' mins',
+                                            recipeCreationProvider
+                                                .ratingController.text,
+                                            recipeCreationProvider.ingredients,
+                                          );
+                                          Navigator.of(context).pop();
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                                content: Text(
+                                                    'Vui lòng điền vào tất cả các trường văn bản.')),
+                                          );
+                                        }
+                                      },
+                                      child: const Text('Thêm công thức mới',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14)),
+                                    ),
                                   ),
                                 ],
                               ),
