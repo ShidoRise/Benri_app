@@ -16,7 +16,7 @@ class DetailFridgeScreen extends StatelessWidget {
           final ingredientsWithDrawers = provider.getAllIngredientsWithDrawer();
 
           return ingredientsWithDrawers.isEmpty
-              ? const Center(child: Text('No ingredients in the fridge yet.'))
+              ? const Center(child: Text('Không có thực phẩm trong tủ lạnh'))
               : ListView.builder(
                   itemCount: ingredientsWithDrawers.length,
                   itemBuilder: (context, index) {

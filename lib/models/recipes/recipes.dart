@@ -29,6 +29,12 @@ class Recipes extends HiveObject {
   String recipeYoutubeUrl;
   @HiveField(8)
   bool isFavorite = false;
+  @HiveField(9)
+  bool sync = false;
+  @HiveField(10)
+  String type = 'create';
+  @HiveField(11)
+  String id = 'empty';
 
   Recipes(
       {required this.name,

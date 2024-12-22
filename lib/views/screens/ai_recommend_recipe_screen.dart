@@ -31,7 +31,6 @@ class _AIRecommendRecipeScreenState extends State<AIRecommendRecipeScreen> {
     }
   }
 
-  // Lưu lịch sử chat vào SharedPreferences
   Future<void> _saveMessages() async {
     final prefs = await SharedPreferences.getInstance();
     final String encodedMessages = jsonEncode(_messages);
@@ -75,13 +74,11 @@ class _AIRecommendRecipeScreenState extends State<AIRecommendRecipeScreen> {
         final temp = data['choices'][0]['message']['content'];
         final aiMessage = utf8.decode(latin1.encode(temp));
 
-        // Thêm phản hồi từ AI vào lịch sử chat
         setState(() {
           _messages.add(
               {'role': 'ai', 'content': aiMessage ?? 'Không có phản hồi.'});
         });
 
-        // Lưu lại lịch sử chat
         _saveMessages();
       } else {
         setState(() {
@@ -103,7 +100,7 @@ class _AIRecommendRecipeScreenState extends State<AIRecommendRecipeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadMessages(); // Tải lịch sử chat khi ứng dụng bắt đầu
+    _loadMessages();
   }
 
   @override
@@ -127,14 +124,14 @@ class _AIRecommendRecipeScreenState extends State<AIRecommendRecipeScreen> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: message['role'] == 'user'
-                            ? BColors.primary
-                            : Colors.grey,
+                            ? Colors.blueAccent
+                            : Colors.green,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       padding: const EdgeInsets.all(12),
                       child: Text(
                         message['content'] ?? '',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
                   ),

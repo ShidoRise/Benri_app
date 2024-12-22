@@ -22,7 +22,7 @@ class AllRecipeScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 20,
           ),
           // Search Bar
           Padding(

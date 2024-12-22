@@ -202,11 +202,11 @@ class CreateRecipe extends StatelessWidget {
                                           child: Text('Huỷ bỏ',
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 14))),
+                                                  fontSize: 16))),
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 160,
+                                    width: 120,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         // foregroundColor: Colors.white,
@@ -253,10 +253,10 @@ class CreateRecipe extends StatelessWidget {
                                           );
                                         }
                                       },
-                                      child: const Text('Thêm công thức mới',
+                                      child: const Text('Thêm',
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 14)),
+                                              fontSize: 16)),
                                     ),
                                   ),
                                 ],

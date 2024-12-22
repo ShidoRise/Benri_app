@@ -72,7 +72,7 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Add Ingredient",
+                  "Thêm nguyên liệu",
                   style: TextStyle(fontSize: 20),
                 ),
                 const SizedBox(
@@ -102,7 +102,7 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                       focusNode: fieldFocusNode,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
-                        labelText: 'Ingredient Name',
+                        labelText: 'Tên nguyên liệu',
                         labelStyle: TextStyle(
                             color: ingredientError ? Colors.red : Colors.black),
                         border: OutlineInputBorder(
@@ -137,7 +137,7 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                       child: TextField(
                         controller: quantityController,
                         decoration: InputDecoration(
-                          labelText: 'Enter Quantity',
+                          labelText: 'Số lượng',
                           labelStyle: TextStyle(
                             color: quantityError
                                 ? Colors.red
@@ -169,7 +169,7 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                         controller: unitController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          labelText: 'Units',
+                          labelText: 'Đơn vị',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -186,59 +186,74 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                   children: [
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
+                          backgroundColor: BColors.primaryFirst,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         onPressed: () {
                           setUnits('kg', setState);
                         },
-                        child: const Text('kg')),
+                        child: const Text(
+                          'kg',
+                          style: TextStyle(color: Colors.white),
+                        )),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
+                          backgroundColor: BColors.primaryFirst,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         onPressed: () {
-                          setUnits('g', setState);
+                          setUnits('gam', setState);
                         },
-                        child: const Text('g')),
+                        child: const Text(
+                          'gam',
+                          style: TextStyle(color: Colors.white),
+                        )),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
+                          backgroundColor: BColors.primaryFirst,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         onPressed: () {
-                          setUnits('Box', setState);
+                          setUnits('hộp', setState);
                         },
-                        child: const Text('Box')),
+                        child: const Text(
+                          'hộp',
+                          style: TextStyle(color: Colors.white),
+                        )),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
+                          backgroundColor: BColors.primaryFirst,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         onPressed: () {
-                          setUnits('Lit', setState);
+                          setUnits('lít', setState);
                         },
-                        child: const Text('Lit')),
+                        child: const Text(
+                          'lít',
+                          style: TextStyle(color: Colors.white),
+                        )),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: BColors.accent,
+                          backgroundColor: BColors.primaryFirst,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         onPressed: () {
-                          setUnits('Bunch', setState);
+                          setUnits('quả', setState);
                         },
-                        child: const Text('Bunch')),
+                        child: const Text(
+                          'quả',
+                          style: TextStyle(color: Colors.white),
+                        )),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -254,7 +269,7 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                     return TextField(
                       controller: expirationDateController,
                       decoration: InputDecoration(
-                        labelText: 'Enter Expiration Date',
+                        labelText: 'Chọn ngày hết hạn',
                         labelStyle: TextStyle(
                           color: expirationDateError
                               ? Colors.red
@@ -289,7 +304,7 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: BColors.accent,
+                        backgroundColor: BColors.primaryFirst,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -297,11 +312,14 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                             vertical: 12.0, horizontal: 36.0),
                       ),
                       onPressed: () => ingredientProvider.setExpirationDays(3),
-                      child: const Text('3 days'),
+                      child: const Text(
+                        '3 days',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: BColors.accent,
+                        backgroundColor: BColors.primaryFirst,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -309,11 +327,14 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                             vertical: 12.0, horizontal: 36.0),
                       ),
                       onPressed: () => ingredientProvider.setExpirationDays(7),
-                      child: const Text('7 days'),
+                      child: const Text(
+                        '7 days',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: BColors.accent,
+                        backgroundColor: BColors.primaryFirst,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -321,7 +342,10 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                             vertical: 12.0, horizontal: 36.0),
                       ),
                       onPressed: () => ingredientProvider.setExpirationDays(15),
-                      child: const Text('15 days'),
+                      child: const Text(
+                        '15 days',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
@@ -337,12 +361,15 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                           Navigator.of(context).pop();
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: BColors.accent),
-                        child: const Text("Cancel"),
+                            backgroundColor: BColors.primaryFirst),
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: BColors.accent),
+                            backgroundColor: BColors.primaryFirst),
                         onPressed: () {
                           setState(() {
                             ingredientError = ingredientController.text.isEmpty;
@@ -378,9 +405,12 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(BuildContext context,
                             Navigator.of(context).pop(newIngredient);
                           }
                         },
-                        child: Text(fridgeIngredient != null
-                            ? 'Update Ingredient'
-                            : 'Add Ingredient'),
+                        child: Text(
+                          fridgeIngredient != null
+                              ? 'Cập nhật nguyên liệu'
+                              : 'Thêm nguyên liệu',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),

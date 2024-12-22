@@ -83,12 +83,16 @@ class YourRecipeScreen extends StatelessWidget {
                                   top: Radius.circular(12)),
                               child: recipe.imgPath ==
                                       'assets/images/ingredient/default.png'
-                                  ? Image.asset(
-                                      'assets/images/ingredient/default.png')
-                                  : Image.network(
-                                      recipe.imgPath,
-                                      fit: BoxFit.cover,
-                                    ),
+                                  ? Image.asset(recipe.imgPath)
+                                  : recipe.imgPath.startsWith('http')
+                                      ? Image.network(
+                                          recipe.imgPath,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.file(
+                                          File(recipe.imgPath),
+                                          fit: BoxFit.cover,
+                                        ),
                             ),
                             title: Text(recipe.name),
                             subtitle: Column(

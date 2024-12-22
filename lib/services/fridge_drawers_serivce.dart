@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class FridgeDrawersService {
   static Map<String, FridgeDrawer> drawers = {};
   static final _fridgeDrawerBox = Hive.box<FridgeDrawer>('fridgeDrawerBox');
-  static const List<String> defaultDrawers = ['Refrigerator', 'Freezer'];
+  static const List<String> defaultDrawers = ['Ngăn đá', 'Ngăn ướp lạnh'];
 
   FridgeDrawersService._();
 

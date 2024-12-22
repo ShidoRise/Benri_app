@@ -1,3 +1,4 @@
+import 'package:benri_app/services/firebase_msg_service.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/utils/constants/constant.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -32,6 +33,7 @@ class AuthService {
 
         await _saveUserData(
             userId, tokens['refreshToken'], tokens['accessToken'], email, name);
+        await FirebaseMsg.saveTokenToDatabase(userId);
         return true;
       } else {
         print(response.body);

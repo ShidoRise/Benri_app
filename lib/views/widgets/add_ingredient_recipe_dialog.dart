@@ -243,7 +243,10 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
                             Navigator.of(context).pop();
                           },
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: BColors.primaryFirst),
+                              minimumSize: Size(120, 50),
+                              backgroundColor: BColors.primaryFirst,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8))),
                           child: Text("Huỷ bỏ"),
                         ),
                       ),
@@ -251,6 +254,9 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
                         width: 160,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                              minimumSize: Size(120, 50),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
                               backgroundColor: BColors.primaryFirst),
                           onPressed: () {
                             setState(() {
@@ -286,7 +292,7 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
                               Navigator.of(context).pop(newIngredient);
                             }
                           },
-                          child: Text('Thêm nguyên liệu'),
+                          child: Text('Thêm'),
                         ),
                       ),
                     ],

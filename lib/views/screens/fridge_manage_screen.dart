@@ -47,17 +47,17 @@ class FridgeManageScreen extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Quay lại"),
+              ),
+              TextButton(
+                onPressed: () {
                   Provider.of<DrawerProvider>(context, listen: false)
                       .removeDrawer(index);
                   Navigator.of(context).pop();
                 },
                 child: const Text("Đồng ý"),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Quay lại"),
               ),
             ],
           );

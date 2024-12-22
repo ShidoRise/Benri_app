@@ -13,7 +13,7 @@ class DrawerProvider with ChangeNotifier {
 
   List<String> get drawers {
     final drawerNames = FridgeDrawersService.drawers.keys.toList();
-    return drawerNames.isNotEmpty ? drawerNames : ['Refrigerator', 'Freezer'];
+    return drawerNames.isNotEmpty ? drawerNames : ['Ngăn đá', 'Ngăn ướp lạnh'];
   }
 
   void addDrawer(String drawerName) async {

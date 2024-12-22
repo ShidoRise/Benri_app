@@ -31,7 +31,10 @@ class DrawerTile extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             title: Text(
               drawerName,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
             trailing: const Row(
               mainAxisSize: MainAxisSize.min,

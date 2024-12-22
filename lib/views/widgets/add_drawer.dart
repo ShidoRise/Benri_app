@@ -23,7 +23,7 @@ class AddDrawer extends StatelessWidget {
 
     return AlertDialog(
       title: Text(
-        "Add new drawer",
+        "Tạo ngăn tủ mới",
         style: TextStyle(
           color: isDark ? Colors.white : Colors.black,
         ),

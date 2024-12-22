@@ -42,10 +42,15 @@ class RecipeDetailScreen extends StatelessWidget {
                             child: recipe.imgPath ==
                                     'assets/images/ingredient/default.png'
                                 ? Image.asset(recipe.imgPath)
-                                : Image.network(
-                                    recipe.imgPath,
-                                    fit: BoxFit.cover,
-                                  ),
+                                : recipe.imgPath.startsWith('http')
+                                    ? Image.network(
+                                        recipe.imgPath,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.file(
+                                        File(recipe.imgPath),
+                                        fit: BoxFit.cover,
+                                      ),
                           ),
                           // Recipe Info Card
                           Positioned(

@@ -11,6 +11,8 @@ import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/fridge_screen_provider.dart';
 import 'package:benri_app/view_models/theme_provider.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,9 +21,66 @@ import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'view_models/drawer_provider.dart';
 import 'view_models/ingredient_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+// Khai báo biến cho FlutterLocalNotificationsPlugin
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // Xử lý thông báo khi ứng dụng đang chạy ở chế độ nền
+  print("Handling a background message: ${message.messageId}");
+  _showNotification(message.notification?.title, message.notification?.body);
+}
+
+void _handleForegroundMessage(RemoteMessage message) {
+  // Xử lý thông báo khi ứng dụng đang mở
+  print(
+      'Received a message while in the foreground: ${message.notification?.title} body:: ${message.notification?.body}');
+
+  // Hiển thị thông báo đẩy
+  _showNotification(message.notification?.title, message.notification?.body);
+}
+
+Future<void> _showNotification(String? title, String? body) async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+    'your_channel_id', // ID kênh
+    'your_channel_name', // Tên kênh
+    channelDescription: 'your_channel_description', // Mô tả kênh
+    importance: Importance.max,
+    priority: Priority.high,
+    showWhen: false,
+  );
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+  print("===Thong bao OKKK");
+  await flutterLocalNotificationsPlugin.show(
+    0, // ID thông báo
+    title, // Tiêu đề
+    body, // Nội dung
+    platformChannelSpecifics,
+    payload: 'item x', // Dữ liệu tùy chọn
+  );
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Cấu hình thông báo
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  final InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  //Config FB
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await Hive.initFlutter();
   Hive.registerAdapter(BasketIngredientAdapter());
@@ -51,6 +110,11 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("123");
+      compute(_handleForegroundMessage, message);
+    });
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),

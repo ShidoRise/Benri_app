@@ -36,7 +36,8 @@ class DrawerDetailsScreen extends StatelessWidget {
                     );
                   },
                 )
-              : const Center(child: Text('No ingredients in the fridge yet.'));
+              : const Center(
+                  child: Text('Không có thực phẩm nào trong tủ lạnh'));
         },
       ),
       floatingActionButton: Container(

@@ -95,6 +95,23 @@ class RecipesService {
     _recipeBox.delete(recipe.name);
 
     favoriteRecipes.clear();
+
+    //server
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    final response = await http.delete(
+      Uri.parse('$baseUrl/recipe/${recipe.id}'),
+      headers: {
+        'x-api-key': Constants.apiKey,
+        'content-type': 'application/json',
+        'authorization': userLocal['accessToken'] ?? '',
+        'x-client-id': userLocal['userId'] ?? '',
+      },
+    ).timeout(Duration(seconds: 4));
+    if (response.statusCode == 200) {
+      print('delete OK');
+    } else {
+      print('not sync type:: ${recipe.type}');
+    }
     _loadDatabase();
   }
 
@@ -124,6 +141,57 @@ class RecipesService {
   }
 
   static Future<void> addRecipe(Recipes recipe) async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    //db
     await _recipeBox.put(recipe.name, recipe);
+
+    final response = await http
+        .post(
+          Uri.parse('$baseUrl/recipe'),
+          headers: {
+            'x-api-key': Constants.apiKey,
+            'content-type': 'application/json',
+            'authorization': userLocal['accessToken'] ?? '',
+            'x-client-id': userLocal['userId'] ?? '',
+          },
+          body: jsonEncode(convertToBody(recipe)),
+        )
+        .timeout(Duration(seconds: 4));
+    if (response.statusCode == 200) {
+      //sync OK
+      final Map<String, dynamic> responseData =
+          jsonDecode(response.body)['metadata'];
+      recipe.sync = true;
+      recipe.id = responseData['_id'].toString();
+      print('====${recipe.id} == sync${recipe.sync} OK');
+      await _recipeBox.put(recipe.name, recipe);
+    } else {
+      print('not sync type:: ${recipe.type}');
+    }
   }
+}
+
+Map<String, Object> convertToBody(Recipes recipe) {
+  return {
+    "recipe_name": recipe.name,
+    "recipe_description": recipe.description,
+    "recipe_ingredients": recipe.ingredients
+        .map((ingredient) => {
+              "name": ingredient.name,
+              "quantity": ingredient.quantity
+                  .split(' ')[0], // Assuming quantity is in the format "2 con"
+              "unit": ingredient.quantity.split(' ')[1], // Extracting unit
+              "category": "unknown",
+            })
+        .toList(),
+    "recipe_cook_time": recipe.timeCooking,
+    "recipe_youtube_url": recipe.recipeYoutubeUrl,
+    "recipe_rating": double.tryParse(recipe.rating) ?? 0.0,
+    "recipe_category":
+        recipe.category.isEmpty ? 'Được chia sẻ' : recipe.category.isEmpty,
+    "recipe_image": recipe.imgPath,
+    "is_published": false,
+    "is_draft": true,
+    "recipe_id_crawl": "x"
+  };
 }

@@ -149,11 +149,12 @@ class FavouriteRecipeProvider extends ChangeNotifier {
 
   void filterByCategory(String category) {
     if (selectedCategory == category) {
-      selectedCategory = null;
+      selectedCategory = selectedCategory;
     } else {
       selectedCategory = category;
       filterRecipes = getFilteredRecipes(recipes);
     }
+    print('$category == $selectedCategory');
     notifyListeners();
   }
 
@@ -162,6 +163,8 @@ class FavouriteRecipeProvider extends ChangeNotifier {
       final matchesCategory =
           selectedCategory == 'Tất cả' || recipe.category == selectedCategory;
       final matchesSearch = recipe.name.toLowerCase().contains(_searchQuery);
+      print('$matchesCategory == $matchesSearch');
+
       return matchesCategory && matchesSearch;
     }).toList();
   }
