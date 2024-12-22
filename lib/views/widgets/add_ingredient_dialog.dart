@@ -1,5 +1,4 @@
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
-import 'package:benri_app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
@@ -17,12 +16,28 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
   final basketViewModel = Provider.of<BasketViewModel>(context, listen: false);
   final List<String> unitOptions = ['gam', 'kg', 'hộp', 'quả', 'lít'];
 
+  final List<String> ingredientCategories = [
+    'Thịt',
+    'Hải sản',
+    'Rau cải',
+    'Trái cây',
+    'Đồ uống',
+    'Đồ khô',
+    'Đồ ăn chay',
+    'Đồ ăn nhanh',
+    'Đồ ăn sáng',
+    'Đồ ăn vặt',
+    'Đồ ăn chính',
+    'Đồ ăn phụ',
+    'Đồ ăn tráng miệng',
+    'Đồ ăn khác',
+  ];
+
   bool isInitialized = false;
 
   return showModalBottomSheet<BasketIngredient>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Theme.of(context).colorScheme.background,
     builder: (context) {
       return ChangeNotifierProvider<BasketViewModel>.value(
         value: basketViewModel,
@@ -161,7 +176,32 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
+                  const Text('Phân loại:'),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: ingredientCategories.map((category) {
+                      return Consumer<BasketViewModel>(
+                        builder: (context, basketViewModel, child) {
+                          return ChoiceChip(
+                            label: Text(category),
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            selected:
+                                basketViewModel.selectedCategory == category,
+                            onSelected: (bool selected) {
+                              basketViewModel.updateSelectedCategory(
+                                  selected ? category : null);
+                            },
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -176,6 +216,7 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                         unit: unitInputController.text,
                         imageUrl: basketViewModel.getImageUrlFromLocalStorage(
                             nameInputController.text),
+                        category: basketViewModel.selectedCategory ?? 'Khác',
                       );
                       Navigator.pop(context, updatedIngredient);
                     },

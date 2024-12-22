@@ -23,13 +23,15 @@ class RecipesAdapter extends TypeAdapter<Recipes> {
       rating: fields[3] as String,
       timeCooking: fields[4] as String,
       ingredients: (fields[5] as List).cast<FridgeIngredient>(),
-    );
+      category: fields[6] as String,
+      recipeYoutubeUrl: fields[7] as String,
+    )..isFavorite = fields[8] as bool;
   }
 
   @override
   void write(BinaryWriter writer, Recipes obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -41,7 +43,13 @@ class RecipesAdapter extends TypeAdapter<Recipes> {
       ..writeByte(4)
       ..write(obj.timeCooking)
       ..writeByte(5)
-      ..write(obj.ingredients);
+      ..write(obj.ingredients)
+      ..writeByte(6)
+      ..write(obj.category)
+      ..writeByte(7)
+      ..write(obj.recipeYoutubeUrl)
+      ..writeByte(8)
+      ..write(obj.isFavorite);
   }
 
   @override

@@ -6,12 +6,12 @@ class AppTheme {
     useMaterial3: true,
     fontFamily: 'Nunito',
     brightness: Brightness.light,
-    primaryColor: BColors.primary,
+    primaryColor: BColors.primaryFirst,
     scaffoldBackgroundColor: BColors.white,
 
     // Colors
     colorScheme: ColorScheme.light(
-      primary: BColors.primary,
+      primary: BColors.primaryFirst,
       secondary: BColors.secondary,
       error: BColors.error,
       background: BColors.white,
@@ -54,7 +54,7 @@ class AppTheme {
     // 3. Bottom Navigation Bar Theme
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: BColors.white,
-      selectedItemColor: BColors.primary,
+      selectedItemColor: BColors.primaryFirst,
       unselectedItemColor: BColors.grey,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
@@ -72,12 +72,12 @@ class AppTheme {
     useMaterial3: true,
     fontFamily: 'Nunito',
     brightness: Brightness.dark,
-    primaryColor: BColors.primary,
+    primaryColor: BColors.primaryFirst,
     scaffoldBackgroundColor: BColors.dark,
 
     // Colors
     colorScheme: ColorScheme.dark(
-        primary: BColors.primary,
+        primary: BColors.primaryFirst,
         secondary: BColors.secondary,
         error: BColors.error,
         background: BColors.dark,
@@ -119,7 +119,7 @@ class AppTheme {
     // 3. Bottom Navigation Bar Theme cho Dark mode
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: BColors.dark,
-      selectedItemColor: BColors.primary,
+      selectedItemColor: BColors.primaryFirst,
       unselectedItemColor: BColors.darkGrey,
       type: BottomNavigationBarType.fixed,
       elevation: 8,

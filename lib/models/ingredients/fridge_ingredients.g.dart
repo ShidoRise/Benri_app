@@ -20,6 +20,7 @@ class FridgeIngredientAdapter extends TypeAdapter<FridgeIngredient> {
       name: fields[0] as String,
       quantity: fields[1] as String,
       imgPath: fields[2] as String,
+      unit: fields[4] as String?,
       expirationDate: fields[3] as DateTime?,
     );
   }
@@ -27,7 +28,7 @@ class FridgeIngredientAdapter extends TypeAdapter<FridgeIngredient> {
   @override
   void write(BinaryWriter writer, FridgeIngredient obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class FridgeIngredientAdapter extends TypeAdapter<FridgeIngredient> {
       ..writeByte(2)
       ..write(obj.imgPath)
       ..writeByte(3)
-      ..write(obj.expirationDate);
+      ..write(obj.expirationDate)
+      ..writeByte(4)
+      ..write(obj.unit);
   }
 
   @override

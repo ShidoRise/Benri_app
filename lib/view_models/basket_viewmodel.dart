@@ -16,19 +16,34 @@ class BasketViewModel extends ChangeNotifier {
   final DateFormat _dateFormat = DateFormat('yMd');
   DateTime _focusDate = DateTime.now();
 
-  BasketViewModel() {
-    _initializeData();
-  }
+  final TextEditingController totalMoneyController = TextEditingController();
+
+  String _selectedMode = 'Cá nhân';
+  String get selectedMode => _selectedMode;
+
+  bool get hasFamily => _hasFamily;
+  bool _hasFamily = false;
 
   String get focusDateFormatted => _dateFormat.format(_focusDate);
   DateTime get focusDate => _focusDate;
 
   String? _selectedUnit;
-
   String? get selectedUnit => _selectedUnit;
+
+  String? _selectedCategory;
+  String? get selectedCategory => _selectedCategory;
+
+  BasketViewModel() {
+    _initializeData();
+  }
 
   void updateSelectedUnit(String? unit) {
     _selectedUnit = unit;
+    notifyListeners();
+  }
+
+  void updateSelectedCategory(String? category) {
+    _selectedCategory = category;
     notifyListeners();
   }
 
@@ -112,5 +127,31 @@ class BasketViewModel extends ChangeNotifier {
   bool checkBasketIngredientsEmpty(String date) {
     return BasketService.baskets.containsKey(date) &&
         BasketService.baskets[date]!.basketIngredients.isNotEmpty;
+  }
+
+  void updateTotalMoney(String totalMoney) {
+    BasketService.updateTotalMoney(focusDateFormatted, totalMoney);
+    notifyListeners();
+  }
+
+  String getTotalMoney() {
+    if (BasketService.baskets.containsKey(focusDateFormatted)) {
+      return BasketService.baskets[focusDateFormatted]!.totalMoney;
+    }
+    return '0';
+  }
+
+  void changeMode(String mode) {
+    _selectedMode = mode;
+    if (mode == 'Gia đình') {
+      _hasFamily = true;
+    }
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    totalMoneyController.dispose();
+    super.dispose();
   }
 }

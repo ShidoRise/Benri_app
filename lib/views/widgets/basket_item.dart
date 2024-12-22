@@ -101,6 +101,16 @@ class BasketItem extends StatelessWidget {
                           ? TextDecoration.lineThrough
                           : TextDecoration.none),
                 ),
+                Text(
+                  ingredient.category,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                    decoration: ingredient.isSelected
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                  ),
+                ),
               ],
             ),
           ],
