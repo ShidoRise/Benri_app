@@ -1,7 +1,8 @@
-import 'package:benri_app/services/family_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:benri_app/view_models/profile_viewmodel.dart';
 import 'package:benri_app/views/screens/calendar_screen.dart';
+import 'package:benri_app/views/screens/family_members_screen.dart';
 import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
 import 'package:benri_app/views/widgets/family_basket_view.dart';
 import 'package:benri_app/views/widgets/personal_basket_view.dart';
@@ -33,13 +34,29 @@ class BasketScreen extends StatelessWidget {
                             BasketModeToggle(basketViewModel: basketViewModel)),
                     basketViewModel.selectedMode == 'Cá nhân'
                         ? _calendarIcon(context)
-                        : _shareButton(context, basketViewModel),
+                        : Consumer<ProfileViewModel>(
+                            builder: (context, profileViewModel, child) {
+                              return basketViewModel.hasInternet &&
+                                      profileViewModel.isLoggedIn
+                                  ? Row(
+                                      children: [
+                                        _memberListIcon(context),
+                                        _shareButton(context, basketViewModel),
+                                      ],
+                                    )
+                                  : const SizedBox.shrink();
+                            },
+                          ),
                   ],
                 ),
                 Expanded(
                   child: basketViewModel.selectedMode == 'Cá nhân'
                       ? PersonalBasketView(basketViewModel: basketViewModel)
-                      : FamilyBasketView(basketViewModel: basketViewModel),
+                      : FamilyBasketView(
+                          basketViewModel: basketViewModel,
+                          profileViewModel:
+                              Provider.of<ProfileViewModel>(context),
+                        ),
                 ),
               ],
             );
@@ -71,9 +88,9 @@ class BasketScreen extends StatelessWidget {
           shape: OvalBorder(),
           shadows: [
             BoxShadow(
-              color: Color(0x3F000000),
-              blurRadius: 4,
-              offset: Offset(0, 4),
+              color: Color(0x19000000),
+              blurRadius: 8,
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -83,79 +100,131 @@ class BasketScreen extends StatelessWidget {
   }
 
   Widget _shareButton(BuildContext context, BasketViewModel viewModel) {
-    return IconButton(
-      icon: const Icon(Icons.share),
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         showModalBottomSheet(
+          context: context,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
-          context: context,
-          builder: (context) => Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Family Code',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceVariant,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.3,
+          ),
+          builder: (context) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        viewModel.familyCode ?? 'No code available',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+                      Expanded(
+                        child: Text(
+                          'Share Family Code',
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
-                      const Spacer(),
                       IconButton(
-                        icon: const Icon(Icons.copy),
-                        onPressed: () async {
-                          if (viewModel.familyCode != null) {
-                            await Clipboard.setData(
-                              ClipboardData(text: viewModel.familyCode!),
-                            );
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Code copied to clipboard'),
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
-                            }
-                          }
-                        },
+                        icon: const Icon(Icons.close),
+                        onPressed: () => Navigator.pop(context),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            viewModel.familyCode ?? 'No code available',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: () async {
+                            if (viewModel.familyCode != null) {
+                              await Clipboard.setData(
+                                ClipboardData(text: viewModel.familyCode!),
+                              );
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        const Text('Code copied to clipboard'),
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
       },
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        width: 40,
+        height: 40,
+        decoration: const ShapeDecoration(
+          color: BColors.white,
+          shape: OvalBorder(),
+          shadows: [
+            BoxShadow(
+              color: Color(0x19000000),
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: const Icon(Iconsax.link),
+      ),
+    );
+  }
+
+  Widget _memberListIcon(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const FamilyMembersScreen(),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        width: 40,
+        height: 40,
+        decoration: const ShapeDecoration(
+          color: BColors.white,
+          shape: OvalBorder(),
+          shadows: [
+            BoxShadow(
+              color: Color(0x19000000),
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: const Icon(Iconsax.tag_user),
+      ),
     );
   }
 

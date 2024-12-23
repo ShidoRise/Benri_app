@@ -1,3 +1,5 @@
+import 'package:benri_app/models/families/family_ingredients.dart';
+import 'package:benri_app/models/families/family_members.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/utils/constants/constant.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -6,12 +8,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
 class FamilyService {
+  static List<FamilyMember> familyMembers = [];
+  static Map<String, List<FamilyIngredient>> familyShoppingListData = {};
   static final storage = FlutterSecureStorage();
   static final String baseUrl = dotenv.get('API_URL');
 
   FamilyService._();
 
-  static Future<Map<String, dynamic>> createFamily(String famName) async {
+  static Future<void> createFamily(String famName) async {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
 
@@ -28,18 +32,13 @@ class FamilyService {
         }),
       );
 
-      print("222222222222222 ${response.statusCode}");
-
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        print("333333333333333 $responseData");
 
         final metadata = responseData['metadata'];
 
         await storage.write(key: 'family_id', value: metadata['family_id']);
         await storage.write(key: 'family_code', value: metadata['code']);
-
-        return responseData;
       } else {
         throw Exception('Failed to create family: ${response.statusCode}');
       }
@@ -48,7 +47,7 @@ class FamilyService {
     }
   }
 
-  static Future<Map<String, dynamic>> joinFamily(String famCode) async {
+  static Future<void> joinFamily(String famCode) async {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
 
@@ -65,18 +64,13 @@ class FamilyService {
         }),
       );
 
-      print("222222222222222 ${response.statusCode}");
-
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        print("333333333333333 $responseData");
 
         final metadata = responseData['metadata'];
 
         await storage.write(key: 'family_id', value: metadata['family_id']);
         await storage.write(key: 'family_code', value: metadata['code']);
-
-        return responseData;
       } else {
         throw Exception('Failed to join family: ${response.statusCode}');
       }
@@ -85,35 +79,73 @@ class FamilyService {
     }
   }
 
-  static Future<Map<String, dynamic>> getFamily() async {
+  static Future<void> getFamily(String familyId) async {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
 
       final response = await http.get(
-        Uri.parse('$baseUrl/family'),
+        Uri.parse('$baseUrl/family/$familyId'),
         headers: {
           'x-api-key': Constants.apiKey,
           'x-client-id': userLocal['userId'] ?? '',
           'x-rtoken-id': userLocal['refreshToken'] ?? '',
+          'content-type': 'application/json'
         },
       );
 
-      print("222222222222222 ${response.statusCode}");
-
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        print("333333333333333 $responseData");
-
         final metadata = responseData['metadata'];
-
         await storage.write(key: 'family_code', value: metadata['code']);
 
-        return responseData;
+        final members = metadata['fam_members'] as List;
+        familyMembers =
+            members.map((member) => FamilyMember.fromJson(member)).toList();
       } else {
         throw Exception('Failed to get family: ${response.statusCode}');
       }
     } catch (e) {
       throw Exception('Error getting family: $e');
+    }
+  }
+
+  static Future<void> getFamilyShoppingLists() async {
+    try {
+      final Map<String, String> userLocal = await UserLocal.getUserInfo();
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/family/shopping-lists'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'x-client-id': userLocal['userId'] ?? '',
+          'x-rtoken-id': userLocal['refreshToken'] ?? '',
+          'content-type': 'application/json'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> metadata = jsonDecode(response.body)['metadata'];
+
+        familyShoppingListData.clear();
+        for (var list in metadata) {
+          final listDate = list['name'] as String;
+          final ingredients = (list['ingredients'] as List).map((ingredient) {
+            return FamilyIngredient(
+              name: ingredient['name'] ?? '',
+              quantity: (ingredient['quantity'] ?? 0).toDouble(),
+              category: ingredient['category'] ?? '',
+              unit: ingredient['unit'] ?? '',
+              status: ingredient['status'] == 'pending' ? false : true,
+            );
+          }).toList();
+
+          familyShoppingListData[listDate] = ingredients;
+          print('13325423324324 Family shopping list: $familyShoppingListData');
+        }
+      }
+    } catch (e) {
+      print('Error getting family shopping lists: $e');
+      throw Exception('Failed to get family shopping lists');
     }
   }
 

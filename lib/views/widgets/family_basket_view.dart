@@ -1,17 +1,64 @@
+import 'package:benri_app/view_models/profile_viewmodel.dart';
+import 'package:benri_app/views/screens/login_screen.dart';
 import 'package:benri_app/views/widgets/family_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 
 class FamilyBasketView extends StatelessWidget {
   final BasketViewModel basketViewModel;
+  final ProfileViewModel profileViewModel;
 
   const FamilyBasketView({
     super.key,
     required this.basketViewModel,
+    required this.profileViewModel,
   });
 
   @override
   Widget build(BuildContext context) {
+    profileViewModel.checkLoginStatus();
+
+    if (!profileViewModel.isLoggedIn) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.lock_outline,
+              size: 64,
+              color: Colors.grey,
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Login Required',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Please login to use family mode',
+              style: TextStyle(color: Colors.grey),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+              child: const Text('Login'),
+            ),
+          ],
+        ),
+      );
+    }
+
     basketViewModel.checkFamilyStatus();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -94,13 +141,38 @@ class FamilyBasketView extends StatelessWidget {
                     const SizedBox(width: 16),
                     ElevatedButton(
                       onPressed: () {
-                        // TODO: Implement join family
                         showDialog(
                           context: context,
-                          builder: (context) => const AlertDialog(
-                            title: Text('Coming Soon'),
-                            content:
-                                Text('Join family feature is coming soon!'),
+                          builder: (context) => AlertDialog(
+                            title: const Text('Join Family'),
+                            content: TextField(
+                              decoration: const InputDecoration(
+                                labelText: 'Enter Family Code',
+                                border: OutlineInputBorder(),
+                              ),
+                              onSubmitted: (code) async {
+                                try {
+                                  Navigator.pop(context);
+                                  await basketViewModel.joinFamily(code);
+                                } catch (e) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('Error joining family: $e'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Cancel'),
+                              ),
+                            ],
                           ),
                         );
                       },

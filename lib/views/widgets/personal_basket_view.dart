@@ -51,7 +51,7 @@ class PersonalBasketView extends StatelessWidget {
         selectionMode: const SelectionMode.autoCenter(),
         firstDate: DateTime(2024),
         focusDate: basketViewModel.focusDate,
-        lastDate: DateTime(2024, 12, 31),
+        lastDate: DateTime(2025, 12, 31),
         onDateChange: (selectedDate) {
           basketViewModel.updateFocusDate(selectedDate);
         },

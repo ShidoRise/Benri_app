@@ -191,6 +191,14 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> joinFamily(String familyCode) async {
+    _isLoading = true;
+    await FamilyService.joinFamily(familyCode);
+    _hasFamily = true;
+    _isLoading = false;
+    notifyListeners();
+  }
+
   Future<void> initializeFamilyStatus() async {
     if (_isInitialized) return;
 
@@ -198,6 +206,8 @@ class BasketViewModel extends ChangeNotifier {
       final familyId = await FamilyService.storage.read(key: 'familyId');
       _hasFamily = familyId != null && familyId.isNotEmpty;
       _isInitialized = true;
+      await FamilyService.getFamily(familyId!);
+      await loadFamilyCode();
       notifyListeners();
     } catch (e) {
       print('Error initializing family status: $e');
