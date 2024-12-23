@@ -223,6 +223,7 @@ Future<BasketIngredient?> addIngredientDialog(BuildContext context,
                     child: Text(
                       'Thêm',
                       style: TextStyle(
+                        color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),

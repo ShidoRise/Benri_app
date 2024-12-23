@@ -31,6 +31,11 @@ class AuthService {
         final userId = user['_id'];
         final name = user['user_name'];
 
+        if (user['user_family_group'] != null) {
+          final family = user['user_family_group'];
+          await storage.write(key: 'familyId', value: family);
+        }
+
         await _saveUserData(
             userId, tokens['refreshToken'], tokens['accessToken'], email, name);
         await FirebaseMsg.saveTokenToDatabase(userId);
@@ -150,6 +155,30 @@ class AuthService {
           'content-type': 'application/json'
         },
         body: jsonEncode({"oldPassword": oldPass, "newPassword": newPass}),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  static Future<bool> resendOTP(String email, String name) async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/resend-otp'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'authorization': userLocal['accessToken'] ?? '',
+          'x-client-id': userLocal['userId'] ?? '',
+          'content-type': 'application/json'
+        },
+        body: jsonEncode({"email": email, "name": name}),
       );
       if (response.statusCode == 200) {
         return true;

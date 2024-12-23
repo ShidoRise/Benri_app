@@ -47,23 +47,25 @@ void _handleForegroundMessage(RemoteMessage message) {
 Future<void> _showNotification(String? title, String? body) async {
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(
-    'your_channel_id', // ID kênh
-    'your_channel_name', // Tên kênh
-    channelDescription: 'your_channel_description', // Mô tả kênh
-    importance: Importance.max,
-    priority: Priority.high,
-    showWhen: false,
+    'abcxyz',
+    'duydeptrai',
+    channelDescription: 'duy code',
+    importance: Importance.high,
   );
   const NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
-  print("===Thong bao OKKK");
-  await flutterLocalNotificationsPlugin.show(
-    0, // ID thông báo
-    title, // Tiêu đề
-    body, // Nội dung
-    platformChannelSpecifics,
-    payload: 'item x', // Dữ liệu tùy chọn
-  );
+  try {
+    await flutterLocalNotificationsPlugin.show(
+      1221, // ID thông báo
+      title ?? '', // Tiêu đề
+      body ?? '', // Nội dung
+      platformChannelSpecifics,
+      payload: 'item x', // Dữ liệu tùy chọn
+    );
+  } catch (e) {
+    print("Error showing notification: $e"); // In ra lỗi nếu có
+  }
+  print('222222');
 }
 
 void main() async {
@@ -111,8 +113,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("123");
-      compute(_handleForegroundMessage, message);
+      _handleForegroundMessage(message);
     });
 
     return MultiProvider(

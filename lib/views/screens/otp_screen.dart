@@ -1,8 +1,10 @@
+import 'package:benri_app/services/auth_service.dart';
 import 'package:benri_app/utils/styles/elevated_button_style.dart';
 import 'package:benri_app/view_models/otp_view_model.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class VerifyOTPScreen extends StatelessWidget {
@@ -109,9 +111,25 @@ class VerifyOTPScreenView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             TextButton(
-              onPressed: () {
-                // TODO: Implement resend OTP logic
-                print('Resending OTP');
+              onPressed: () async {
+                bool rs = await AuthService.resendOTP(email, name);
+                if (rs) {
+                  Fluttertoast.showToast(
+                    msg: "Đã gửi lại OTP",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.grey[800],
+                    textColor: Colors.white,
+                  );
+                } else {
+                  Fluttertoast.showToast(
+                    msg: "Gửi OTP thất bài",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.grey[800],
+                    textColor: Colors.white,
+                  );
+                }
               },
               child: const Text('Resend OTP'),
             ),

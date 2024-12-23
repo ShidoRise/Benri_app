@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
-import 'package:benri_app/views/widgets/family_options_sheet.dart';
 
 class BasketModeToggle extends StatelessWidget {
   final BasketViewModel basketViewModel;
@@ -56,14 +55,7 @@ class BasketModeToggle extends StatelessWidget {
             ),
           ],
           onChanged: (String? newValue) {
-            if (newValue == 'Gia đình' && !basketViewModel.hasFamily) {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) => const FamilyOptionsSheet(),
-              );
-            } else {
-              basketViewModel.changeMode(newValue!);
-            }
+            basketViewModel.changeMode(newValue!);
           },
         ),
       ),
