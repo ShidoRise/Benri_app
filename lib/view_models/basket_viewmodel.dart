@@ -27,7 +27,6 @@ class BasketViewModel extends ChangeNotifier {
 
   bool _hasFamily = false;
   bool get hasFamily => _hasFamily;
-  bool _isInitialized = false;
 
   String? _familyCode;
   String? get familyCode => _familyCode;
@@ -199,27 +198,30 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initializeFamilyStatus() async {
-    if (_isInitialized) return;
+  Future<void> deleteFamily() async {
+    _isLoading = true;
+    print("Starting family deleteddddd");
+    await FamilyService.deleteFamily();
+    _hasFamily = false;
+    _isLoading = false;
+    print("Family deletedddddddddddddddddd");
+    notifyListeners();
+  }
 
+  Future<void> initializeFamilyStatus() async {
     try {
       final familyId = await FamilyService.storage.read(key: 'familyId');
+      print('Family IDDDDDDDDDD: $familyId');
       _hasFamily = familyId != null && familyId.isNotEmpty;
-      _isInitialized = true;
-      await FamilyService.getFamily(familyId!);
-      await loadFamilyCode();
+      if (_hasFamily) {
+        await FamilyService.getFamily(familyId!);
+        await loadFamilyCode();
+      }
       notifyListeners();
     } catch (e) {
       print('Error initializing family status: $e');
       _hasFamily = false;
-      _isInitialized = true;
       notifyListeners();
-    }
-  }
-
-  void checkFamilyStatus() {
-    if (!_isInitialized) {
-      initializeFamilyStatus();
     }
   }
 

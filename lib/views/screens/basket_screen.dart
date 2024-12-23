@@ -37,6 +37,7 @@ class BasketScreen extends StatelessWidget {
                         : Consumer<ProfileViewModel>(
                             builder: (context, profileViewModel, child) {
                               return basketViewModel.hasInternet &&
+                                      basketViewModel.hasFamily &&
                                       profileViewModel.isLoggedIn
                                   ? Row(
                                       children: [
@@ -117,6 +118,15 @@ class BasketScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  ElevatedButton(
+                    onPressed: () => viewModel.deleteFamily(),
+                    child: Text("Delete Family",
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold)),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
                   Row(
                     children: [
                       Expanded(
