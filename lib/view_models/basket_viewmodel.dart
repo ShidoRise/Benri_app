@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/services/baskets_service.dart';
@@ -51,6 +52,7 @@ class BasketViewModel extends ChangeNotifier {
     initConnectivity();
     _setupConnectivityStream();
     _initializeData();
+    _initializeFamilyStatus();
   }
 
   void updateSelectedUnit(String? unit) {
@@ -200,29 +202,68 @@ class BasketViewModel extends ChangeNotifier {
 
   Future<void> deleteFamily() async {
     _isLoading = true;
-    print("Starting family deleteddddd");
     await FamilyService.deleteFamily();
     _hasFamily = false;
     _isLoading = false;
-    print("Family deletedddddddddddddddddd");
     notifyListeners();
   }
 
-  Future<void> initializeFamilyStatus() async {
+  Future<void> _initializeFamilyStatus() async {
     try {
       final familyId = await FamilyService.storage.read(key: 'familyId');
-      print('Family IDDDDDDDDDD: $familyId');
       _hasFamily = familyId != null && familyId.isNotEmpty;
       if (_hasFamily) {
         await FamilyService.getFamily(familyId!);
+        await FamilyService.getFamilyShoppingLists();
         await loadFamilyCode();
       }
       notifyListeners();
     } catch (e) {
-      print('Error initializing family status: $e');
       _hasFamily = false;
       notifyListeners();
     }
+  }
+
+  Future<void> addFamilyIngredient(FamilyIngredient ingredient) async {
+    await FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
+    notifyListeners();
+  }
+
+  Future<void> deleteFamilytItem(int index) async {
+    await FamilyService.deleteFamilyItem(focusDateFormatted, index);
+    notifyListeners();
+  }
+
+  Future<void> editFamilyItem(BuildContext context, int index) async {
+    await FamilyService.editFamilyItem(context, focusDateFormatted, index);
+    notifyListeners();
+  }
+
+  bool checkFamilyIngredientsEmpty(String date) {
+    return FamilyService.familyShoppingListData.containsKey(date) &&
+        FamilyService.familyShoppingListData[date]!.ingredients.isNotEmpty;
+  }
+
+  void toggleFamilyIngredientSelection(int index) async {
+    FamilyService.toggleFamilyIngredientSelection(focusDateFormatted, index);
+    notifyListeners();
+  }
+
+  String familyMemberBuyIngredients(String date) {
+    if (FamilyService.familyShoppingListData.containsKey(date)) {
+      for (var member in FamilyService.familyMembers) {
+        if (member.id == FamilyService.familyShoppingListData[date]!.userId) {
+          return member.name;
+        }
+      }
+    }
+    return '';
+  }
+
+  Future<void> showMemberBuyIngredients(
+      BuildContext context, String date) async {
+    await FamilyService.chooseFamilyMemberBuyIngredients(context, date);
+    notifyListeners();
   }
 
   Future<void> loadFamilyCode() async {

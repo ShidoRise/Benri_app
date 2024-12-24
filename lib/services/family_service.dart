@@ -1,7 +1,11 @@
 import 'package:benri_app/models/families/family_ingredients.dart';
+import 'package:benri_app/models/families/family_lists.dart';
 import 'package:benri_app/models/families/family_members.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/utils/constants/constant.dart';
+import 'package:benri_app/views/widgets/add_family_ingredient_dialog.dart';
+import 'package:benri_app/views/widgets/choose_member_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,7 +13,7 @@ import 'dart:convert';
 
 class FamilyService {
   static List<FamilyMember> familyMembers = [];
-  static Map<String, List<FamilyIngredient>> familyShoppingListData = {};
+  static Map<String, FamilyList> familyShoppingListData = {};
   static final storage = FlutterSecureStorage();
   static final String baseUrl = dotenv.get('API_URL');
 
@@ -109,46 +113,6 @@ class FamilyService {
     }
   }
 
-  static Future<void> getFamilyShoppingLists() async {
-    try {
-      final Map<String, String> userLocal = await UserLocal.getUserInfo();
-
-      final response = await http.get(
-        Uri.parse('$baseUrl/family/shopping-lists'),
-        headers: {
-          'x-api-key': Constants.apiKey,
-          'x-client-id': userLocal['userId'] ?? '',
-          'x-rtoken-id': userLocal['refreshToken'] ?? '',
-          'content-type': 'application/json'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> metadata = jsonDecode(response.body)['metadata'];
-
-        familyShoppingListData.clear();
-        for (var list in metadata) {
-          final listDate = list['name'] as String;
-          final ingredients = (list['ingredients'] as List).map((ingredient) {
-            return FamilyIngredient(
-              name: ingredient['name'] ?? '',
-              quantity: (ingredient['quantity'] ?? 0).toDouble(),
-              category: ingredient['category'] ?? '',
-              unit: ingredient['unit'] ?? '',
-              status: ingredient['status'] == 'pending' ? false : true,
-            );
-          }).toList();
-
-          familyShoppingListData[listDate] = ingredients;
-          print('13325423324324 Family shopping list: $familyShoppingListData');
-        }
-      }
-    } catch (e) {
-      print('Error getting family shopping lists: $e');
-      throw Exception('Failed to get family shopping lists');
-    }
-  }
-
   static Future<void> deleteFamily() async {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
@@ -188,5 +152,260 @@ class FamilyService {
       print('Error getting family code: $e');
       return null;
     }
+  }
+
+  static Future<void> getFamilyShoppingLists() async {
+    try {
+      final Map<String, String> userLocal = await UserLocal.getUserInfo();
+      final familyId = await storage.read(key: 'familyId');
+      if (familyId == null) throw Exception('No family ID found');
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/family/$familyId/shopping-lists'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'x-client-id': userLocal['userId'] ?? '',
+          'x-rtoken-id': userLocal['refreshToken'] ?? '',
+          'content-type': 'application/json'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> metadata = jsonDecode(response.body)['metadata'];
+        print('metadata: $metadata');
+        familyShoppingListData.clear();
+        for (var list in metadata) {
+          familyShoppingListData[list['name']] = FamilyList.fromJson(list);
+        }
+        print('Family shopping list data: $familyShoppingListData');
+      } else {
+        throw Exception('Failed to get shopping lists: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error getting family shopping lists: $e');
+      throw Exception('Failed to get family shopping lists');
+    }
+  }
+
+  static Future<void> postFamilyShoppingList(String date) async {
+    try {
+      final Map<String, String> userLocal = await UserLocal.getUserInfo();
+
+      final familyId = await storage.read(key: 'familyId');
+      if (familyId == null) throw Exception('No family ID found');
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/family/$familyId/shopping-lists'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'x-client-id': userLocal['userId'] ?? '',
+          'x-rtoken-id': userLocal['refreshToken'] ?? '',
+          'content-type': 'application/json'
+        },
+        body: jsonEncode({
+          'name': date,
+          'description': 'Created shopping list',
+          'ingredients': [],
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final metadata = jsonDecode(response.body)['metadata'];
+
+        familyShoppingListData[date] = FamilyList(
+          listId: metadata['list_id'],
+          userId: userLocal['userId'] ?? '',
+          ingredients: [],
+        );
+      } else {
+        throw Exception('Failed to create shopping list');
+      }
+    } catch (e) {
+      print('Error posting shopping list: $e');
+      throw Exception('Failed to post shopping list');
+    }
+  }
+
+  static Future<void> updateFamilyShoppingList({
+    required String familyId,
+    required String listId,
+    required String name,
+    required String description,
+    required List<FamilyIngredient> ingredients,
+    required String userId,
+  }) async {
+    try {
+      final Map<String, String> userLocal = await UserLocal.getUserInfo();
+
+      final response = await http.patch(
+        Uri.parse('$baseUrl/family/$familyId/shopping-lists/$listId'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'x-client-id': userLocal['userId'] ?? '',
+          'x-rtoken-id': userLocal['refreshToken'] ?? '',
+          'content-type': 'application/json'
+        },
+        body: jsonEncode({
+          'name': name,
+          'description': description,
+          'ingredients': ingredients
+              .map((ingredient) => {
+                    'name': ingredient.name,
+                    'quantity': ingredient.quantity,
+                    'category': ingredient.category,
+                    'unit': ingredient.unit,
+                    'status': ingredient.status ? 'bought' : 'pending',
+                  })
+              .toList(),
+          'created_by': userId,
+        }),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to update shopping list');
+      }
+    } catch (e) {
+      print('Error updating shopping list: $e');
+      throw Exception('Failed to update shopping list: $e');
+    }
+  }
+
+  static Future<void> addFamilyIngredient(
+      String date, FamilyIngredient ingredient) async {
+    if (!familyShoppingListData.containsKey(date)) {
+      await postFamilyShoppingList(date);
+    }
+
+    final currentList = familyShoppingListData[date];
+    if (currentList != null) {
+      print('Current listtttt: $currentList');
+      final updatedIngredients = [...currentList.ingredients, ingredient];
+      print('Updated ingredientssss: $updatedIngredients');
+      familyShoppingListData[date] = FamilyList(
+        listId: currentList.listId,
+        userId: currentList.userId,
+        ingredients: updatedIngredients,
+      );
+      print('Family shopping list data: ${familyShoppingListData[date]}');
+    }
+
+    final familyId = await storage.read(key: 'familyId');
+    if (familyId == null) throw Exception('No family ID found');
+
+    await updateFamilyShoppingList(
+      familyId: familyId,
+      listId: familyShoppingListData[date]!.listId,
+      name: date,
+      description: 'Added shopping list',
+      ingredients: familyShoppingListData[date]!.ingredients,
+      userId: familyShoppingListData[date]!.userId,
+    );
+  }
+
+  static Future<void> deleteFamilyItem(String date, int index) async {
+    if (familyShoppingListData.containsKey(date) &&
+        index >= 0 &&
+        index < familyShoppingListData[date]!.ingredients.length) {
+      familyShoppingListData[date]!.ingredients.removeAt(index);
+
+      final familyId = await storage.read(key: 'familyId');
+      if (familyId == null) throw Exception('No family ID found');
+
+      await updateFamilyShoppingList(
+        familyId: familyId,
+        listId: familyShoppingListData[date]!.listId,
+        name: date,
+        description: 'Deleted shopping list',
+        ingredients: familyShoppingListData[date]!.ingredients,
+        userId: familyShoppingListData[date]!.userId,
+      );
+    }
+  }
+
+  static Future<void> editFamilyItem(
+      BuildContext context, String date, int index) async {
+    if (familyShoppingListData.containsKey(date) &&
+        index >= 0 &&
+        index < familyShoppingListData[date]!.ingredients.length) {
+      final currentIngredient =
+          familyShoppingListData[date]!.ingredients[index];
+
+      final updatedIngredient = await addFamilyIngredientDialog(context,
+          ingredient: currentIngredient);
+
+      if (updatedIngredient != null) {
+        familyShoppingListData[date]!.ingredients[index] = updatedIngredient;
+
+        print('familyShoppingListData: ${familyShoppingListData[date]}');
+
+        final familyId = await storage.read(key: 'familyId');
+        if (familyId == null) throw Exception('No family ID found');
+
+        await updateFamilyShoppingList(
+          familyId: familyId,
+          listId: familyShoppingListData[date]!.listId,
+          name: date,
+          description: 'Edited shopping list',
+          ingredients: familyShoppingListData[date]!.ingredients,
+          userId: familyShoppingListData[date]!.userId,
+        );
+      }
+    }
+  }
+
+  static Future<void> toggleFamilyIngredientSelection(
+      String date, int index) async {
+    print('Togglinggggggg');
+    if (index >= 0 &&
+        index < familyShoppingListData[date]!.ingredients.length) {
+      familyShoppingListData[date]!.ingredients[index].status =
+          !familyShoppingListData[date]!.ingredients[index].status;
+
+      final familyId = await storage.read(key: 'familyId');
+      if (familyId == null) throw Exception('No family ID found');
+
+      await updateFamilyShoppingList(
+        familyId: familyId,
+        listId: familyShoppingListData[date]!.listId,
+        name: date,
+        description: 'Toggled shopping list',
+        ingredients: familyShoppingListData[date]!.ingredients,
+        userId: familyShoppingListData[date]!.userId,
+      );
+    }
+  }
+
+  static Future<void> chooseFamilyMemberBuyIngredients(
+      BuildContext context, String date) async {
+    if (familyShoppingListData.containsKey(date)) {
+      final userId = await showChooseMemberDialog(context);
+      if (userId != null) {
+        familyShoppingListData[date]!.userId = userId;
+
+        final familyId = await storage.read(key: 'familyId');
+        if (familyId == null) throw Exception('No family ID found');
+
+        await updateFamilyShoppingList(
+          familyId: familyId,
+          listId: familyShoppingListData[date]!.listId,
+          name: date,
+          description: 'Choose member to buy ingredients',
+          ingredients: familyShoppingListData[date]!.ingredients,
+          userId: userId,
+        );
+      }
+    }
+
+    final familyId = await storage.read(key: 'familyId');
+    if (familyId == null) throw Exception('No family ID found');
+
+    await updateFamilyShoppingList(
+      familyId: familyId,
+      listId: familyShoppingListData[date]!.listId,
+      name: date,
+      description: 'Updated shopping list',
+      ingredients: familyShoppingListData[date]!.ingredients,
+      userId: familyShoppingListData[date]!.userId,
+    );
   }
 }

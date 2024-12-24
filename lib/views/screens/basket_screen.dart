@@ -3,6 +3,7 @@ import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/view_models/profile_viewmodel.dart';
 import 'package:benri_app/views/screens/calendar_screen.dart';
 import 'package:benri_app/views/screens/family_members_screen.dart';
+import 'package:benri_app/views/widgets/add_family_ingredient_dialog.dart';
 import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
 import 'package:benri_app/views/widgets/family_basket_view.dart';
 import 'package:benri_app/views/widgets/personal_basket_view.dart';
@@ -65,7 +66,14 @@ class BasketScreen extends StatelessWidget {
         ),
         floatingActionButton: basketViewModel.selectedMode == 'Cá nhân'
             ? _basketFloatingButton(context)
-            : null,
+            : Consumer<ProfileViewModel>(
+                builder: (context, profileViewModel, child) {
+                return basketViewModel.hasInternet &&
+                        basketViewModel.hasFamily &&
+                        profileViewModel.isLoggedIn
+                    ? _familyFloatingButton(context)
+                    : const SizedBox.shrink();
+              }),
       );
     });
   }
@@ -244,12 +252,35 @@ class BasketScreen extends StatelessWidget {
       height: 65,
       margin: const EdgeInsets.all(5.0),
       child: FloatingActionButton(
-        backgroundColor: BColors.primaryFirst,
+        backgroundColor: Colors.white,
         onPressed: () async {
           final basketViewModel = context.read<BasketViewModel>();
           final ingredient = await addIngredientDialog(context);
           if (ingredient != null && ingredient.name != "") {
             basketViewModel.addIngredient(ingredient);
+          }
+        },
+        child: Icon(
+          Icons.add,
+          size: 30,
+          color: Theme.of(context).colorScheme.secondaryFixed,
+        ),
+      ),
+    );
+  }
+
+  Widget _familyFloatingButton(BuildContext context) {
+    return Container(
+      width: 65,
+      height: 65,
+      margin: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () async {
+          final basketViewModel = context.read<BasketViewModel>();
+          final ingredient = await addFamilyIngredientDialog(context);
+          if (ingredient != null && ingredient.name != "") {
+            basketViewModel.addFamilyIngredient(ingredient);
           }
         },
         child: Icon(

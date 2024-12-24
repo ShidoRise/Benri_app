@@ -1,13 +1,13 @@
-import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-Future<BasketIngredient?> addIngredientDialog(
+Future<FamilyIngredient?> addFamilyIngredientDialog(
   BuildContext context, {
-  BasketIngredient? ingredient,
+  FamilyIngredient? ingredient,
 }) {
   final nameController = TextEditingController(text: ingredient?.name ?? '');
   final quantityController = TextEditingController(
@@ -28,7 +28,7 @@ Future<BasketIngredient?> addIngredientDialog(
 
   bool isInitialized = false;
 
-  return showModalBottomSheet<BasketIngredient>(
+  return showModalBottomSheet<FamilyIngredient>(
     context: context,
     isScrollControlled: true,
     builder: (context) => ChangeNotifierProvider<BasketViewModel>.value(
@@ -202,22 +202,17 @@ Widget _buildAddButton(
       backgroundColor: BColors.primaryFirst,
     ),
     onPressed: () {
-      final ingredient = BasketIngredient(
+      final ingredient = FamilyIngredient(
         name: nameController.text,
         quantity: quantityController.text,
         unit: unitController.text,
         category: model.selectedCategory ?? 'Khác',
-        isSelected: false,
+        status: false,
       );
       Navigator.pop(context, ingredient);
     },
-    child: const Text(
-      'Thêm',
-      style: TextStyle(
-        fontSize: 16,
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
+    child: const Text('Thêm',
+        style: TextStyle(
+            fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
   );
 }
