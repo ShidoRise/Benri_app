@@ -21,12 +21,12 @@ class BasketScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BasketViewModel>(
-        builder: (context, basketViewModel, child) {
+    return Consumer2<BasketViewModel, ProfileViewModel>(
+        builder: (context, basketViewModel, profileViewModel, child) {
       return Scaffold(
         appBar: const BAppBar(title: 'My Basket'),
-        body: Consumer<BasketViewModel>(
-          builder: (context, basketViewModel, child) {
+        body: Consumer2<BasketViewModel, ProfileViewModel>(
+          builder: (context, basketViewModel, profileViewModel, child) {
             return Column(
               children: [
                 Row(
@@ -37,30 +37,22 @@ class BasketScreen extends StatelessWidget {
                             BasketModeToggle(basketViewModel: basketViewModel)),
                     basketViewModel.selectedMode == 'Cá nhân'
                         ? _calendarIcon(context)
-                        : Consumer<ProfileViewModel>(
-                            builder: (context, profileViewModel, child) {
-                              return basketViewModel.hasInternet &&
-                                      basketViewModel.hasFamily &&
-                                      profileViewModel.isLoggedIn
-                                  ? Row(
-                                      children: [
-                                        _memberListIcon(context),
-                                        _shareButton(context, basketViewModel),
-                                      ],
-                                    )
-                                  : const SizedBox.shrink();
-                            },
-                          ),
+                        : (profileViewModel.isLoggedIn &&
+                                basketViewModel.hasInternet &&
+                                basketViewModel.hasFamily)
+                            ? Row(
+                                children: [
+                                  _memberListIcon(context),
+                                  _shareButton(context, basketViewModel),
+                                ],
+                              )
+                            : Container(),
                   ],
                 ),
                 Expanded(
                   child: basketViewModel.selectedMode == 'Cá nhân'
-                      ? PersonalBasketView(basketViewModel: basketViewModel)
-                      : FamilyBasketView(
-                          basketViewModel: basketViewModel,
-                          profileViewModel:
-                              Provider.of<ProfileViewModel>(context),
-                        ),
+                      ? PersonalBasketView()
+                      : FamilyBasketView(),
                 ),
               ],
             );
@@ -68,7 +60,7 @@ class BasketScreen extends StatelessWidget {
         ),
         floatingActionButton: (basketViewModel.selectedMode == 'Cá nhân' ||
                 (basketViewModel.selectedMode == 'Gia đình' &&
-                    Provider.of<ProfileViewModel>(context).isLoggedIn &&
+                    profileViewModel.isLoggedIn &&
                     basketViewModel.hasInternet &&
                     basketViewModel.hasFamily))
             ? _floatingButton(context)

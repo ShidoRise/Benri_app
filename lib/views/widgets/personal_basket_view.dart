@@ -6,24 +6,24 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class PersonalBasketView extends StatelessWidget {
-  final BasketViewModel basketViewModel;
-
   const PersonalBasketView({
     super.key,
-    required this.basketViewModel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _basketMiniCalendar(context, basketViewModel),
-        _separatorLineWithShadow(),
-        _basketContent(basketViewModel),
-      ],
-    );
+    return Consumer<BasketViewModel>(builder: (context, basketViewModel, _) {
+      return Column(
+        children: [
+          _basketMiniCalendar(context, basketViewModel),
+          _separatorLineWithShadow(),
+          _basketContent(basketViewModel),
+        ],
+      );
+    });
   }
 
   Widget _separatorLineWithShadow() {

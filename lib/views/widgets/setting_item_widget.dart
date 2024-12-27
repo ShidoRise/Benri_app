@@ -47,7 +47,7 @@ Widget settingItemWidget(
               profileViewModel.login(context);
               break;
             case 'Đăng xuất':
-              profileViewModel.logout();
+              profileViewModel.logout(context);
               break;
             case 'Đổi mật khẩu':
               profileViewModel.changePassWord(context);
