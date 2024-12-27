@@ -46,6 +46,7 @@ class FamilyService {
 
         await storage.write(key: 'familyId', value: metadata['family_id']);
         await storage.write(key: 'family_code', value: metadata['code']);
+        await storage.write(key: 'familyRole', value: 'admin');
       } else {
         throw Exception('Failed to create family: ${response.statusCode}');
       }
@@ -76,8 +77,9 @@ class FamilyService {
 
         final metadata = responseData['metadata'];
 
-        await storage.write(key: 'family_id', value: metadata['family_id']);
+        await storage.write(key: 'familyId', value: metadata['family_id']);
         await storage.write(key: 'family_code', value: metadata['code']);
+        await storage.write(key: 'familyRole', value: 'member');
       } else {
         throw Exception('Failed to join family: ${response.statusCode}');
       }
@@ -120,7 +122,6 @@ class FamilyService {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
       final familyId = await storage.read(key: 'familyId');
-
       if (familyId == null) throw Exception('No family ID found');
 
       final response = await http.delete(
@@ -136,11 +137,50 @@ class FamilyService {
       if (response.statusCode == 200) {
         await storage.delete(key: 'familyId');
         await storage.delete(key: 'family_code');
+        await storage.delete(key: 'familyRole');
+
+        familyShoppingListData.clear();
+        familyMembers.clear();
       } else {
-        throw Exception('Failed to delete family');
+        throw Exception('Failed to delete family: ${response.statusCode}');
       }
     } catch (e) {
+      print('Error deleting family: $e');
       throw Exception('Error deleting family: $e');
+    }
+  }
+
+  static Future<void> leaveFamily() async {
+    try {
+      final Map<String, String> userLocal = await UserLocal.getUserInfo();
+      final familyId = await storage.read(key: 'familyId');
+      if (familyId == null) throw Exception('No family ID found');
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/family/leave/$familyId'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'x-client-id': userLocal['userId'] ?? '',
+          'x-rtoken-id': userLocal['refreshToken'] ?? '',
+          'content-type': 'application/json'
+        },
+      );
+
+      print('Response status code: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        await storage.delete(key: 'familyId');
+        await storage.delete(key: 'family_code');
+        await storage.delete(key: 'familyRole');
+
+        familyShoppingListData.clear();
+        familyMembers.clear();
+      } else {
+        throw Exception('Failed to leave family: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error leaving family: $e');
+      throw Exception('Failed to leave family: $e');
     }
   }
 
@@ -185,7 +225,8 @@ class FamilyService {
     }
   }
 
-  static Future<void> postFamilyShoppingList(String date) async {
+  static Future<void> postFamilyShoppingList(
+      String date, FamilyIngredient ingredient) async {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
 
@@ -203,18 +244,22 @@ class FamilyService {
         body: jsonEncode({
           'name': date,
           'description': 'Created shopping list',
-          'ingredients': [],
+          'ingredients': [
+            {
+              'name': ingredient.name,
+              'quantity': ingredient.quantity,
+              'category': ingredient.category,
+              'unit': ingredient.unit,
+              'status': 'pending',
+            }
+          ],
         }),
       );
 
       if (response.statusCode == 200) {
         final metadata = jsonDecode(response.body)['metadata'];
 
-        familyShoppingListData[date] = FamilyList(
-          listId: metadata['list_id'],
-          userId: userLocal['userId'] ?? '',
-          ingredients: [],
-        );
+        familyShoppingListData[date]!.listId = metadata['list_id'];
       } else {
         throw Exception('Failed to create shopping list');
       }
@@ -280,33 +325,42 @@ class FamilyService {
   static Future<void> addFamilyIngredient(
       String date, FamilyIngredient ingredient) async {
     if (!familyShoppingListData.containsKey(date)) {
-      await postFamilyShoppingList(date);
-    }
-
-    final currentList = familyShoppingListData[date];
-    if (currentList != null) {
-      final updatedIngredients = [...currentList.ingredients, ingredient];
+      final Map<String, String> userLocal = await UserLocal.getUserInfo();
       familyShoppingListData[date] = FamilyList(
-        listId: currentList.listId,
-        userId: currentList.userId,
-        ingredients: updatedIngredients,
+        listId: '',
+        userId: userLocal['userId'] ?? '',
+        ingredients: <FamilyIngredient>[
+          FamilyIngredient(
+              name: ingredient.name,
+              quantity: ingredient.quantity,
+              category: ingredient.category,
+              unit: ingredient.unit,
+              status: false)
+        ],
       );
-    }
+      await postFamilyShoppingList(date, ingredient);
+    } else {
+      final currentList = familyShoppingListData[date];
+      if (currentList != null) {
+        final updatedIngredients = [...currentList.ingredients, ingredient];
+        familyShoppingListData[date] = FamilyList(
+          listId: currentList.listId,
+          userId: currentList.userId,
+          ingredients: updatedIngredients,
+        );
+      }
 
-    final familyId = await storage.read(key: 'familyId');
-    if (familyId == null) throw Exception('No family ID found');
+      final familyId = await storage.read(key: 'familyId');
+      if (familyId == null) throw Exception('No family ID found');
 
-    await updateFamilyShoppingList(
-      familyId: familyId,
-      listId: familyShoppingListData[date]!.listId,
-      name: date,
-      description: 'Added shopping list',
-      ingredients: familyShoppingListData[date]!.ingredients,
-      userId: familyShoppingListData[date]!.userId,
-    );
-
-    if (familyShoppingListData[date]!.ingredients.length == 1) {
-      await getFamilyShoppingLists();
+      await updateFamilyShoppingList(
+        familyId: familyId,
+        listId: familyShoppingListData[date]!.listId,
+        name: date,
+        description: 'Added shopping list',
+        ingredients: familyShoppingListData[date]!.ingredients,
+        userId: familyShoppingListData[date]!.userId,
+      );
     }
   }
 
@@ -405,27 +459,29 @@ class FamilyService {
         final familyId = await storage.read(key: 'familyId');
         if (familyId == null) throw Exception('No family ID found');
 
-        await updateFamilyShoppingList(
-          familyId: familyId,
-          listId: familyShoppingListData[date]!.listId,
-          name: date,
-          description: 'Choose member to buy ingredients',
-          ingredients: familyShoppingListData[date]!.ingredients,
-          userId: userId,
-        );
+        try {
+          final Map<String, String> userLocal = await UserLocal.getUserInfo();
+
+          final response = await http.post(
+              Uri.parse(
+                  '$baseUrl/$familyId/assign-task/$userId/${familyShoppingListData[date]!.listId}'),
+              headers: {
+                'x-api-key': Constants.apiKey,
+                'x-client-id': userLocal['userId'] ?? '',
+                'x-rtoken-id': userLocal['refreshToken'] ?? '',
+                'content-type': 'application/json'
+              },
+              body: jsonEncode({
+                'taskDetails': 'Bạn được giao đi chợ vào ngày $date',
+              }));
+
+          if (response.statusCode != 200) {
+            throw Exception('Failed to update shopping list');
+          }
+        } catch (e) {
+          print('Error choose family member assign task: $e');
+        }
       }
     }
-
-    final familyId = await storage.read(key: 'familyId');
-    if (familyId == null) throw Exception('No family ID found');
-
-    await updateFamilyShoppingList(
-      familyId: familyId,
-      listId: familyShoppingListData[date]!.listId,
-      name: date,
-      description: 'Updated shopping list',
-      ingredients: familyShoppingListData[date]!.ingredients,
-      userId: familyShoppingListData[date]!.userId,
-    );
   }
 }

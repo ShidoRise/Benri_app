@@ -13,7 +13,8 @@ class FamilyViewModel extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      final familyId = await FamilyService.storage.read(key: 'family_id');
+      final familyId = await FamilyService.storage.read(key: 'familyId');
+      print('Family ID: $familyId');
       if (familyId != null) {
         await FamilyService.getFamily(familyId);
       }

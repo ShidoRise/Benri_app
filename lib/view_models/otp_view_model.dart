@@ -6,8 +6,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class OtpViewModel extends ChangeNotifier {
-  // final storage = FlutterSecureStorage();
-  final AuthService authService = AuthService();
   final String _errorMessage = '';
   bool _isLoading = false;
   String get errorMessage => _errorMessage;
@@ -15,7 +13,7 @@ class OtpViewModel extends ChangeNotifier {
       String otp, String email, String password, String name) async {
     _isLoading = true;
     notifyListeners();
-    if (await authService.verifyOTP(email, password, name, otp)) {
+    if (await AuthService.verifyOTP(email, password, name, otp)) {
       _isLoading = true;
       notifyListeners();
       return true;

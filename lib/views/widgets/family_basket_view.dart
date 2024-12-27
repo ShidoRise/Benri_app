@@ -1,8 +1,10 @@
+import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/profile_viewmodel.dart';
 import 'package:benri_app/views/screens/login_screen.dart';
 import 'package:benri_app/views/widgets/family_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class FamilyBasketView extends StatelessWidget {
@@ -21,6 +23,7 @@ class FamilyBasketView extends StatelessWidget {
         await profileViewModel.checkLoginStatus();
         if (profileViewModel.isLoggedIn) {
           await basketViewModel.initializeFamilyStatus();
+          await basketViewModel.checkUserRole();
         }
       },
       child: Consumer2<BasketViewModel, ProfileViewModel>(
@@ -139,39 +142,106 @@ class FamilyBasketView extends StatelessWidget {
                         const SizedBox(width: 16),
                         ElevatedButton(
                           onPressed: () {
-                            showDialog(
+                            final codeController = TextEditingController();
+                            showModalBottomSheet(
                               context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Join Family'),
-                                content: TextField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Enter Family Code',
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  onSubmitted: (code) async {
-                                    try {
-                                      Navigator.pop(context);
-                                      await basketViewModel.joinFamily(code);
-                                    } catch (e) {
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                'Error joining family: $e'),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  },
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20)),
+                              ),
+                              builder: (context) => Padding(
+                                padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom,
+                                  top: 24,
+                                  left: 24,
+                                  right: 24,
                                 ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('Cancel'),
-                                  ),
-                                ],
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Join Family',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    TextField(
+                                      controller: codeController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Enter Family Code',
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12)),
+                                        ),
+                                        prefixIcon: Icon(Icons.family_restroom),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 24),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: OutlinedButton(
+                                            style: OutlinedButton.styleFrom(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 12),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text(
+                                              'Cancel',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 12),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              backgroundColor:
+                                                  BColors.primaryFirst,
+                                            ),
+                                            onPressed: () async {
+                                              if (codeController.text.isEmpty) {
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                      'Please enter a family code',
+                                                  backgroundColor: Colors.red,
+                                                );
+                                                return;
+                                              }
+                                              Navigator.pop(context);
+                                              await basketViewModel.joinFamily(
+                                                  codeController.text);
+                                            },
+                                            child: const Text('Join',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                  ],
+                                ),
                               ),
                             );
                           },

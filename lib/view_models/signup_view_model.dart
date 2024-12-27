@@ -8,7 +8,6 @@ class SignUpViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final AuthService authService = AuthService();
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
@@ -67,7 +66,7 @@ class SignUpViewModel extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      if (await authService.preSignUp(
+      if (await AuthService.preSignUp(
         emailController.text.trim(),
         passwordController.text.trim(),
         nameController.text.trim(),
