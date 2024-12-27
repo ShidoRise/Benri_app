@@ -1,6 +1,6 @@
-import 'package:benri_app/services/baskets_service.dart';
+import 'package:benri_app/services/family_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
-import 'package:benri_app/views/widgets/basket_item.dart';
+import 'package:benri_app/views/widgets/family_item.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
@@ -20,7 +20,8 @@ class FamilyHomeView extends StatelessWidget {
       children: [
         _basketMiniCalendar(context, basketViewModel),
         _separatorLineWithShadow(),
-        _basketContent(basketViewModel),
+        _showMemberBuyIngredients(context, basketViewModel),
+        _familyContent(basketViewModel),
       ],
     );
   }
@@ -50,7 +51,7 @@ class FamilyHomeView extends StatelessWidget {
         selectionMode: const SelectionMode.autoCenter(),
         firstDate: DateTime(2024),
         focusDate: basketViewModel.focusDate,
-        lastDate: DateTime(2024, 12, 31),
+        lastDate: DateTime(2025, 12, 31),
         onDateChange: (selectedDate) {
           basketViewModel.updateFocusDate(selectedDate);
         },
@@ -79,7 +80,7 @@ class FamilyHomeView extends StatelessWidget {
         alignment: Alignment.topRight,
         children: [
           _calendarItem(date, isSelected),
-          if (basketViewModel.checkBasketIngredientsEmpty(formattedDate))
+          if (basketViewModel.checkFamilyIngredientsEmpty(formattedDate))
             Padding(
               padding: const EdgeInsets.all(6.0),
               child: Icon(
@@ -128,17 +129,18 @@ class FamilyHomeView extends StatelessWidget {
     );
   }
 
-  Widget _basketContent(BasketViewModel basketViewModel) {
+  Widget _familyContent(BasketViewModel basketViewModel) {
     return (basketViewModel
-            .checkBasketIngredientsEmpty(basketViewModel.focusDateFormatted))
+            .checkFamilyIngredientsEmpty(basketViewModel.focusDateFormatted))
         ? Expanded(
             child: Column(
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: BasketService
-                        .baskets[basketViewModel.focusDateFormatted]!
-                        .basketIngredients
+                    itemCount: FamilyService
+                        .familyShoppingListData[
+                            basketViewModel.focusDateFormatted]!
+                        .ingredients
                         .length,
                     itemBuilder: (BuildContext context, int index) {
                       return _buildBasketItem(context, basketViewModel, index);
@@ -153,16 +155,17 @@ class FamilyHomeView extends StatelessWidget {
 
   Widget _buildBasketItem(
       BuildContext context, BasketViewModel basketViewModel, int index) {
-    final ingredient = BasketService
-        .baskets[basketViewModel.focusDateFormatted]!.basketIngredients[index];
+    final ingredient = FamilyService
+        .familyShoppingListData[basketViewModel.focusDateFormatted]!
+        .ingredients[index];
 
-    return BasketItem(
+    return FamilyItem(
       ingredient: ingredient,
-      isSelected: ingredient.isSelected,
+      status: ingredient.status,
       basketViewModel: basketViewModel,
       index: index,
-      deleteFunction: (context) => basketViewModel.deleteBasketItem(index),
-      editFunction: (context) => basketViewModel.editBasketItem(context, index),
+      deleteFunction: (context) => basketViewModel.deleteFamilytItem(index),
+      editFunction: (context) => basketViewModel.editFamilyItem(context, index),
     );
   }
 
@@ -173,6 +176,41 @@ class FamilyHomeView extends StatelessWidget {
           'No ingredients here,\nclick + to add',
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.grey, fontSize: 24),
+        ),
+      ),
+    );
+  }
+
+  Widget _showMemberBuyIngredients(
+      BuildContext context, BasketViewModel basketViewModel) {
+    return GestureDetector(
+      onTap: () {
+        basketViewModel.showMemberBuyIngredients(
+            context, basketViewModel.focusDateFormatted);
+      },
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(24, 10, 16, 5),
+        decoration: BoxDecoration(
+          color: BColors.grey,
+          boxShadow: [
+            BoxShadow(
+              color: BColors.grey,
+              blurRadius: 1,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Buyer: ${basketViewModel.familyMemberBuyIngredients(basketViewModel.focusDateFormatted)}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );

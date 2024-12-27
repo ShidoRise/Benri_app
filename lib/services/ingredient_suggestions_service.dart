@@ -1,41 +1,65 @@
-// import 'dart:convert';
-//
-// import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:http/http.dart' as http;
-//
-// class IngredientSuggestionsService {
-//   static List<IngredientSuggestion> ingredientSuggestions = [];
-//   final _ingredientSuggestionsBox =
-//       Hive.box<IngredientSuggestion>('ingredientSuggestionsBox');
-//
-//   static Future<void> initializeLocalData() async {}
-//
-//   Future<void> _fetchIngredientsFromApi() async {
-//     final response =
-//         await http.get(Uri.parse('http://54.251.104.133/v1/api/ingredients'));
-//
-//     if (response.statusCode == 200) {
-//       final data = json.decode(response.body)['metadata'];
-//       for (Map<String, dynamic> element in data) {
-//         ingredientSuggestions.add(
-//           IngredientSuggestion(
-//               name: element['ingredient_name'],
-//               thumbnailUrl: element['ingredient_thumbnail'],
-//               nameInVietnamese: element['ingredient_name_vi']),
-//         );
-//       }
-//       _updateLocalDatabase();
-//     } else {
-//       throw Exception('Failed to load ingredients from API');
-//     }
-//   }
-//
-//   Future<void> _loadDatabase() async {}
-//
-//   Future<void> _updateLocalDatabase() async {
-//     ingredientSuggestions.forEach((ingredientSuggestion) {
-//       _ingredientSuggestionsBox.put('INGREDIENTSLIST', ingredientSuggestion);
-//     });
-//   }
-// }
+import 'dart:convert';
+import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
+
+class IngredientSuggestionsService {
+  IngredientSuggestionsService._();
+
+  static List<IngredientSuggestion> ingredientSuggestions = [];
+  static final _ingredientSuggestionsBox =
+      Hive.box<IngredientSuggestion>('ingredientSuggestionsBox');
+
+  static Future<void> initializeLocalData() async {
+    try {
+      if (_ingredientSuggestionsBox.isEmpty) {
+        await _loadIngredientsFromJson();
+      } else {
+        ingredientSuggestions = _ingredientSuggestionsBox.values.toList();
+        print(
+            "Ingredient suggestions initialized from Hive ${ingredientSuggestions.length}");
+      }
+    } catch (e) {
+      print('Error initializing ingredient suggestions: $e');
+    }
+  }
+
+  static Future<void> _loadIngredientsFromJson() async {
+    try {
+      final String jsonString =
+          await rootBundle.loadString('assets/data/ingredientSuggestions.json');
+      final List<dynamic> jsonData = json.decode(jsonString);
+
+      ingredientSuggestions = jsonData
+          .map((data) => IngredientSuggestion(
+                name: data['ingredient_name'] ?? '',
+                thumbnailUrl: data['ingredient_thumbnail'] ?? '',
+                nameInVietnamese: data['ingredient_name_vi'] ?? '',
+              ))
+          .toList();
+
+      print(
+          "Ingredient suggestions initialized from Hive ${ingredientSuggestions.length}");
+      await _ingredientSuggestionsBox.clear();
+      await _ingredientSuggestionsBox.addAll(ingredientSuggestions);
+    } catch (e) {
+      print('Error loading ingredients from JSON: $e');
+    }
+  }
+
+  static List<IngredientSuggestion> filterSuggestions(String query) {
+    if (query.isEmpty) return [];
+
+    final lowercaseQuery = query.toLowerCase();
+    return ingredientSuggestions.where((ingredient) {
+      final lowercaseName = ingredient.name.toLowerCase();
+      final lowercaseViName = ingredient.nameInVietnamese.toLowerCase();
+      return lowercaseName.contains(lowercaseQuery) ||
+          lowercaseViName.contains(lowercaseQuery);
+    }).toList();
+  }
+
+  static Future<void> refreshIngredients() async {
+    await _loadIngredientsFromJson();
+  }
+}

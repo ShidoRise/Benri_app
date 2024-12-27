@@ -1,9 +1,9 @@
 class FamilyIngredient {
-  final String name;
-  final double quantity;
-  final String category;
-  final String unit;
-  final bool status;
+  String name;
+  String quantity;
+  String category;
+  String unit;
+  bool status;
 
   FamilyIngredient({
     required this.name,
@@ -16,10 +16,10 @@ class FamilyIngredient {
   factory FamilyIngredient.fromJson(Map<String, dynamic> json) {
     return FamilyIngredient(
       name: json['name'] ?? '',
-      quantity: (json['quantity'] ?? 0).toDouble(),
+      quantity: json['quantity'].toString(),
       category: json['category'] ?? '',
       unit: json['unit'] ?? '',
-      status: json['status'] ?? false,
+      status: json['status'] == 'bought',
     );
   }
 

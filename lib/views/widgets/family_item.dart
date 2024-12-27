@@ -1,21 +1,21 @@
-import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class BasketItem extends StatelessWidget {
-  final BasketIngredient ingredient;
+class FamilyItem extends StatelessWidget {
+  final FamilyIngredient ingredient;
   final int index;
-  final bool isSelected;
+  final bool status;
   final BasketViewModel basketViewModel;
-  Function(BuildContext)? deleteFunction;
-  Function(BuildContext)? editFunction;
+  final Function(BuildContext)? deleteFunction;
+  final Function(BuildContext)? editFunction;
 
-  BasketItem({
+  const FamilyItem({
     super.key,
     required this.ingredient,
-    required this.isSelected,
+    required this.status,
     required this.basketViewModel,
     required this.index,
     required this.deleteFunction,
@@ -62,21 +62,13 @@ class BasketItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 activeColor: BColors.primaryFirst,
-                value: ingredient.isSelected,
+                value: ingredient.status,
                 onChanged: (value) {
-                  basketViewModel.toggleIngredientSelection(index);
+                  print('Toggling ingredient selection');
+                  basketViewModel.toggleFamilyIngredientSelection(index);
                 },
               ),
             ),
-            (ingredient.imageUrl != ''
-                ? Image.network(
-                    ingredient.imageUrl,
-                    width: 80,
-                  )
-                : Image.asset(
-                    'assets/images/ingredient/default.png',
-                    width: 80,
-                  )),
             const SizedBox(
               width: 15,
             ),
@@ -87,7 +79,7 @@ class BasketItem extends StatelessWidget {
                   ingredient.name,
                   style: TextStyle(
                       fontSize: 16,
-                      decoration: ingredient.isSelected
+                      decoration: ingredient.status
                           ? TextDecoration.lineThrough
                           : TextDecoration.none),
                 ),
@@ -95,7 +87,7 @@ class BasketItem extends StatelessWidget {
                   '${ingredient.quantity} ${ingredient.unit}',
                   style: TextStyle(
                       fontSize: 16,
-                      decoration: ingredient.isSelected
+                      decoration: ingredient.status
                           ? TextDecoration.lineThrough
                           : TextDecoration.none),
                 ),
@@ -104,9 +96,6 @@ class BasketItem extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[600],
-                    decoration: ingredient.isSelected
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none,
                   ),
                 ),
               ],

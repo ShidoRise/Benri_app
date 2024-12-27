@@ -1,15 +1,12 @@
 // ingredient_provider.dart
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/services/fridge_drawers_serivce.dart';
-import 'package:benri_app/utils/constants/ingredient_suggestions_db.dart';
+import 'package:benri_app/services/ingredient_suggestions_service.dart';
 import 'package:benri_app/views/widgets/bottom_sheet_add_ingredient.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import '../models/ingredients/fridge_ingredients.dart';
 
 class IngredientProvider with ChangeNotifier {
-  final _ingredientSuggestionsBox = Hive.box('ingredientSuggestionsBox');
-  IngredientSuggestionsDB ingredientsDB = IngredientSuggestionsDB();
   List<IngredientSuggestion> filteredIngredientSuggestions = [];
 
   DateTime? _expirationDate;
@@ -40,12 +37,7 @@ class IngredientProvider with ChangeNotifier {
   }
 
   Future<void> _initializeData() async {
-    if (_ingredientSuggestionsBox.get('isFirstTime') == null) {
-      ingredientsDB.createInitialData();
-      await _ingredientSuggestionsBox.put('isFirstTime', false);
-    } else {
-      ingredientsDB.loadData();
-    }
+    IngredientSuggestionsService.initializeLocalData();
     await FridgeDrawersService.initializeLocalData();
     notifyListeners();
   }
@@ -73,7 +65,8 @@ class IngredientProvider with ChangeNotifier {
 
   void filterIngredientSuggestions(String query) {
     if (query.isNotEmpty) {
-      filteredIngredientSuggestions = ingredientsDB.ingredientSuggestions
+      filteredIngredientSuggestions = IngredientSuggestionsService
+          .ingredientSuggestions
           .where((ingredient) =>
               ingredient.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
@@ -103,7 +96,8 @@ class IngredientProvider with ChangeNotifier {
 
   String getImageUrlFromLocalStorage(String ingredientName) {
     if (ingredientName.isNotEmpty) {
-      final ingredient = ingredientsDB.ingredientSuggestions.firstWhere(
+      final ingredient =
+          IngredientSuggestionsService.ingredientSuggestions.firstWhere(
         (i) => i.name.toLowerCase() == ingredientName.toLowerCase(),
         orElse: () => IngredientSuggestion(
             name: '', thumbnailUrl: '', nameInVietnamese: ''),

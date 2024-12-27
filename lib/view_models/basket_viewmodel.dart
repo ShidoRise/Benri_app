@@ -1,22 +1,16 @@
 import 'dart:async';
 
+import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/services/baskets_service.dart';
 import 'package:benri_app/services/family_service.dart';
-import 'package:benri_app/utils/constants/ingredient_suggestions_db.dart';
+import 'package:benri_app/services/ingredient_suggestions_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 class BasketViewModel extends ChangeNotifier {
-  final _ingredientSuggestionsBox = Hive.box('ingredientSuggestionsBox');
-
-  IngredientSuggestionsDB ingredientsDB = IngredientSuggestionsDB();
-
-  List<IngredientSuggestion> filteredIngredientSuggestions = [];
-
   final DateFormat _dateFormat = DateFormat('yMd');
   DateTime _focusDate = DateTime.now();
 
@@ -27,13 +21,25 @@ class BasketViewModel extends ChangeNotifier {
 
   bool _hasFamily = false;
   bool get hasFamily => _hasFamily;
-  bool _isInitialized = false;
 
   String? _familyCode;
   String? get familyCode => _familyCode;
 
   String get focusDateFormatted => _dateFormat.format(_focusDate);
   DateTime get focusDate => _focusDate;
+
+  final List<String> _unitOptions = ['gam', 'kg', 'hộp', 'quả', 'lít'];
+  List<String> get unitOptions => _unitOptions;
+
+  final List<String> _categories = [
+    'Thịt & Hải sản',
+    'Rau củ & Trái cây',
+    'Đồ khô',
+    'Đồ uống',
+    'Gia vị',
+    'Khác',
+  ];
+  List<String> get categories => _categories;
 
   String? _selectedUnit;
   String? get selectedUnit => _selectedUnit;
@@ -48,10 +54,13 @@ class BasketViewModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  List<IngredientSuggestion> filteredIngredientSuggestions = [];
+
   BasketViewModel() {
     initConnectivity();
     _setupConnectivityStream();
     _initializeData();
+    _initializeFamilyStatus();
   }
 
   void updateSelectedUnit(String? unit) {
@@ -64,15 +73,15 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetSelections() {
+    _selectedUnit = null;
+    _selectedCategory = null;
+    notifyListeners();
+  }
+
   void _initializeData() {
     BasketService.initializeLocalData();
-    if (_ingredientSuggestionsBox.get('isFirstTime') == null) {
-      ingredientsDB.createInitialData();
-      _ingredientSuggestionsBox.put('isFirstTime', false);
-      notifyListeners();
-    } else {
-      ingredientsDB.loadData();
-    }
+    IngredientSuggestionsService.initializeLocalData();
     notifyListeners();
   }
 
@@ -83,6 +92,7 @@ class BasketViewModel extends ChangeNotifier {
   }
 
   void addIngredient(BasketIngredient ingredient) {
+    resetSelections();
     BasketService.addIngredient(focusDateFormatted, ingredient);
     notifyListeners();
   }
@@ -113,9 +123,11 @@ class BasketViewModel extends ChangeNotifier {
 
   void filterIngredientSuggestions(String query) {
     if (query.isNotEmpty) {
-      filteredIngredientSuggestions = ingredientsDB.ingredientSuggestions
-          .where((ingredient) =>
-              ingredient.name.toLowerCase().contains(query.toLowerCase()))
+      filteredIngredientSuggestions = IngredientSuggestionsService
+          .ingredientSuggestions
+          .where((ingredient) => ingredient.nameInVietnamese
+              .toLowerCase()
+              .contains(query.toLowerCase()))
           .toList();
     } else {
       filteredIngredientSuggestions = [];
@@ -130,8 +142,9 @@ class BasketViewModel extends ChangeNotifier {
 
   String getImageUrlFromLocalStorage(String ingredientName) {
     if (ingredientName.isNotEmpty) {
-      final ingredient = ingredientsDB.ingredientSuggestions.firstWhere(
-        (i) => i.name.toLowerCase() == ingredientName.toLowerCase(),
+      final ingredient =
+          IngredientSuggestionsService.ingredientSuggestions.firstWhere(
+        (i) => i.nameInVietnamese.toLowerCase() == ingredientName.toLowerCase(),
         orElse: () => IngredientSuggestion(
             name: '', thumbnailUrl: '', nameInVietnamese: ''),
       );
@@ -199,28 +212,71 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initializeFamilyStatus() async {
-    if (_isInitialized) return;
+  Future<void> deleteFamily() async {
+    _isLoading = true;
+    await FamilyService.deleteFamily();
+    _hasFamily = false;
+    _isLoading = false;
+    notifyListeners();
+  }
 
+  Future<void> _initializeFamilyStatus() async {
     try {
       final familyId = await FamilyService.storage.read(key: 'familyId');
       _hasFamily = familyId != null && familyId.isNotEmpty;
-      _isInitialized = true;
-      await FamilyService.getFamily(familyId!);
-      await loadFamilyCode();
+      if (_hasFamily) {
+        await FamilyService.getFamily(familyId!);
+        await FamilyService.getFamilyShoppingLists();
+        await loadFamilyCode();
+      }
       notifyListeners();
     } catch (e) {
-      print('Error initializing family status: $e');
       _hasFamily = false;
-      _isInitialized = true;
       notifyListeners();
     }
   }
 
-  void checkFamilyStatus() {
-    if (!_isInitialized) {
-      initializeFamilyStatus();
+  void addFamilyIngredient(FamilyIngredient ingredient) {
+    resetSelections();
+    FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
+    notifyListeners();
+  }
+
+  void deleteFamilytItem(int index) {
+    FamilyService.deleteFamilyItem(focusDateFormatted, index);
+    notifyListeners();
+  }
+
+  Future<void> editFamilyItem(BuildContext context, int index) async {
+    await FamilyService.editFamilyItem(context, focusDateFormatted, index);
+    notifyListeners();
+  }
+
+  bool checkFamilyIngredientsEmpty(String date) {
+    return FamilyService.familyShoppingListData.containsKey(date) &&
+        FamilyService.familyShoppingListData[date]!.ingredients.isNotEmpty;
+  }
+
+  void toggleFamilyIngredientSelection(int index) async {
+    FamilyService.toggleFamilyIngredientSelection(focusDateFormatted, index);
+    notifyListeners();
+  }
+
+  String familyMemberBuyIngredients(String date) {
+    if (FamilyService.familyShoppingListData.containsKey(date)) {
+      for (var member in FamilyService.familyMembers) {
+        if (member.id == FamilyService.familyShoppingListData[date]!.userId) {
+          return member.name;
+        }
+      }
     }
+    return '';
+  }
+
+  Future<void> showMemberBuyIngredients(
+      BuildContext context, String date) async {
+    await FamilyService.chooseFamilyMemberBuyIngredients(context, date);
+    notifyListeners();
   }
 
   Future<void> loadFamilyCode() async {

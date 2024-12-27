@@ -34,6 +34,9 @@ class AuthService {
         if (user['user_family_group'] != null) {
           final family = user['user_family_group'];
           await storage.write(key: 'familyId', value: family);
+        } else {
+          await storage.delete(key: 'familyId');
+          await storage.write(key: 'familyId', value: null);
         }
 
         await _saveUserData(
