@@ -92,7 +92,6 @@ flutter:
   assets:
     - assets/images/ingredient/
     - assets/images/deco/
-    - assets/images/recipe/
     - assets/icons/
     - .env
     - assets/data/ingredientSuggestions.json

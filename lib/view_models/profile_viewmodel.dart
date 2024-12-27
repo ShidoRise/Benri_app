@@ -28,6 +28,7 @@ class ProfileViewModel extends ChangeNotifier {
   Future<void> checkLoginStatus() async {
     final fetchUserInfo = await UserLocal.getUserInfo();
     _isLoggedIn = fetchUserInfo['userId']?.isNotEmpty == true;
+    print(_isLoggedIn);
     userInfo.addAll(fetchUserInfo);
     print('User info: ${userInfo['email']}');
     notifyListeners();

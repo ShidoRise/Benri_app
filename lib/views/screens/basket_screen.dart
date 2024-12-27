@@ -66,7 +66,13 @@ class BasketScreen extends StatelessWidget {
             );
           },
         ),
-        floatingActionButton: (true) ? _FloatingButton(context) : null,
+        floatingActionButton: (basketViewModel.selectedMode == 'Cá nhân' ||
+                (basketViewModel.selectedMode == 'Gia đình' &&
+                    Provider.of<ProfileViewModel>(context).isLoggedIn &&
+                    basketViewModel.hasInternet &&
+                    basketViewModel.hasFamily))
+            ? _floatingButton(context)
+            : null,
       );
     });
   }
@@ -120,7 +126,54 @@ class BasketScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ElevatedButton(
-                    onPressed: () => viewModel.deleteFamily(),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Delete Family'),
+                          content: const Text(
+                              'Are you sure you want to delete this family?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                try {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  await viewModel.deleteFamily();
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Family deleted successfully'),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('Error deleting family: $e'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                     child: Text("Delete Family",
                         style: TextStyle(
                             color: Colors.red, fontWeight: FontWeight.bold)),
@@ -239,12 +292,12 @@ class BasketScreen extends StatelessWidget {
     );
   }
 
-  Widget _FloatingButton(BuildContext context) {
+  Widget _floatingButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
         final basketViewModel =
             Provider.of<BasketViewModel>(context, listen: false);
-        basketViewModel.resetSelections(); // Add this line to reset selections
+        basketViewModel.resetSelections();
 
         final ingredient = await (basketViewModel.selectedMode == 'Cá nhân'
             ? addIngredientDialog(context)
