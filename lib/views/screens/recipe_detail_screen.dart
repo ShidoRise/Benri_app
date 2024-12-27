@@ -59,8 +59,8 @@ class RecipeDetailScreen extends StatelessWidget {
                             bottom: 0,
                             child: Container(
                               padding: const EdgeInsets.all(20),
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.background,
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20),
                                 ),

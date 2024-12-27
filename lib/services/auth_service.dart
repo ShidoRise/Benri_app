@@ -190,4 +190,56 @@ class AuthService {
       return false;
     }
   }
+
+  static Future<bool> forgotPassword(String email) async {
+    try {
+      final Map<String, String> userLocal = await UserLocal.getUserInfo();
+      try {
+        final response = await http.post(
+          Uri.parse('$baseUrl/request_reset_password'),
+          headers: {
+            'x-api-key': Constants.apiKey,
+            'content-type': 'application/json'
+          },
+          body: jsonEncode({"email": email, "name": 'Bạn'}),
+        );
+        if (response.statusCode == 200) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
+        print(e);
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<bool> xacthucReset(String email, String otp) async {
+    try {
+      final Map<String, String> userLocal = await UserLocal.getUserInfo();
+      try {
+        final response = await http.post(
+          Uri.parse('$baseUrl/reset_password'),
+          headers: {
+            'x-api-key': Constants.apiKey,
+            'content-type': 'application/json'
+          },
+          body: jsonEncode({"email": email, "otp": otp}),
+        );
+        if (response.statusCode == 200) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
+        print(e);
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
 }

@@ -93,10 +93,10 @@ class VerifyOTPScreenView extends StatelessWidget {
                   password,
                   name,
                 )) {
-                  Navigator.push(
-                    context,
+                  Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (context) => const NavigationMenu()),
+                    (route) => false,
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

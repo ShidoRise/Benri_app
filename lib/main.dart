@@ -5,6 +5,7 @@ import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/models/recipes/recipes.dart';
 import 'package:benri_app/services/user_local.dart';
+import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/utils/theme/app_theme.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/fridge_screen_provider.dart';
@@ -30,17 +31,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // Xử lý thông báo khi ứng dụng đang chạy ở chế độ nền
-  print("Handling a background message: ${message.messageId}");
   _showNotification(message.notification?.title, message.notification?.body);
 }
 
 void _handleForegroundMessage(RemoteMessage message) {
-  // Xử lý thông báo khi ứng dụng đang mở
-  print(
-      'Received a message while in the foreground: ${message.notification?.title} body:: ${message.notification?.body}');
-
-  // Hiển thị thông báo đẩy
   _showNotification(message.notification?.title, message.notification?.body);
 }
 
@@ -56,14 +50,14 @@ Future<void> _showNotification(String? title, String? body) async {
       NotificationDetails(android: androidPlatformChannelSpecifics);
   try {
     await flutterLocalNotificationsPlugin.show(
-      1221, // ID thông báo
-      title ?? '', // Tiêu đề
-      body ?? '', // Nội dung
+      1111,
+      title ?? '',
+      body ?? '',
       platformChannelSpecifics,
-      payload: 'item x', // Dữ liệu tùy chọn
+      payload: 'item x',
     );
   } catch (e) {
-    print("Error showing notification: $e"); // In ra lỗi nếu có
+    print("Error showing notification: $e");
   }
   print('222222');
 }
@@ -71,7 +65,6 @@ Future<void> _showNotification(String? title, String? body) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Cấu hình thông báo
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   final InitializationSettings initializationSettings =
@@ -124,7 +117,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FridgeScreenProvider()),
         ChangeNotifierProvider(create: (_) => FavouriteRecipeProvider()),
         ChangeNotifierProvider(create: (_) => DrawerProvider()),
-        ChangeNotifierProvider(create: (_) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (_) => ProfileViewModel())
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

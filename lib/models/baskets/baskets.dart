@@ -14,6 +14,15 @@ class Basket {
   @HiveField(2)
   String totalMoney;
 
+  @HiveField(3)
+  bool sync = false;
+
+  @HiveField(4)
+  String type = 'create';
+
+  @HiveField(5)
+  String id = 'empty';
+
   Basket({
     required this.date,
     required this.basketIngredients,

@@ -150,22 +150,22 @@ class RecipeTile extends StatelessWidget {
                             ),
                           ],
                         ),
-                        if (recipe.category.isNotEmpty)
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: BColors.primaryFirst.withOpacity(0.95),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: Text(
-                              recipe.category,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+                        // if (recipe.category.isNotEmpty)
+                        //   Container(
+                        //     padding: const EdgeInsets.symmetric(
+                        //         horizontal: 8, vertical: 4),
+                        //     decoration: BoxDecoration(
+                        //       color: BColors.primaryFirst.withOpacity(0.95),
+                        //       borderRadius: BorderRadius.circular(7),
+                        //     ),
+                        //     child: Text(
+                        //       recipe.category,
+                        //       style: const TextStyle(
+                        //         color: Colors.white,
+                        //         fontSize: 12,
+                        //       ),
+                        //     ),
+                        //   ),
                       ],
                     ),
                   ),

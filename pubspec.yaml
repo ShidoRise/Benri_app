@@ -60,6 +60,12 @@ dependencies:
   firebase_messaging: ^15.1.6
   flutter_local_notifications: ^18.0.1
   connectivity_plus: ^5.0.1
+  flutter_launcher_icons: ^0.14.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/logo.png"
 
 dev_dependencies:
   flutter_test:

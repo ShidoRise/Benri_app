@@ -18,6 +18,7 @@ class IngredientRecipeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('${ingredient.quantity} --unit :: ${ingredient.unit}');
     return Container(
       decoration: BoxDecoration(
           border: Border(

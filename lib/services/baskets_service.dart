@@ -1,12 +1,19 @@
+import 'dart:convert';
+
 import 'package:benri_app/models/baskets/baskets.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/services/user_local.dart';
+import 'package:benri_app/utils/constants/constant.dart';
 import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class BasketService {
   static Map<String, Basket> baskets = {};
   static final _basketBox = Hive.box<Basket>('basketBox');
+  static final String baseUrl = dotenv.get('API_URL');
 
   BasketService._();
 
@@ -48,6 +55,12 @@ class BasketService {
     await _updateLocalDatabase();
 
     // add in remote
+    if (baskets[date]!.id == 'empty') {
+      await createBasketServer(baskets[date]!);
+    } else {
+      baskets[date]!.sync = false;
+      await updateBasketServer(baskets[date]!);
+    }
   }
 
   static Future<void> toggleIngredientSelection(String date, int index) async {
@@ -64,6 +77,7 @@ class BasketService {
     if (index >= 0 && index < baskets[date]!.basketIngredients.length) {
       baskets[date]!.basketIngredients.removeAt(index);
       await _updateLocalDatabase();
+      await deleteBasketServer(baskets[date]!);
     }
   }
 
@@ -79,7 +93,12 @@ class BasketService {
 
       if (updatedIngredient != null) {
         baskets[date]!.basketIngredients[index] = updatedIngredient;
+        baskets[date]!.sync = false;
+        baskets[date]!.type = 'update';
         await _updateLocalDatabase();
+
+        //remote
+        await updateBasketServer(baskets[date]!);
       }
     }
   }
@@ -89,5 +108,110 @@ class BasketService {
       baskets[date]!.totalMoney = totalMoney;
       await _updateLocalDatabase();
     }
+  }
+
+  static Future<void> updateBasketServer(Basket basket) async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    try {
+      final response = await http
+          .patch(
+            Uri.parse('$baseUrl/baskets/${basket.id}'),
+            headers: {
+              'x-api-key': Constants.apiKey,
+              'content-type': 'application/json',
+              'authorization': userLocal['accessToken'] ?? '',
+              'x-client-id': userLocal['userId'] ?? '',
+            },
+            body: jsonEncode({
+              "name": basket.date,
+              "description": "",
+              "ingredients": basket.basketIngredients
+                  .map((item) => {
+                        "name": item.name,
+                        "quantity": item.quantity,
+                        "unit": item.unit,
+                        "category": item.category
+                      })
+                  .toList(),
+              "totalMoney": basket.totalMoney
+            }),
+          )
+          .timeout(Duration(seconds: 4));
+      if (response.statusCode == 200) {
+        //sync OK
+        final Map<String, dynamic> responseData =
+            jsonDecode(response.body)['metadata'];
+        // await _recipeBox.put(recipe.name, recipe);
+        print('==== ${responseData['basketId']}');
+        baskets[basket.date]!.sync = true;
+        await _updateLocalDatabase();
+      } else {}
+    } catch (e) {}
+  }
+
+  static Future<void> deleteBasketServer(Basket basket) async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    try {
+      final response = await http.delete(
+        Uri.parse('$baseUrl/baskets/${basket.id}'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'content-type': 'application/json',
+          'authorization': userLocal['accessToken'] ?? '',
+          'x-client-id': userLocal['userId'] ?? '',
+        },
+      ).timeout(Duration(seconds: 4));
+      if (response.statusCode == 200) {
+        //sync OK
+        final Map<String, dynamic> responseData =
+            jsonDecode(response.body)['metadata'];
+        // await _recipeBox.put(recipe.name, recipe);
+        print('==== ${responseData['basketId']}');
+        baskets[basket.date]!.sync = true;
+        baskets[basket.date]!.type = 'delete';
+        await _updateLocalDatabase();
+      } else {}
+    } catch (e) {}
+  }
+
+  static Future<void> createBasketServer(Basket basket) async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    try {
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl/baskets'),
+            headers: {
+              'x-api-key': Constants.apiKey,
+              'content-type': 'application/json',
+              'authorization': userLocal['accessToken'] ?? '',
+              'x-client-id': userLocal['userId'] ?? '',
+            },
+            body: jsonEncode({
+              "name": basket.date,
+              "description": "",
+              "ingredients": basket.basketIngredients
+                  .map((item) => {
+                        "name": item.name,
+                        "quantity": item.quantity,
+                        "unit": item.unit,
+                        "category": item.category
+                      })
+                  .toList(),
+              "totalMoney": basket.totalMoney
+            }),
+          )
+          .timeout(Duration(seconds: 4));
+      if (response.statusCode == 200) {
+        //sync OK
+        final Map<String, dynamic> responseData =
+            jsonDecode(response.body)['metadata'];
+        // await _recipeBox.put(recipe.name, recipe);
+        print('==== ${responseData['basketId']}');
+        baskets[basket.date]!.sync = true;
+        baskets[basket.date]!.id = responseData['basketId'];
+
+        await _updateLocalDatabase();
+      } else {}
+    } catch (e) {}
   }
 }
