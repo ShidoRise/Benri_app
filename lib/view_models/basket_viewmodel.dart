@@ -5,19 +5,12 @@ import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/services/baskets_service.dart';
 import 'package:benri_app/services/family_service.dart';
-import 'package:benri_app/utils/constants/ingredient_suggestions_db.dart';
+import 'package:benri_app/services/ingredient_suggestions_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 class BasketViewModel extends ChangeNotifier {
-  final _ingredientSuggestionsBox = Hive.box('ingredientSuggestionsBox');
-
-  IngredientSuggestionsDB ingredientsDB = IngredientSuggestionsDB();
-
-  List<IngredientSuggestion> filteredIngredientSuggestions = [];
-
   final DateFormat _dateFormat = DateFormat('yMd');
   DateTime _focusDate = DateTime.now();
 
@@ -35,6 +28,19 @@ class BasketViewModel extends ChangeNotifier {
   String get focusDateFormatted => _dateFormat.format(_focusDate);
   DateTime get focusDate => _focusDate;
 
+  final List<String> _unitOptions = ['gam', 'kg', 'hộp', 'quả', 'lít'];
+  List<String> get unitOptions => _unitOptions;
+
+  final List<String> _categories = [
+    'Thịt & Hải sản',
+    'Rau củ & Trái cây',
+    'Đồ khô',
+    'Đồ uống',
+    'Gia vị',
+    'Khác',
+  ];
+  List<String> get categories => _categories;
+
   String? _selectedUnit;
   String? get selectedUnit => _selectedUnit;
 
@@ -47,6 +53,8 @@ class BasketViewModel extends ChangeNotifier {
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  List<IngredientSuggestion> filteredIngredientSuggestions = [];
 
   BasketViewModel() {
     initConnectivity();
@@ -65,15 +73,15 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetSelections() {
+    _selectedUnit = null;
+    _selectedCategory = null;
+    notifyListeners();
+  }
+
   void _initializeData() {
     BasketService.initializeLocalData();
-    if (_ingredientSuggestionsBox.get('isFirstTime') == null) {
-      ingredientsDB.createInitialData();
-      _ingredientSuggestionsBox.put('isFirstTime', false);
-      notifyListeners();
-    } else {
-      ingredientsDB.loadData();
-    }
+    IngredientSuggestionsService.initializeLocalData();
     notifyListeners();
   }
 
@@ -84,6 +92,7 @@ class BasketViewModel extends ChangeNotifier {
   }
 
   void addIngredient(BasketIngredient ingredient) {
+    resetSelections();
     BasketService.addIngredient(focusDateFormatted, ingredient);
     notifyListeners();
   }
@@ -114,9 +123,11 @@ class BasketViewModel extends ChangeNotifier {
 
   void filterIngredientSuggestions(String query) {
     if (query.isNotEmpty) {
-      filteredIngredientSuggestions = ingredientsDB.ingredientSuggestions
-          .where((ingredient) =>
-              ingredient.name.toLowerCase().contains(query.toLowerCase()))
+      filteredIngredientSuggestions = IngredientSuggestionsService
+          .ingredientSuggestions
+          .where((ingredient) => ingredient.nameInVietnamese
+              .toLowerCase()
+              .contains(query.toLowerCase()))
           .toList();
     } else {
       filteredIngredientSuggestions = [];
@@ -131,8 +142,9 @@ class BasketViewModel extends ChangeNotifier {
 
   String getImageUrlFromLocalStorage(String ingredientName) {
     if (ingredientName.isNotEmpty) {
-      final ingredient = ingredientsDB.ingredientSuggestions.firstWhere(
-        (i) => i.name.toLowerCase() == ingredientName.toLowerCase(),
+      final ingredient =
+          IngredientSuggestionsService.ingredientSuggestions.firstWhere(
+        (i) => i.nameInVietnamese.toLowerCase() == ingredientName.toLowerCase(),
         orElse: () => IngredientSuggestion(
             name: '', thumbnailUrl: '', nameInVietnamese: ''),
       );
@@ -224,13 +236,14 @@ class BasketViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> addFamilyIngredient(FamilyIngredient ingredient) async {
-    await FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
+  void addFamilyIngredient(FamilyIngredient ingredient) {
+    resetSelections();
+    FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
     notifyListeners();
   }
 
-  Future<void> deleteFamilytItem(int index) async {
-    await FamilyService.deleteFamilyItem(focusDateFormatted, index);
+  void deleteFamilytItem(int index) {
+    FamilyService.deleteFamilyItem(focusDateFormatted, index);
     notifyListeners();
   }
 

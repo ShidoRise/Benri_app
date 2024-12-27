@@ -33,7 +33,7 @@ void main() async {
 
   await Hive.openBox('fridgeIngredientBox');
   await Hive.openBox<Basket>('basketBox');
-  await Hive.openBox('ingredientSuggestionsBox');
+  await Hive.openBox<IngredientSuggestion>('ingredientSuggestionsBox');
   await Hive.openBox<Recipes>('recipeBox');
   await Hive.openBox<FridgeDrawer>('fridgeDrawerBox');
   await Hive.openBox<bool>('favoriteBox');

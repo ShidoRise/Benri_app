@@ -1,0 +1,2924 @@
+[{
+  "_id": {
+    "$oid": "66ef7b5021f9f74fe872d92c"
+  },
+  "ingredient_name": "Chicken",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chicken-Small.png",
+  "ingredient_name_vi": "Gà",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chicken.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:04.099Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:04.099Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b5121f9f74fe872d92e"
+  },
+  "ingredient_name": "Salmon",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Salmon-Small.png",
+  "ingredient_name_vi": "Cá hồi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Salmon.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:05.479Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:05.479Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b5321f9f74fe872d930"
+  },
+  "ingredient_name": "Beef",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Beef-Small.png",
+  "ingredient_name_vi": "Thịt bò",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Beef.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:07.784Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:07.784Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b5621f9f74fe872d932"
+  },
+  "ingredient_name": "Pork",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Pork-Small.png",
+  "ingredient_name_vi": "Thịt lợn",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Pork.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:10.109Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:10.109Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b5821f9f74fe872d934"
+  },
+  "ingredient_name": "Avocado",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Avocado-Small.png",
+  "ingredient_name_vi": "Avocado",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Avocado.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:12.051Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:12.051Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b5921f9f74fe872d936"
+  },
+  "ingredient_name": "Apple Cider Vinegar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Apple Cider Vinegar-Small.png",
+  "ingredient_name_vi": "Giấm táo",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Apple Cider Vinegar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:13.896Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:13.896Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b5c21f9f74fe872d938"
+  },
+  "ingredient_name": "Asparagus",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Asparagus-Small.png",
+  "ingredient_name_vi": "Măng tây",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Asparagus.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:16.610Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:16.610Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b5e21f9f74fe872d93a"
+  },
+  "ingredient_name": "Aubergine",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Aubergine-Small.png",
+  "ingredient_name_vi": "Cà tím",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Aubergine.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:18.770Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:18.770Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6121f9f74fe872d93c"
+  },
+  "ingredient_name": "Baby Plum Tomatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Baby Plum Tomatoes-Small.png",
+  "ingredient_name_vi": "Cà chua mận bé",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Baby Plum Tomatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:21.178Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:21.178Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6221f9f74fe872d93e"
+  },
+  "ingredient_name": "Bacon",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Bacon-Small.png",
+  "ingredient_name_vi": "Bacon",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Bacon.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:22.008Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:22.008Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6421f9f74fe872d940"
+  },
+  "ingredient_name": "Baking Powder",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Baking Powder-Small.png",
+  "ingredient_name_vi": "Bột nở",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Baking Powder.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:24.633Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:24.633Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6521f9f74fe872d942"
+  },
+  "ingredient_name": "Balsamic Vinegar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Balsamic Vinegar-Small.png",
+  "ingredient_name_vi": "Giấm Balsamic",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Balsamic Vinegar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:25.540Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:25.540Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6721f9f74fe872d944"
+  },
+  "ingredient_name": "Basil",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Basil-Small.png",
+  "ingredient_name_vi": "Basil",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Basil.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:27.693Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:27.693Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6a21f9f74fe872d946"
+  },
+  "ingredient_name": "Basil Leaves",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Basil Leaves-Small.png",
+  "ingredient_name_vi": "Lá húng quế",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Basil Leaves.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:30.180Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:30.180Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6d21f9f74fe872d948"
+  },
+  "ingredient_name": "Basmati Rice",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Basmati Rice-Small.png",
+  "ingredient_name_vi": "Gạo Basmati",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Basmati Rice.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:33.738Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:33.738Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6e21f9f74fe872d94a"
+  },
+  "ingredient_name": "Bay Leaf",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Bay Leaf-Small.png",
+  "ingredient_name_vi": "Lá nguyệt quế",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Bay Leaf.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:34.924Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:34.924Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b6f21f9f74fe872d94c"
+  },
+  "ingredient_name": "Bay Leaves",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Bay Leaves-Small.png",
+  "ingredient_name_vi": "Lá nguyệt quế",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Bay Leaves.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:35.941Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:35.941Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b7221f9f74fe872d94e"
+  },
+  "ingredient_name": "Beef Brisket",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Beef Brisket-Small.png",
+  "ingredient_name_vi": "Ức bò",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Beef Brisket.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:38.171Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:38.171Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b7421f9f74fe872d950"
+  },
+  "ingredient_name": "Beef Fillet",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Beef Fillet-Small.png",
+  "ingredient_name_vi": "Phi lê thịt bò",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Beef Fillet.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:40.096Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:40.096Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b7521f9f74fe872d952"
+  },
+  "ingredient_name": "Beef Gravy",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Beef Gravy-Small.png",
+  "ingredient_name_vi": "Nước thịt bò",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Beef Gravy.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:41.330Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:41.330Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b7621f9f74fe872d954"
+  },
+  "ingredient_name": "Beef Stock",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Beef Stock-Small.png",
+  "ingredient_name_vi": "Thịt bò kho",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Beef Stock.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:42.584Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:42.584Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b7921f9f74fe872d956"
+  },
+  "ingredient_name": "Bicarbonate Of Soda",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Bicarbonate Of Soda-Small.png",
+  "ingredient_name_vi": "Bicarbonate của Soda",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Bicarbonate Of Soda.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:45.242Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:45.242Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b7a21f9f74fe872d958"
+  },
+  "ingredient_name": "Biryani Masala",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Biryani Masala-Small.png",
+  "ingredient_name_vi": "Biryani Masala",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Biryani Masala.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:46.801Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:46.801Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b7c21f9f74fe872d95a"
+  },
+  "ingredient_name": "Black Pepper",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Black Pepper-Small.png",
+  "ingredient_name_vi": "Hạt tiêu đen",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Black Pepper.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:48.447Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:48.447Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b7e21f9f74fe872d95c"
+  },
+  "ingredient_name": "Black Treacle",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Black Treacle-Small.png",
+  "ingredient_name_vi": "Kho bạc đen",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Black Treacle.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:50.162Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:50.162Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8021f9f74fe872d95e"
+  },
+  "ingredient_name": "Borlotti Beans",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Borlotti Beans-Small.png",
+  "ingredient_name_vi": "Đậu Borlotti",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Borlotti Beans.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:52.566Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:52.566Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8121f9f74fe872d960"
+  },
+  "ingredient_name": "Bowtie Pasta",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Bowtie Pasta-Small.png",
+  "ingredient_name_vi": "Mì ống Bowtie",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Bowtie Pasta.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:53.993Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:53.993Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8321f9f74fe872d962"
+  },
+  "ingredient_name": "Bramley Apples",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Bramley Apples-Small.png",
+  "ingredient_name_vi": "Táo Bramley",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Bramley Apples.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:55.524Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:55.524Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8421f9f74fe872d964"
+  },
+  "ingredient_name": "Brandy",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Brandy-Small.png",
+  "ingredient_name_vi": "Rượu branđi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Brandy.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:56.530Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:56.530Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8721f9f74fe872d966"
+  },
+  "ingredient_name": "Bread",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Bread-Small.png",
+  "ingredient_name_vi": "Bánh mì",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Bread.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:05:59.313Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:05:59.313Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8921f9f74fe872d968"
+  },
+  "ingredient_name": "Breadcrumbs",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Breadcrumbs-Small.png",
+  "ingredient_name_vi": "Vụn bánh mì",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Breadcrumbs.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:01.553Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:01.553Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8b21f9f74fe872d96a"
+  },
+  "ingredient_name": "Broccoli",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Broccoli-Small.png",
+  "ingredient_name_vi": "Broccoli",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Broccoli.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:03.337Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:03.337Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8c21f9f74fe872d96c"
+  },
+  "ingredient_name": "Brown Lentils",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Brown Lentils-Small.png",
+  "ingredient_name_vi": "Đậu lăng nâu",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Brown Lentils.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:04.443Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:04.443Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8e21f9f74fe872d96e"
+  },
+  "ingredient_name": "Brown Rice",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Brown Rice-Small.png",
+  "ingredient_name_vi": "Gạo lứt",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Brown Rice.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:06.656Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:06.656Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b8f21f9f74fe872d970"
+  },
+  "ingredient_name": "Brown Sugar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Brown Sugar-Small.png",
+  "ingredient_name_vi": "Đường nâu",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Brown Sugar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:07.621Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:07.621Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b9221f9f74fe872d972"
+  },
+  "ingredient_name": "Butter",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Butter-Small.png",
+  "ingredient_name_vi": "Bơ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Butter.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:10.371Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:10.371Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b9421f9f74fe872d974"
+  },
+  "ingredient_name": "Cacao",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cacao-Small.png",
+  "ingredient_name_vi": "Cacao",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cacao.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:12.655Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:12.655Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b9621f9f74fe872d976"
+  },
+  "ingredient_name": "Cajun",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cajun-Small.png",
+  "ingredient_name_vi": "Cajun",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cajun.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:14.035Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:14.035Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b9721f9f74fe872d978"
+  },
+  "ingredient_name": "Canned Tomatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Canned Tomatoes-Small.png",
+  "ingredient_name_vi": "Cà chua đóng hộp",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Canned Tomatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:15.422Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:15.422Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b9921f9f74fe872d97a"
+  },
+  "ingredient_name": "Cannellini Beans",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cannellini Beans-Small.png",
+  "ingredient_name_vi": "Đậu Cannellini",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cannellini Beans.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:17.705Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:17.705Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b9b21f9f74fe872d97c"
+  },
+  "ingredient_name": "Cardamom",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cardamom-Small.png",
+  "ingredient_name_vi": "Thảo quả",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cardamom.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:19.495Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:19.495Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b9d21f9f74fe872d97e"
+  },
+  "ingredient_name": "Carrots",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Carrots-Small.png",
+  "ingredient_name_vi": "Cà rốt",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Carrots.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:21.416Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:21.416Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7b9e21f9f74fe872d980"
+  },
+  "ingredient_name": "Cashew Nuts",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cashew Nuts-Small.png",
+  "ingredient_name_vi": "Hạt điều",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cashew Nuts.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:22.784Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:22.784Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ba021f9f74fe872d982"
+  },
+  "ingredient_name": "Cashews",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cashews-Small.png",
+  "ingredient_name_vi": "Hạt điều",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cashews.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:24.897Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:24.897Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ba221f9f74fe872d984"
+  },
+  "ingredient_name": "Caster Sugar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Caster Sugar-Small.png",
+  "ingredient_name_vi": "Đường Caster",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Caster Sugar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:26.174Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:26.174Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ba421f9f74fe872d986"
+  },
+  "ingredient_name": "Cayenne Pepper",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cayenne Pepper-Small.png",
+  "ingredient_name_vi": "Ớt cayenne",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cayenne Pepper.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:28.700Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:28.700Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ba621f9f74fe872d988"
+  },
+  "ingredient_name": "Celeriac",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Celeriac-Small.png",
+  "ingredient_name_vi": "Cần tây",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Celeriac.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:30.262Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:30.262Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ba821f9f74fe872d98a"
+  },
+  "ingredient_name": "Celery",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Celery-Small.png",
+  "ingredient_name_vi": "Cần tây",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Celery.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:32.050Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:32.050Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ba821f9f74fe872d98c"
+  },
+  "ingredient_name": "Celery Salt",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Celery Salt-Small.png",
+  "ingredient_name_vi": "Muối cần tây",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Celery Salt.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:32.999Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:32.999Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bab21f9f74fe872d98e"
+  },
+  "ingredient_name": "Challots",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Challots-Small.png",
+  "ingredient_name_vi": "Hẹ tây",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Challots.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:35.051Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:35.051Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bac21f9f74fe872d990"
+  },
+  "ingredient_name": "Charlotte Potatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Charlotte Potatoes-Small.png",
+  "ingredient_name_vi": "Khoai tây Charlotte",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Charlotte Potatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:36.757Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:36.757Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bae21f9f74fe872d992"
+  },
+  "ingredient_name": "Cheddar Cheese",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cheddar Cheese-Small.png",
+  "ingredient_name_vi": "Phô mai Cheddar",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cheddar Cheese.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:38.136Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:38.136Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bb021f9f74fe872d994"
+  },
+  "ingredient_name": "Cheese",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cheese-Small.png",
+  "ingredient_name_vi": "Phó mát",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cheese.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:40.010Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:40.010Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bb121f9f74fe872d996"
+  },
+  "ingredient_name": "Cheese Curds",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cheese Curds-Small.png",
+  "ingredient_name_vi": "Phô mai sữa đông",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cheese Curds.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:41.859Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:41.859Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bb321f9f74fe872d998"
+  },
+  "ingredient_name": "Cherry Tomatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cherry Tomatoes-Small.png",
+  "ingredient_name_vi": "Cà chua bi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cherry Tomatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:43.531Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:43.531Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bb421f9f74fe872d99a"
+  },
+  "ingredient_name": "Chestnut Mushroom",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chestnut Mushroom-Small.png",
+  "ingredient_name_vi": "Nấm hạt dẻ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chestnut Mushroom.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:44.822Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:44.822Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bb821f9f74fe872d99c"
+  },
+  "ingredient_name": "Chicken Breast",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chicken Breast-Small.png",
+  "ingredient_name_vi": "Ức gà",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chicken Breast.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:48.181Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:48.181Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bba21f9f74fe872d99e"
+  },
+  "ingredient_name": "Chicken Breasts",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chicken Breasts-Small.png",
+  "ingredient_name_vi": "Ức gà",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chicken Breasts.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:50.048Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:50.048Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bbb21f9f74fe872d9a0"
+  },
+  "ingredient_name": "Chicken Legs",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chicken Legs-Small.png",
+  "ingredient_name_vi": "Chân gà",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chicken Legs.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:51.372Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:51.372Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bbd21f9f74fe872d9a2"
+  },
+  "ingredient_name": "Chicken Stock",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chicken Stock-Small.png",
+  "ingredient_name_vi": "Gà kho",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chicken Stock.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:53.846Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:53.846Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bbf21f9f74fe872d9a4"
+  },
+  "ingredient_name": "Chicken Thighs",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chicken Thighs-Small.png",
+  "ingredient_name_vi": "Đùi gà",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chicken Thighs.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:55.491Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:55.491Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bc121f9f74fe872d9a6"
+  },
+  "ingredient_name": "Chickpeas",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chickpeas-Small.png",
+  "ingredient_name_vi": "Đậu xanh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chickpeas.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:57.559Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:57.559Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bc321f9f74fe872d9a8"
+  },
+  "ingredient_name": "Chili Powder",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chili Powder-Small.png",
+  "ingredient_name_vi": "Ớt bột",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chili Powder.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:06:59.431Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:06:59.431Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bc421f9f74fe872d9aa"
+  },
+  "ingredient_name": "Chilled Butter",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chilled Butter-Small.png",
+  "ingredient_name_vi": "Bơ ướp lạnh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chilled Butter.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:00.650Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:00.650Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bc621f9f74fe872d9ac"
+  },
+  "ingredient_name": "Chilli",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chilli-Small.png",
+  "ingredient_name_vi": "Ớt",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chilli.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:02.916Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:02.916Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bc821f9f74fe872d9ae"
+  },
+  "ingredient_name": "Chilli Powder",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chilli Powder-Small.png",
+  "ingredient_name_vi": "Ớt bột",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chilli Powder.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:04.977Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:04.977Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bcb21f9f74fe872d9b0"
+  },
+  "ingredient_name": "Chinese Broccoli",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chinese Broccoli-Small.png",
+  "ingredient_name_vi": "Bông cải xanh Trung Quốc",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chinese Broccoli.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:07.095Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:07.095Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bcd21f9f74fe872d9b2"
+  },
+  "ingredient_name": "Chocolate Chips",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chocolate Chips-Small.png",
+  "ingredient_name_vi": "Sô cô la vụn",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chocolate Chips.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:09.109Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:09.109Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bcf21f9f74fe872d9b4"
+  },
+  "ingredient_name": "Chopped Onion",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chopped Onion-Small.png",
+  "ingredient_name_vi": "Hành tây xắt nhỏ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chopped Onion.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:11.518Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:11.518Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bd121f9f74fe872d9b6"
+  },
+  "ingredient_name": "Chopped Parsley",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chopped Parsley-Small.png",
+  "ingredient_name_vi": "Rau mùi tây xắt nhỏ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chopped Parsley.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:13.229Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:13.229Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bd221f9f74fe872d9b8"
+  },
+  "ingredient_name": "Chopped Tomatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chopped Tomatoes-Small.png",
+  "ingredient_name_vi": "Cà chua xắt nhỏ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chopped Tomatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:14.846Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:14.846Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bd521f9f74fe872d9ba"
+  },
+  "ingredient_name": "Chorizo",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chorizo-Small.png",
+  "ingredient_name_vi": "Chorizo",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chorizo.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:17.384Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:17.384Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7bd721f9f74fe872d9bc"
+  },
+  "ingredient_name": "Christmas Pudding",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Christmas Pudding-Small.png",
+  "ingredient_name_vi": "Bánh pudding Giáng sinh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Christmas Pudding.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:07:19.259Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:07:19.259Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7dd9a68a6b2f907c6ab7"
+  },
+  "ingredient_name": "Chilli",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chilli-Small.png",
+  "ingredient_name_vi": "Ớt",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chilli.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:15:53.295Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:15:53.295Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ddca68a6b2f907c6ab9"
+  },
+  "ingredient_name": "Chilli Powder",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chilli Powder-Small.png",
+  "ingredient_name_vi": "Ớt bột",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chilli Powder.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:15:56.164Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:15:56.164Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ddda68a6b2f907c6abb"
+  },
+  "ingredient_name": "Chinese Broccoli",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chinese Broccoli-Small.png",
+  "ingredient_name_vi": "Bông cải xanh Trung Quốc",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chinese Broccoli.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:15:57.652Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:15:57.652Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7ddfa68a6b2f907c6abd"
+  },
+  "ingredient_name": "Chocolate Chips",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chocolate Chips-Small.png",
+  "ingredient_name_vi": "Sô cô la vụn",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chocolate Chips.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:15:59.164Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:15:59.164Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7de1a68a6b2f907c6abf"
+  },
+  "ingredient_name": "Chopped Onion",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chopped Onion-Small.png",
+  "ingredient_name_vi": "Hành tây xắt nhỏ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chopped Onion.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:01.107Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:01.107Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7de3a68a6b2f907c6ac1"
+  },
+  "ingredient_name": "Chopped Parsley",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chopped Parsley-Small.png",
+  "ingredient_name_vi": "Rau mùi tây xắt nhỏ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chopped Parsley.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:03.479Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:03.479Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7de6a68a6b2f907c6ac3"
+  },
+  "ingredient_name": "Chopped Tomatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chopped Tomatoes-Small.png",
+  "ingredient_name_vi": "Cà chua xắt nhỏ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chopped Tomatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:06.187Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:06.187Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7de7a68a6b2f907c6ac5"
+  },
+  "ingredient_name": "Chorizo",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Chorizo-Small.png",
+  "ingredient_name_vi": "Chorizo",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Chorizo.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:07.430Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:07.430Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7de8a68a6b2f907c6ac7"
+  },
+  "ingredient_name": "Christmas Pudding",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Christmas Pudding-Small.png",
+  "ingredient_name_vi": "Bánh pudding Giáng sinh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Christmas Pudding.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:08.937Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:08.937Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7deaa68a6b2f907c6ac9"
+  },
+  "ingredient_name": "Cilantro",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cilantro-Small.png",
+  "ingredient_name_vi": "Ngò",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cilantro.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:10.188Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:10.188Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7deba68a6b2f907c6acb"
+  },
+  "ingredient_name": "Cinnamon",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cinnamon-Small.png",
+  "ingredient_name_vi": "Quế",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cinnamon.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:11.504Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:11.504Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7deda68a6b2f907c6acd"
+  },
+  "ingredient_name": "Cinnamon Stick",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cinnamon Stick-Small.png",
+  "ingredient_name_vi": "Thanh quế",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cinnamon Stick.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:13.191Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:13.191Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7deea68a6b2f907c6acf"
+  },
+  "ingredient_name": "Cloves",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cloves-Small.png",
+  "ingredient_name_vi": "Đinh hương",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cloves.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:14.708Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:14.708Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7df1a68a6b2f907c6ad1"
+  },
+  "ingredient_name": "Coco Sugar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Coco Sugar-Small.png",
+  "ingredient_name_vi": "Đường dừa",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Coco Sugar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:17.265Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:17.265Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7df3a68a6b2f907c6ad3"
+  },
+  "ingredient_name": "Cocoa",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cocoa-Small.png",
+  "ingredient_name_vi": "Cacao",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cocoa.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:19.836Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:19.836Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7df5a68a6b2f907c6ad5"
+  },
+  "ingredient_name": "Coconut Cream",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Coconut Cream-Small.png",
+  "ingredient_name_vi": "Kem dừa",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Coconut Cream.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:21.526Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:21.526Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7df6a68a6b2f907c6ad7"
+  },
+  "ingredient_name": "Coconut Milk",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Coconut Milk-Small.png",
+  "ingredient_name_vi": "Nước cốt dừa",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Coconut Milk.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:22.480Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:22.480Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7df8a68a6b2f907c6ad9"
+  },
+  "ingredient_name": "Colby Jack Cheese",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Colby Jack Cheese-Small.png",
+  "ingredient_name_vi": "Phô mai Colby Jack",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Colby Jack Cheese.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:24.711Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:24.711Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7dfaa68a6b2f907c6adb"
+  },
+  "ingredient_name": "Cold Water",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cold Water-Small.png",
+  "ingredient_name_vi": "Nước lạnh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cold Water.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:26.526Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:26.526Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7dfca68a6b2f907c6add"
+  },
+  "ingredient_name": "Condensed Milk",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Condensed Milk-Small.png",
+  "ingredient_name_vi": "Sữa đặc",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Condensed Milk.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:28.492Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:28.492Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7dffa68a6b2f907c6adf"
+  },
+  "ingredient_name": "Coriander",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Coriander-Small.png",
+  "ingredient_name_vi": "Ngò",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Coriander.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:31.275Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:31.275Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e02a68a6b2f907c6ae1"
+  },
+  "ingredient_name": "Coriander Leaves",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Coriander Leaves-Small.png",
+  "ingredient_name_vi": "Lá rau mùi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Coriander Leaves.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:34.736Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:34.736Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e04a68a6b2f907c6ae3"
+  },
+  "ingredient_name": "Coriander Seeds",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Coriander Seeds-Small.png",
+  "ingredient_name_vi": "Hạt rau mùi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Coriander Seeds.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:36.127Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:36.127Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e06a68a6b2f907c6ae5"
+  },
+  "ingredient_name": "Corn Tortillas",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Corn Tortillas-Small.png",
+  "ingredient_name_vi": "Bánh ngô",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Corn Tortillas.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:38.115Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:38.115Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e07a68a6b2f907c6ae7"
+  },
+  "ingredient_name": "Cornstarch",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cornstarch-Small.png",
+  "ingredient_name_vi": "Cornstarch",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cornstarch.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:39.045Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:39.045Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e0aa68a6b2f907c6ae9"
+  },
+  "ingredient_name": "Cream",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cream-Small.png",
+  "ingredient_name_vi": "Kem",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cream.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:42.470Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:42.470Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e0ba68a6b2f907c6aeb"
+  },
+  "ingredient_name": "Creme Fraiche",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Creme Fraiche-Small.png",
+  "ingredient_name_vi": "Creme Fraiche",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Creme Fraiche.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:43.959Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:43.959Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e0da68a6b2f907c6aed"
+  },
+  "ingredient_name": "Cubed Feta Cheese",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cubed Feta Cheese-Small.png",
+  "ingredient_name_vi": "Phô mai Feta hình khối",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cubed Feta Cheese.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:45.164Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:45.164Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e0ea68a6b2f907c6aef"
+  },
+  "ingredient_name": "Cucumber",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cucumber-Small.png",
+  "ingredient_name_vi": "Dưa chuột",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cucumber.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:46.327Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:46.327Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e0fa68a6b2f907c6af1"
+  },
+  "ingredient_name": "Cumin",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cumin-Small.png",
+  "ingredient_name_vi": "Cumin",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cumin.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:47.627Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:47.627Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e10a68a6b2f907c6af3"
+  },
+  "ingredient_name": "Cumin Seeds",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Cumin Seeds-Small.png",
+  "ingredient_name_vi": "Hạt thì là",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Cumin Seeds.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:48.796Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:48.796Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e13a68a6b2f907c6af5"
+  },
+  "ingredient_name": "Curry Powder",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Curry Powder-Small.png",
+  "ingredient_name_vi": "Bột cà ri",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Curry Powder.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:51.111Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:51.111Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e14a68a6b2f907c6af7"
+  },
+  "ingredient_name": "Dark Brown Sugar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Dark Brown Sugar-Small.png",
+  "ingredient_name_vi": "Đường nâu sẫm",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Dark Brown Sugar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:52.473Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:52.473Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e17a68a6b2f907c6af9"
+  },
+  "ingredient_name": "Dark Soft Brown Sugar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Dark Soft Brown Sugar-Small.png",
+  "ingredient_name_vi": "Đường nâu mềm sẫm",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Dark Soft Brown Sugar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:55.175Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:55.175Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e19a68a6b2f907c6afb"
+  },
+  "ingredient_name": "Dark Soy Sauce",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Dark Soy Sauce-Small.png",
+  "ingredient_name_vi": "Nước tương đen",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Dark Soy Sauce.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:57.553Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:57.553Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e1ba68a6b2f907c6afd"
+  },
+  "ingredient_name": "Demerara Sugar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Demerara Sugar-Small.png",
+  "ingredient_name_vi": "Đường Demerara",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Demerara Sugar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:16:59.924Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:16:59.924Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e1da68a6b2f907c6aff"
+  },
+  "ingredient_name": "Diced Tomatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Diced Tomatoes-Small.png",
+  "ingredient_name_vi": "Cà chua thái hạt lựu",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Diced Tomatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:01.234Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:01.234Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e1fa68a6b2f907c6b01"
+  },
+  "ingredient_name": "Digestive Biscuits",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Digestive Biscuits-Small.png",
+  "ingredient_name_vi": "Bánh quy tiêu hóa",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Digestive Biscuits.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:03.160Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:03.160Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e20a68a6b2f907c6b03"
+  },
+  "ingredient_name": "Dill",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Dill-Small.png",
+  "ingredient_name_vi": "Thìa là",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Dill.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:04.703Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:04.703Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e22a68a6b2f907c6b05"
+  },
+  "ingredient_name": "Doner Meat",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Doner Meat-Small.png",
+  "ingredient_name_vi": "Thịt Doner",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Doner Meat.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:06.224Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:06.224Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e24a68a6b2f907c6b07"
+  },
+  "ingredient_name": "Double Cream",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Double Cream-Small.png",
+  "ingredient_name_vi": "Kem đôi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Double Cream.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:08.289Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:08.289Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e26a68a6b2f907c6b09"
+  },
+  "ingredient_name": "Dried Oregano",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Dried Oregano-Small.png",
+  "ingredient_name_vi": "Oregano khô",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Dried Oregano.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:10.654Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:10.654Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e28a68a6b2f907c6b0b"
+  },
+  "ingredient_name": "Dry White Wine",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Dry White Wine-Small.png",
+  "ingredient_name_vi": "Rượu vang trắng khô",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Dry White Wine.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:12.206Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:12.206Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e2aa68a6b2f907c6b0d"
+  },
+  "ingredient_name": "Egg Plants",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Egg Plants-Small.png",
+  "ingredient_name_vi": "Cây trứng",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Egg Plants.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:14.294Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:14.294Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e2ba68a6b2f907c6b0f"
+  },
+  "ingredient_name": "Egg Rolls",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Egg Rolls-Small.png",
+  "ingredient_name_vi": "Trứng cuộn",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Egg Rolls.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:15.292Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:15.292Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e2da68a6b2f907c6b11"
+  },
+  "ingredient_name": "Egg White",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Egg White-Small.png",
+  "ingredient_name_vi": "Lòng trắng trứng",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Egg White.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:17.486Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:17.486Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e2ea68a6b2f907c6b13"
+  },
+  "ingredient_name": "Egg Yolks",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Egg Yolks-Small.png",
+  "ingredient_name_vi": "Lòng đỏ trứng",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Egg Yolks.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:18.464Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:18.464Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e30a68a6b2f907c6b15"
+  },
+  "ingredient_name": "Eggs",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Eggs-Small.png",
+  "ingredient_name_vi": "Trứng",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Eggs.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:20.609Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:20.609Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e32a68a6b2f907c6b17"
+  },
+  "ingredient_name": "Enchilada Sauce",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Enchilada Sauce-Small.png",
+  "ingredient_name_vi": "Sốt Enchilada",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Enchilada Sauce.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:22.873Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:22.873Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e34a68a6b2f907c6b19"
+  },
+  "ingredient_name": "English Mustard",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/English Mustard-Small.png",
+  "ingredient_name_vi": "Mù tạt tiếng Anh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/English Mustard.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:24.143Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:24.143Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e36a68a6b2f907c6b1b"
+  },
+  "ingredient_name": "Extra Virgin Olive Oil",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Extra Virgin Olive Oil-Small.png",
+  "ingredient_name_vi": "Dầu ô liu Extra Virgin",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Extra Virgin Olive Oil.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:26.766Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:26.766Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e38a68a6b2f907c6b1d"
+  },
+  "ingredient_name": "Fajita Seasoning",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Fajita Seasoning-Small.png",
+  "ingredient_name_vi": "Gia vị Fajita",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Fajita Seasoning.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:28.388Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:28.388Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e3aa68a6b2f907c6b1f"
+  },
+  "ingredient_name": "Farfalle",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Farfalle-Small.png",
+  "ingredient_name_vi": "Bướm",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Farfalle.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:30.294Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:30.294Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e3ca68a6b2f907c6b21"
+  },
+  "ingredient_name": "Fennel Bulb",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Fennel Bulb-Small.png",
+  "ingredient_name_vi": "Củ thì là",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Fennel Bulb.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:32.051Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:32.051Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e3fa68a6b2f907c6b23"
+  },
+  "ingredient_name": "Fennel Seeds",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Fennel Seeds-Small.png",
+  "ingredient_name_vi": "Hạt thì là",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Fennel Seeds.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:35.071Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:35.071Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e42a68a6b2f907c6b25"
+  },
+  "ingredient_name": "Fenugreek",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Fenugreek-Small.png",
+  "ingredient_name_vi": "Cỏ cà ri",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Fenugreek.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:38.241Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:38.241Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e45a68a6b2f907c6b27"
+  },
+  "ingredient_name": "Feta",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Feta-Small.png",
+  "ingredient_name_vi": "Thực hiện",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Feta.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:41.133Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:41.133Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e47a68a6b2f907c6b29"
+  },
+  "ingredient_name": "Fish Sauce",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Fish Sauce-Small.png",
+  "ingredient_name_vi": "Nước mắm",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Fish Sauce.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:43.170Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:43.170Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e49a68a6b2f907c6b2b"
+  },
+  "ingredient_name": "Flaked Almonds",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Flaked Almonds-Small.png",
+  "ingredient_name_vi": "Hạnh nhân vảy",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Flaked Almonds.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:45.205Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:45.205Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e4ba68a6b2f907c6b2d"
+  },
+  "ingredient_name": "Flax Eggs",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Flax Eggs-Small.png",
+  "ingredient_name_vi": "Trứng lanh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Flax Eggs.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:47.060Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:47.060Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e4da68a6b2f907c6b2f"
+  },
+  "ingredient_name": "Flour",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Flour-Small.png",
+  "ingredient_name_vi": "Bột",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Flour.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:49.437Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:49.437Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e4ea68a6b2f907c6b31"
+  },
+  "ingredient_name": "Flour Tortilla",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Flour Tortilla-Small.png",
+  "ingredient_name_vi": "Bột Tortilla",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Flour Tortilla.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:50.831Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:50.831Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e4fa68a6b2f907c6b33"
+  },
+  "ingredient_name": "Floury Potatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Floury Potatoes-Small.png",
+  "ingredient_name_vi": "Khoai tây bột",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Floury Potatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:51.907Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:51.907Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e51a68a6b2f907c6b35"
+  },
+  "ingredient_name": "Free-range Egg, Beaten",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Free-range Egg, Beaten-Small.png",
+  "ingredient_name_vi": "Trứng tự do, đánh tan",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Free-range Egg, Beaten.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:53.197Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:53.197Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e53a68a6b2f907c6b37"
+  },
+  "ingredient_name": "Free-range Eggs, Beaten",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Free-range Eggs, Beaten-Small.png",
+  "ingredient_name_vi": "Trứng tự do, đánh tan",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Free-range Eggs, Beaten.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:55.460Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:55.460Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e56a68a6b2f907c6b39"
+  },
+  "ingredient_name": "French Lentils",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/French Lentils-Small.png",
+  "ingredient_name_vi": "Đậu lăng Pháp",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/French Lentils.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:58.797Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:58.797Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e57a68a6b2f907c6b3b"
+  },
+  "ingredient_name": "Fresh Basil",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Fresh Basil-Small.png",
+  "ingredient_name_vi": "Húng quế tươi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Fresh Basil.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:17:59.783Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:17:59.783Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e5ba68a6b2f907c6b3d"
+  },
+  "ingredient_name": "Fresh Thyme",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Fresh Thyme-Small.png",
+  "ingredient_name_vi": "Húng tây tươi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Fresh Thyme.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:03.047Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:03.047Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e5da68a6b2f907c6b3f"
+  },
+  "ingredient_name": "Freshly Chopped Parsley",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Freshly Chopped Parsley-Small.png",
+  "ingredient_name_vi": "Rau mùi tây tươi xắt nhỏ",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Freshly Chopped Parsley.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:05.556Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:05.556Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e60a68a6b2f907c6b41"
+  },
+  "ingredient_name": "Fries",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Fries-Small.png",
+  "ingredient_name_vi": "Khoai tây chiên",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Fries.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:08.883Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:08.883Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e61a68a6b2f907c6b43"
+  },
+  "ingredient_name": "Full Fat Yogurt",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Full Fat Yogurt-Small.png",
+  "ingredient_name_vi": "Sữa chua đầy đủ chất béo",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Full Fat Yogurt.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:09.805Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:09.805Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e63a68a6b2f907c6b45"
+  },
+  "ingredient_name": "Garam Masala",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Garam Masala-Small.png",
+  "ingredient_name_vi": "Garam Masala",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Garam Masala.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:11.795Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:11.795Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e66a68a6b2f907c6b47"
+  },
+  "ingredient_name": "Garlic",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Garlic-Small.png",
+  "ingredient_name_vi": "Tỏi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Garlic.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:14.118Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:14.118Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e68a68a6b2f907c6b49"
+  },
+  "ingredient_name": "Garlic Clove",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Garlic Clove-Small.png",
+  "ingredient_name_vi": "Tép tỏi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Garlic Clove.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:16.351Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:16.351Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e6ba68a6b2f907c6b4b"
+  },
+  "ingredient_name": "Garlic Powder",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Garlic Powder-Small.png",
+  "ingredient_name_vi": "Bột tỏi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Garlic Powder.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:19.028Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:19.028Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e6ea68a6b2f907c6b4d"
+  },
+  "ingredient_name": "Garlic Sauce",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Garlic Sauce-Small.png",
+  "ingredient_name_vi": "Sốt tỏi",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Garlic Sauce.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:22.003Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:22.003Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e72a68a6b2f907c6b4f"
+  },
+  "ingredient_name": "Ghee",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Ghee-Small.png",
+  "ingredient_name_vi": "Ghee",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Ghee.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:26.862Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:26.862Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e74a68a6b2f907c6b51"
+  },
+  "ingredient_name": "Ginger",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Ginger-Small.png",
+  "ingredient_name_vi": "Gừng",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Ginger.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:28.907Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:28.907Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e75a68a6b2f907c6b53"
+  },
+  "ingredient_name": "Ginger Cordial",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Ginger Cordial-Small.png",
+  "ingredient_name_vi": "Gừng thân mật",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Ginger Cordial.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:29.752Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:29.752Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e77a68a6b2f907c6b55"
+  },
+  "ingredient_name": "Ginger Garlic Paste",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Ginger Garlic Paste-Small.png",
+  "ingredient_name_vi": "Gừng tỏi dán",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Ginger Garlic Paste.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:31.941Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:31.941Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e7ba68a6b2f907c6b57"
+  },
+  "ingredient_name": "Ginger Paste",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Ginger Paste-Small.png",
+  "ingredient_name_vi": "Gừng dán",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Ginger Paste.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:35.004Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:35.004Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e7da68a6b2f907c6b59"
+  },
+  "ingredient_name": "Golden Syrup",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Golden Syrup-Small.png",
+  "ingredient_name_vi": "Xi-rô vàng",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Golden Syrup.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:37.119Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:37.119Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e7ea68a6b2f907c6b5b"
+  },
+  "ingredient_name": "Gouda Cheese",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Gouda Cheese-Small.png",
+  "ingredient_name_vi": "Phô mai Gouda",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Gouda Cheese.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:38.361Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:38.361Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e80a68a6b2f907c6b5d"
+  },
+  "ingredient_name": "Granulated Sugar",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Granulated Sugar-Small.png",
+  "ingredient_name_vi": "Đường cát",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Granulated Sugar.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:40.503Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:40.503Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e82a68a6b2f907c6b5f"
+  },
+  "ingredient_name": "Grape Tomatoes",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Grape Tomatoes-Small.png",
+  "ingredient_name_vi": "Cà chua nho",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Grape Tomatoes.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:42.665Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:42.665Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e85a68a6b2f907c6b61"
+  },
+  "ingredient_name": "Greek Yogurt",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Greek Yogurt-Small.png",
+  "ingredient_name_vi": "Sữa chua Hy Lạp",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Greek Yogurt.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:45.312Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:45.312Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e86a68a6b2f907c6b63"
+  },
+  "ingredient_name": "Green Beans",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Green Beans-Small.png",
+  "ingredient_name_vi": "Đậu xanh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Green Beans.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:46.252Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:46.252Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e87a68a6b2f907c6b65"
+  },
+  "ingredient_name": "Green Chilli",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Green Chilli-Small.png",
+  "ingredient_name_vi": "Ớt xanh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Green Chilli.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:47.423Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:47.423Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e89a68a6b2f907c6b67"
+  },
+  "ingredient_name": "Green Olives",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Green Olives-Small.png",
+  "ingredient_name_vi": "Ô liu xanh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Green Olives.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:49.114Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:49.114Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e8ba68a6b2f907c6b69"
+  },
+  "ingredient_name": "Green Red Lentils",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Green Red Lentils-Small.png",
+  "ingredient_name_vi": "Đậu lăng đỏ xanh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Green Red Lentils.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:51.981Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:51.981Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e8da68a6b2f907c6b6b"
+  },
+  "ingredient_name": "Green Salsa",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Green Salsa-Small.png",
+  "ingredient_name_vi": "Salsa xanh",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Green Salsa.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:53.330Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:53.330Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e8ea68a6b2f907c6b6d"
+  },
+  "ingredient_name": "Ground Almonds",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Ground Almonds-Small.png",
+  "ingredient_name_vi": "Hạnh nhân xay",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Ground Almonds.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:54.451Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:54.451Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e91a68a6b2f907c6b6f"
+  },
+  "ingredient_name": "Ground Cumin",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Ground Cumin-Small.png",
+  "ingredient_name_vi": "Thì là mặt đất",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Ground Cumin.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:57.033Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:57.033Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e93a68a6b2f907c6b71"
+  },
+  "ingredient_name": "Ground Ginger",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Ground Ginger-Small.png",
+  "ingredient_name_vi": "Gừng xay",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Ground Ginger.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:18:59.894Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:18:59.894Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e95a68a6b2f907c6b73"
+  },
+  "ingredient_name": "Gruyère",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Gruyère-Small.png",
+  "ingredient_name_vi": "Gruyère",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Gruyère.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:19:01.153Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:19:01.153Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e97a68a6b2f907c6b75"
+  },
+  "ingredient_name": "Hard Taco Shells",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Hard Taco Shells-Small.png",
+  "ingredient_name_vi": "Vỏ Taco cứng",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Hard Taco Shells.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:19:03.121Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:19:03.121Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e98a68a6b2f907c6b77"
+  },
+  "ingredient_name": "Harissa Spice",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Harissa Spice-Small.png",
+  "ingredient_name_vi": "Gia vị Harissa",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Harissa Spice.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:19:04.451Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:19:04.451Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e9aa68a6b2f907c6b79"
+  },
+  "ingredient_name": "Heavy Cream",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Heavy Cream-Small.png",
+  "ingredient_name_vi": "Kem nặng",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Heavy Cream.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:19:06.427Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:19:06.427Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+},
+{
+  "_id": {
+    "$oid": "66ef7e9ca68a6b2f907c6b7b"
+  },
+  "ingredient_name": "Honey",
+  "ingredient_thumbnail": "https://www.themealdb.com/images/ingredients/Honey-Small.png",
+  "ingredient_name_vi": "Mật ong",
+  "ingredient_image": "https://www.themealdb.com/images/ingredients/Honey.png",
+  "createdAt": {
+    "$date": "2024-09-22T02:19:08.884Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-22T02:19:08.884Z"
+  },
+  "__v": 0,
+  "ingredient_category": "unknown"
+}]

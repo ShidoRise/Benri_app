@@ -3,6 +3,7 @@ import 'package:benri_app/models/families/family_lists.dart';
 import 'package:benri_app/models/families/family_members.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/utils/constants/constant.dart';
+import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/widgets/add_family_ingredient_dialog.dart';
 import 'package:benri_app/views/widgets/choose_member_dialog.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
+
+import 'package:provider/provider.dart';
 
 class FamilyService {
   static List<FamilyMember> familyMembers = [];
@@ -120,8 +123,6 @@ class FamilyService {
 
       if (familyId == null) throw Exception('No family ID found');
 
-      print("Deleting family with IDDDDDDDDDDD: $familyId");
-
       final response = await http.delete(
         Uri.parse('$baseUrl/family/$familyId'),
         headers: {
@@ -131,7 +132,6 @@ class FamilyService {
           'content-type': 'application/json'
         },
       );
-      print("Delete service doneeeeeeeeeeeeeeee");
 
       if (response.statusCode == 200) {
         await storage.delete(key: 'familyId');
@@ -172,12 +172,10 @@ class FamilyService {
 
       if (response.statusCode == 200) {
         final List<dynamic> metadata = jsonDecode(response.body)['metadata'];
-        print('metadata: $metadata');
         familyShoppingListData.clear();
         for (var list in metadata) {
           familyShoppingListData[list['name']] = FamilyList.fromJson(list);
         }
-        print('Family shopping list data: $familyShoppingListData');
       } else {
         throw Exception('Failed to get shopping lists: ${response.statusCode}');
       }
@@ -234,39 +232,48 @@ class FamilyService {
     required List<FamilyIngredient> ingredients,
     required String userId,
   }) async {
+    int retryCount = 0;
+    const maxRetries = 3;
+    const timeout = Duration(seconds: 30);
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
 
-      final response = await http.patch(
-        Uri.parse('$baseUrl/family/$familyId/shopping-lists/$listId'),
-        headers: {
-          'x-api-key': Constants.apiKey,
-          'x-client-id': userLocal['userId'] ?? '',
-          'x-rtoken-id': userLocal['refreshToken'] ?? '',
-          'content-type': 'application/json'
-        },
-        body: jsonEncode({
-          'name': name,
-          'description': description,
-          'ingredients': ingredients
-              .map((ingredient) => {
-                    'name': ingredient.name,
-                    'quantity': ingredient.quantity,
-                    'category': ingredient.category,
-                    'unit': ingredient.unit,
-                    'status': ingredient.status ? 'bought' : 'pending',
-                  })
-              .toList(),
-          'created_by': userId,
-        }),
-      );
+      final response = await http
+          .patch(
+            Uri.parse('$baseUrl/family/$familyId/shopping-lists/$listId'),
+            headers: {
+              'x-api-key': Constants.apiKey,
+              'x-client-id': userLocal['userId'] ?? '',
+              'x-rtoken-id': userLocal['refreshToken'] ?? '',
+              'content-type': 'application/json'
+            },
+            body: jsonEncode({
+              'name': name,
+              'description': description,
+              'ingredients': ingredients
+                  .map((ingredient) => {
+                        'name': ingredient.name,
+                        'quantity': ingredient.quantity,
+                        'category': ingredient.category,
+                        'unit': ingredient.unit,
+                        'status': ingredient.status ? 'bought' : 'pending',
+                      })
+                  .toList(),
+              'created_by': userId,
+            }),
+          )
+          .timeout(timeout);
 
       if (response.statusCode != 200) {
         throw Exception('Failed to update shopping list');
       }
     } catch (e) {
-      print('Error updating shopping list: $e');
-      throw Exception('Failed to update shopping list: $e');
+      retryCount++;
+      if (retryCount == maxRetries) {
+        throw Exception(
+            'Failed to update shopping list after $maxRetries attempts: $e');
+      }
+      await Future.delayed(Duration(seconds: retryCount * 2));
     }
   }
 
@@ -278,15 +285,12 @@ class FamilyService {
 
     final currentList = familyShoppingListData[date];
     if (currentList != null) {
-      print('Current listtttt: $currentList');
       final updatedIngredients = [...currentList.ingredients, ingredient];
-      print('Updated ingredientssss: $updatedIngredients');
       familyShoppingListData[date] = FamilyList(
         listId: currentList.listId,
         userId: currentList.userId,
         ingredients: updatedIngredients,
       );
-      print('Family shopping list data: ${familyShoppingListData[date]}');
     }
 
     final familyId = await storage.read(key: 'familyId');
@@ -330,13 +334,24 @@ class FamilyService {
       final currentIngredient =
           familyShoppingListData[date]!.ingredients[index];
 
+      final basketViewModel =
+          Provider.of<BasketViewModel>(context, listen: false);
+
+      basketViewModel.resetSelections();
+
+      if (basketViewModel.unitOptions.contains(currentIngredient.unit)) {
+        basketViewModel.updateSelectedUnit(currentIngredient.unit);
+      }
+
+      if (basketViewModel.categories.contains(currentIngredient.category)) {
+        basketViewModel.updateSelectedCategory(currentIngredient.category);
+      }
+
       final updatedIngredient = await addFamilyIngredientDialog(context,
           ingredient: currentIngredient);
 
       if (updatedIngredient != null) {
         familyShoppingListData[date]!.ingredients[index] = updatedIngredient;
-
-        print('familyShoppingListData: ${familyShoppingListData[date]}');
 
         final familyId = await storage.read(key: 'familyId');
         if (familyId == null) throw Exception('No family ID found');
@@ -349,13 +364,14 @@ class FamilyService {
           ingredients: familyShoppingListData[date]!.ingredients,
           userId: familyShoppingListData[date]!.userId,
         );
+
+        basketViewModel.resetSelections();
       }
     }
   }
 
   static Future<void> toggleFamilyIngredientSelection(
       String date, int index) async {
-    print('Togglinggggggg');
     if (index >= 0 &&
         index < familyShoppingListData[date]!.ingredients.length) {
       familyShoppingListData[date]!.ingredients[index].status =

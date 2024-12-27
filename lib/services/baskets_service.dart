@@ -1,8 +1,10 @@
 import 'package:benri_app/models/baskets/baskets.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 class BasketService {
   static Map<String, Basket> baskets = {};
@@ -74,6 +76,17 @@ class BasketService {
       BasketIngredient currentIngredient =
           baskets[date]!.basketIngredients[index];
 
+      final basketViewModel =
+          Provider.of<BasketViewModel>(context, listen: false);
+
+      if (basketViewModel.unitOptions.contains(currentIngredient.unit)) {
+        basketViewModel.updateSelectedUnit(currentIngredient.unit);
+      }
+
+      if (basketViewModel.categories.contains(currentIngredient.category)) {
+        basketViewModel.updateSelectedCategory(currentIngredient.category);
+      }
+
       BasketIngredient? updatedIngredient =
           await addIngredientDialog(context, ingredient: currentIngredient);
 
@@ -81,6 +94,8 @@ class BasketService {
         baskets[date]!.basketIngredients[index] = updatedIngredient;
         await _updateLocalDatabase();
       }
+
+      basketViewModel.resetSelections();
     }
   }
 

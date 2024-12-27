@@ -16,16 +16,6 @@ Future<FamilyIngredient?> addFamilyIngredientDialog(
   final unitController = TextEditingController(text: ingredient?.unit ?? '');
   final viewModel = Provider.of<BasketViewModel>(context, listen: false);
 
-  final List<String> unitOptions = ['gam', 'kg', 'hộp', 'quả', 'lít'];
-  final List<String> categories = [
-    'Thịt & Hải sản',
-    'Rau củ & Trái cây',
-    'Đồ khô',
-    'Đồ uống',
-    'Gia vị',
-    'Khác',
-  ];
-
   bool isInitialized = false;
 
   return showModalBottomSheet<FamilyIngredient>(
@@ -65,9 +55,10 @@ Future<FamilyIngredient?> addFamilyIngredientDialog(
                 ],
               ),
               const SizedBox(height: 16),
-              _buildUnitChips(context, unitOptions, model, unitController),
+              _buildUnitChips(
+                  context, model.unitOptions, model, unitController),
               const SizedBox(height: 16),
-              _buildCategoryChips(context, categories, model),
+              _buildCategoryChips(context, model.categories, model),
               const SizedBox(height: 24),
               _buildAddButton(
                 context,
@@ -96,8 +87,10 @@ Widget _buildIngredientNameField(
       model.filterIngredientSuggestions(textEditingValue.text);
       return model.filteredIngredientSuggestions;
     },
-    displayStringForOption: (IngredientSuggestion option) => option.name,
-    onSelected: (IngredientSuggestion option) => controller.text = option.name,
+    displayStringForOption: (IngredientSuggestion option) =>
+        option.nameInVietnamese,
+    onSelected: (IngredientSuggestion option) =>
+        controller.text = option.nameInVietnamese,
     fieldViewBuilder: (context, textController, focusNode, onFieldSubmitted) {
       if (!isInitialized) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -162,6 +155,10 @@ Widget _buildUnitChips(
           model.updateSelectedUnit(selected ? unit : null);
           unitController.text = selected ? unit : '';
         },
+        selectedColor: BColors.accent,
+        shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black),
+            borderRadius: BorderRadius.circular(12)),
       );
     }).toList(),
   );
@@ -183,6 +180,10 @@ Widget _buildCategoryChips(
         onSelected: (selected) {
           model.updateSelectedCategory(selected ? category : null);
         },
+        selectedColor: BColors.accent,
+        shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black),
+            borderRadius: BorderRadius.circular(12)),
       );
     }).toList(),
   );

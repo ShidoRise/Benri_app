@@ -1,3 +1,5 @@
+import 'package:benri_app/models/families/family_ingredients.dart';
+import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/view_models/profile_viewmodel.dart';
@@ -64,16 +66,11 @@ class BasketScreen extends StatelessWidget {
             );
           },
         ),
-        floatingActionButton: basketViewModel.selectedMode == 'Cá nhân'
-            ? _basketFloatingButton(context)
-            : Consumer<ProfileViewModel>(
-                builder: (context, profileViewModel, child) {
-                return basketViewModel.hasInternet &&
-                        basketViewModel.hasFamily &&
-                        profileViewModel.isLoggedIn
-                    ? _familyFloatingButton(context)
-                    : const SizedBox.shrink();
-              }),
+        floatingActionButton: (basketViewModel.hasInternet &&
+                basketViewModel.hasFamily &&
+                Provider.of<ProfileViewModel>(context).isLoggedIn)
+            ? _FloatingButton(context)
+            : null,
       );
     });
   }
@@ -246,49 +243,26 @@ class BasketScreen extends StatelessWidget {
     );
   }
 
-  Widget _basketFloatingButton(BuildContext context) {
-    return Container(
-      width: 65,
-      height: 65,
-      margin: const EdgeInsets.all(5.0),
-      child: FloatingActionButton(
-        backgroundColor: Colors.white,
-        onPressed: () async {
-          final basketViewModel = context.read<BasketViewModel>();
-          final ingredient = await addIngredientDialog(context);
-          if (ingredient != null && ingredient.name != "") {
-            basketViewModel.addIngredient(ingredient);
-          }
-        },
-        child: Icon(
-          Icons.add,
-          size: 30,
-          color: Theme.of(context).colorScheme.secondaryFixed,
-        ),
-      ),
-    );
-  }
+  Widget _FloatingButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+        final basketViewModel =
+            Provider.of<BasketViewModel>(context, listen: false);
+        basketViewModel.resetSelections(); // Add this line to reset selections
 
-  Widget _familyFloatingButton(BuildContext context) {
-    return Container(
-      width: 65,
-      height: 65,
-      margin: const EdgeInsets.all(5.0),
-      child: FloatingActionButton(
-        backgroundColor: Colors.white,
-        onPressed: () async {
-          final basketViewModel = context.read<BasketViewModel>();
-          final ingredient = await addFamilyIngredientDialog(context);
-          if (ingredient != null && ingredient.name != "") {
-            basketViewModel.addFamilyIngredient(ingredient);
+        final ingredient = await (basketViewModel.selectedMode == 'Cá nhân'
+            ? addIngredientDialog(context)
+            : addFamilyIngredientDialog(context));
+
+        if (ingredient != null && context.mounted) {
+          if (basketViewModel.selectedMode == 'Cá nhân') {
+            basketViewModel.addIngredient(ingredient as BasketIngredient);
+          } else {
+            basketViewModel.addFamilyIngredient(ingredient as FamilyIngredient);
           }
-        },
-        child: Icon(
-          Icons.add,
-          size: 30,
-          color: Theme.of(context).colorScheme.secondaryFixed,
-        ),
-      ),
+        }
+      },
+      child: const Icon(Icons.add),
     );
   }
 }
