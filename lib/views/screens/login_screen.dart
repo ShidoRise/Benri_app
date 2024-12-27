@@ -174,6 +174,7 @@ class LoginScreenContent extends StatelessWidget {
                             content: Text('Kiểm tra thông tin đăng nhập')),
                       );
                     } else if (await viewModel.login()) {
+                      print(1111);
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                             builder: (context) => const NavigationMenu()),

@@ -11,17 +11,21 @@ class AuthService {
   static final String baseUrl = dotenv.get('API_URL');
   Future<bool> login(String email, String password) async {
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/login'),
-        headers: {
-          'x-api-key': Constants.apiKey,
-          'content-type': 'application/json'
-        },
-        body: jsonEncode({
-          "email": email,
-          "password": password,
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl/login'),
+            headers: {
+              'x-api-key': Constants.apiKey,
+              'content-type': 'application/json'
+            },
+            body: jsonEncode({
+              "email": email,
+              "password": password,
+            }),
+          )
+          .timeout(
+            Duration(seconds: 4),
+          );
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body)['metadata'];

@@ -13,7 +13,7 @@ class FirebaseMsg {
     final Map<String, String> userLocal = await UserLocal.getUserInfo();
     if (token != null) {
       await http.post(
-        Uri.parse('$baseUrl/user/save-token'), // Thay đổi URL cho phù hợp
+        Uri.parse('$baseUrl/user/save-token'),
         headers: {
           'Content-Type': 'application/json',
           'authorization': userLocal['accessToken'] ?? '',

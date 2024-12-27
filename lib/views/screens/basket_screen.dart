@@ -66,7 +66,11 @@ class BasketScreen extends StatelessWidget {
             );
           },
         ),
-        floatingActionButton: (true) ? _FloatingButton(context) : null,
+        floatingActionButton: (basketViewModel.hasInternet &&
+                basketViewModel.hasFamily &&
+                Provider.of<ProfileViewModel>(context).isLoggedIn)
+            ? _FloatingButton(context)
+            : null,
       );
     });
   }
