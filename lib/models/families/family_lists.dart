@@ -1,7 +1,7 @@
 import 'package:benri_app/models/families/family_ingredients.dart';
 
 class FamilyList {
-  final String listId;
+  String listId;
   String userId;
   final List<FamilyIngredient> ingredients;
 

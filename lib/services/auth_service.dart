@@ -7,9 +7,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  final storage = FlutterSecureStorage();
+  AuthService._();
+  static final storage = FlutterSecureStorage();
   static final String baseUrl = dotenv.get('API_URL');
-  Future<bool> login(String email, String password) async {
+
+  static Future<bool> login(String email, String password) async {
     try {
       final response = await http
           .post(
@@ -37,10 +39,14 @@ class AuthService {
 
         if (user['user_family_group'] != null) {
           final family = user['user_family_group'];
+          final role = user['user_role_group']['role'];
           await storage.write(key: 'familyId', value: family);
+          await storage.write(key: 'familyRole', value: role);
         } else {
           await storage.delete(key: 'familyId');
           await storage.write(key: 'familyId', value: null);
+          await storage.delete(key: 'familyRole');
+          await storage.write(key: 'familyRole', value: null);
         }
 
         await _saveUserData(
@@ -57,7 +63,8 @@ class AuthService {
     }
   }
 
-  Future<bool> preSignUp(String email, String password, String name) async {
+  static Future<bool> preSignUp(
+      String email, String password, String name) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/pre_signup'),
@@ -79,7 +86,7 @@ class AuthService {
     }
   }
 
-  Future<bool> verifyOTP(
+  static Future<bool> verifyOTP(
       String email, String password, String name, String otp) async {
     try {
       final response = await http.post(
@@ -113,7 +120,7 @@ class AuthService {
     }
   }
 
-  Future<void> _saveUserData(String userId, String refreshToken,
+  static Future<void> _saveUserData(String userId, String refreshToken,
       String accessToken, String email, String name) async {
     try {
       await storage.write(key: 'userId', value: userId);
@@ -127,7 +134,7 @@ class AuthService {
     }
   }
 
-  Future<Map<String, String?>> printData() async {
+  static Future<Map<String, String?>> printData() async {
     try {
       String? userId = await storage.read(key: 'userId');
       String? refreshToken = await storage.read(key: 'refreshToken');

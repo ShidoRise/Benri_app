@@ -4,6 +4,7 @@ import 'package:benri_app/views/widgets/family_item.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class FamilyHomeView extends StatelessWidget {
@@ -185,8 +186,12 @@ class FamilyHomeView extends StatelessWidget {
       BuildContext context, BasketViewModel basketViewModel) {
     return GestureDetector(
       onTap: () {
-        basketViewModel.showMemberBuyIngredients(
-            context, basketViewModel.focusDateFormatted);
+        (basketViewModel.userRole == 'admin')
+            ? basketViewModel.showMemberBuyIngredients(
+                context, basketViewModel.focusDateFormatted)
+            : Fluttertoast.showToast(
+                msg: 'Admin mới có quyền chọn nguời đi chợ',
+                backgroundColor: BColors.darkGrey);
       },
       child: Container(
         padding: const EdgeInsets.fromLTRB(24, 10, 16, 5),

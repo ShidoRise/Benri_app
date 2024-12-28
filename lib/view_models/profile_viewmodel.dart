@@ -23,11 +23,14 @@ class ProfileViewModel extends ChangeNotifier {
       GlobalKey<NavigatorState>();
 
   Map<String, dynamic> userInfo = {};
+
   ProfileViewModel() {
     checkLoginStatus();
   }
+
   Future<void> checkLoginStatus() async {
     final fetchUserInfo = await UserLocal.getUserInfo();
+    print('fetchUserInfoooo  ${fetchUserInfo['userId']}');
     _isLoggedIn = fetchUserInfo['userId']?.isNotEmpty == true;
     print(_isLoggedIn);
     userInfo.addAll(fetchUserInfo);
@@ -58,13 +61,14 @@ class ProfileViewModel extends ChangeNotifier {
     UserLocal.logout();
     userInfo = {};
     _isLoggedIn = false;
+
     final basketViewModel =
         Provider.of<BasketViewModel>(context, listen: false);
     await basketViewModel.resetFamilyStatus();
     await basketViewModel.initializeFamilyStatus();
     notifyListeners();
     Fluttertoast.showToast(
-      msg: "Logged out successfully",
+      msg: "Đăng xuất thành công",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.grey[800],

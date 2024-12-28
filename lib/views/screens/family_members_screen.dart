@@ -24,59 +24,63 @@ class FamilyMembersScreen extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              return ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: viewModel.members.length,
-                itemBuilder: (context, index) {
-                  final member = viewModel.members[index];
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16),
-                      leading: CircleAvatar(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        child: Text(
-                          member.name[0].toUpperCase(),
+              return RefreshIndicator(
+                onRefresh: () => viewModel.loadFamilyMembers(),
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: viewModel.members.length,
+                  itemBuilder: (context, index) {
+                    final member = viewModel.members[index];
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.all(16),
+                        leading: CircleAvatar(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          child: Text(
+                            member.name[0].toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          member.name,
                           style: const TextStyle(
-                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                      title: Text(
-                        member.name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      trailing: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: member.role == 'admin'
-                              ? BColors.primaryFirst.withOpacity(0.1)
-                              : BColors.lightGrey,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          member.role.toUpperCase(),
-                          style: TextStyle(
+                        trailing: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
                             color: member.role == 'admin'
-                                ? BColors.primaryFirst
-                                : BColors.darkGrey,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
+                                ? BColors.primaryFirst.withOpacity(0.1)
+                                : BColors.lightGrey,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            member.role.toUpperCase(),
+                            style: TextStyle(
+                              color: member.role == 'admin'
+                                  ? BColors.primaryFirst
+                                  : BColors.darkGrey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               );
             },
           ),

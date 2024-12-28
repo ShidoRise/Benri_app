@@ -22,6 +22,9 @@ class BasketViewModel extends ChangeNotifier {
   bool _hasFamily = false;
   bool get hasFamily => _hasFamily;
 
+  String? _userRole;
+  String? get userRole => _userRole;
+
   String? _familyCode;
   String? get familyCode => _familyCode;
 
@@ -61,6 +64,8 @@ class BasketViewModel extends ChangeNotifier {
     _setupConnectivityStream();
     _initializeData();
     initializeFamilyStatus();
+    checkUserRole();
+    print('User role: $_userRole');
   }
 
   void updateSelectedUnit(String? unit) {
@@ -199,6 +204,7 @@ class BasketViewModel extends ChangeNotifier {
   Future<void> createFamily(String famName) async {
     _isLoading = true;
     await FamilyService.createFamily(famName);
+    _userRole = FamilyService.storage.read(key: 'familyRole').toString();
     _hasFamily = true;
     _isLoading = false;
     notifyListeners();
@@ -207,6 +213,7 @@ class BasketViewModel extends ChangeNotifier {
   Future<void> joinFamily(String familyCode) async {
     _isLoading = true;
     await FamilyService.joinFamily(familyCode);
+    _userRole = FamilyService.storage.read(key: 'familyRole').toString();
     _hasFamily = true;
     _isLoading = false;
     notifyListeners();
@@ -215,6 +222,14 @@ class BasketViewModel extends ChangeNotifier {
   Future<void> deleteFamily() async {
     _isLoading = true;
     await FamilyService.deleteFamily();
+    _hasFamily = false;
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> leaveFamily() async {
+    _isLoading = true;
+    await FamilyService.leaveFamily();
     _hasFamily = false;
     _isLoading = false;
     notifyListeners();
@@ -311,6 +326,11 @@ class BasketViewModel extends ChangeNotifier {
 
   Future<void> loadFamilyCode() async {
     _familyCode = await FamilyService.getFamilyCode();
+    notifyListeners();
+  }
+
+  Future<void> checkUserRole() async {
+    _userRole = await FamilyService.storage.read(key: 'familyRole') ?? '';
     notifyListeners();
   }
 

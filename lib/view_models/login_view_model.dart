@@ -10,8 +10,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class LoginViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final storage = FlutterSecureStorage();
-  final AuthService authService = AuthService();
 
   bool _isLoading = false;
   String _errorMessage = '';
@@ -38,7 +36,7 @@ class LoginViewModel extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = '';
     notifyListeners();
-    if (await authService.login(
+    if (await AuthService.login(
         emailController.text, passwordController.text)) {
       setLoading(false);
       return true;

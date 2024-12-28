@@ -1,5 +1,6 @@
 import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/services/family_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/view_models/profile_viewmodel.dart';
@@ -11,6 +12,7 @@ import 'package:benri_app/views/widgets/family_basket_view.dart';
 import 'package:benri_app/views/widgets/personal_basket_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
@@ -111,127 +113,79 @@ class BasketScreen extends StatelessWidget {
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.3,
           ),
-          builder: (context) => SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Delete Family'),
-                          content: const Text(
-                              'Are you sure you want to delete this family?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                try {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  await viewModel.deleteFamily();
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('Family deleted successfully'),
-                                        backgroundColor: Colors.green,
-                                      ),
-                                    );
-                                  }
-                                } catch (e) {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content:
-                                            Text('Error deleting family: $e'),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                              child: const Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Text("Delete Family",
-                        style: TextStyle(
-                            color: Colors.red, fontWeight: FontWeight.bold)),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Share Family Code',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+          builder: (context) {
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    (viewModel.userRole == 'admin')
+                        ? _deleteFamilyButton(context, viewModel)
+                        : _leaveFamilyButton(context, viewModel),
+                    SizedBox(
+                      height: 16,
                     ),
-                    child: Row(
+                    Row(
                       children: [
                         Expanded(
                           child: Text(
-                            viewModel.familyCode ?? 'No code available',
-                            style: Theme.of(context).textTheme.titleMedium,
-                            overflow: TextOverflow.ellipsis,
+                            'Share Family Code',
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.copy),
-                          onPressed: () async {
-                            if (viewModel.familyCode != null) {
-                              await Clipboard.setData(
-                                ClipboardData(text: viewModel.familyCode!),
-                              );
-                              if (context.mounted) {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        const Text('Code copied to clipboard'),
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                                );
-                              }
-                            }
-                          },
+                          icon: const Icon(Icons.close),
+                          onPressed: () => Navigator.pop(context),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              viewModel.familyCode ?? 'No code available',
+                              style: Theme.of(context).textTheme.titleMedium,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () async {
+                              if (viewModel.familyCode != null) {
+                                await Clipboard.setData(
+                                  ClipboardData(text: viewModel.familyCode!),
+                                );
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: const Text(
+                                          'Code copied to clipboard'),
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
       child: Container(
@@ -304,6 +258,78 @@ class BasketScreen extends StatelessWidget {
         }
       },
       child: const Icon(Icons.add),
+    );
+  }
+
+  Widget _deleteFamilyButton(BuildContext context, BasketViewModel viewModel) {
+    return ElevatedButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Xóa gia đình'),
+            content: const Text('Bạn có chắc chắn muốn xóa gia đình không?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  await viewModel.deleteFamily();
+                  Fluttertoast.showToast(
+                      msg: 'Xóa gia đình thành công',
+                      backgroundColor: BColors.darkGrey);
+                },
+                child: const Text(
+                  'Xóa',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      child: Text("Xóa gia đình",
+          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+    );
+  }
+
+  Widget _leaveFamilyButton(BuildContext context, BasketViewModel viewModel) {
+    return ElevatedButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Rời gia đình'),
+            content: const Text('Bạn có chắc chắn muốn rời gia đình không?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  await viewModel.leaveFamily();
+                  Fluttertoast.showToast(
+                      msg: 'Rời gia đình thành công',
+                      backgroundColor: BColors.darkGrey);
+                },
+                child: const Text(
+                  'Rời',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      child: Text("Rời gia đình",
+          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
     );
   }
 }

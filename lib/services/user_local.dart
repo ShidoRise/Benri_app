@@ -1,11 +1,13 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:benri_app/services/auth_service.dart';
+import 'package:benri_app/services/family_service.dart';
 
 class UserLocal {
-  static final storage = FlutterSecureStorage();
+  UserLocal._();
 
   static Future<void> logout() async {
     try {
-      await storage.deleteAll();
+      await AuthService.storage.deleteAll();
+      await FamilyService.storage.deleteAll();
     } catch (e) {
       print('Error during logout: $e');
     }
@@ -13,11 +15,13 @@ class UserLocal {
 
   static Future<Map<String, String>> getUserInfo() async {
     try {
-      String userId = await storage.read(key: 'userId') ?? '';
-      String refreshToken = await storage.read(key: 'refreshToken') ?? '';
-      String accessToken = await storage.read(key: 'accessToken') ?? '';
-      String email = await storage.read(key: 'email') ?? '';
-      String name = await storage.read(key: 'name') ?? '';
+      String userId = await AuthService.storage.read(key: 'userId') ?? '';
+      String refreshToken =
+          await AuthService.storage.read(key: 'refreshToken') ?? '';
+      String accessToken =
+          await AuthService.storage.read(key: 'accessToken') ?? '';
+      String email = await AuthService.storage.read(key: 'email') ?? '';
+      String name = await AuthService.storage.read(key: 'name') ?? '';
 
       Map<String, String> data = {
         'userId': userId,
