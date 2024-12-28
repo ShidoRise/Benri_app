@@ -464,7 +464,7 @@ class FamilyService {
 
           final response = await http.post(
               Uri.parse(
-                  '$baseUrl/$familyId/assign-task/$userId/${familyShoppingListData[date]!.listId}'),
+                  '$baseUrl/family/$familyId/assign-task/$userId/${familyShoppingListData[date]!.listId}'),
               headers: {
                 'x-api-key': Constants.apiKey,
                 'x-client-id': userLocal['userId'] ?? '',

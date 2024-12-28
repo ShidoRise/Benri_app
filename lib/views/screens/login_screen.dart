@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:benri_app/services/auth_service.dart';
 import 'package:benri_app/utils/styles/text_style.dart';
 import 'package:benri_app/views/screens/basket_screen.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +89,32 @@ class LoginScreenContent extends StatelessWidget {
               const Center(child: Text("Hoặc")),
               const SizedBox(height: 10),
               _buildSocialButton(
-                onPressed: () {
+                onPressed: () async {
+                  User? user = await AuthService.signInWithGoogle();
+                  if (user != null) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const NavigationMenu()),
+                        (route) => false);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text(
+                              'Đăng nhập bằng tài khoản Google thành công')),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Kiểm tra kết nối mạng')),
+                    );
+                  }
+                },
+                color: const Color(0xFF4285F4),
+                text: 'KẾT NỐI VỚI GOOGLE',
+                icon: 'assets/icons/google.svg',
+                textColor: Colors.white,
+              ),
+              const SizedBox(height: 10),
+              _buildSocialButton(
+                onPressed: () async {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Kiểm tra kết nối mạng')),
                   );
@@ -95,18 +122,6 @@ class LoginScreenContent extends StatelessWidget {
                 color: const Color(0xFF395998),
                 text: 'KẾT NỐI VỚI FACEBOOK',
                 icon: 'assets/icons/facebook.svg',
-              ),
-              const SizedBox(height: 10),
-              _buildSocialButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Kiểm tra kết nối mạng')),
-                  );
-                },
-                color: const Color(0xFF4285F4),
-                text: 'KẾT NỐI VỚI GOOGLE',
-                icon: 'assets/icons/google.svg',
-                textColor: Colors.white,
               ),
             ],
           ),

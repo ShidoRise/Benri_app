@@ -1,3 +1,4 @@
+import 'package:benri_app/services/auth_service.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/screens/change_pasword_screen.dart';
@@ -13,6 +14,13 @@ class ProfileViewModel extends ChangeNotifier {
   bool _darkModeEnabled = false;
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
+  Future<bool> isGG() async {
+    final isGG = await AuthService.storage.read(key: 'isGG');
+    if (isGG == 'true') {
+      return true;
+    }
+    return false;
+  }
 
   bool get notificationEnabled => _notificationEnabled;
   bool get darkModeEnabled =>
@@ -60,6 +68,12 @@ class ProfileViewModel extends ChangeNotifier {
   Future<void> logout(BuildContext context) async {
     UserLocal.logout();
     userInfo = {};
+    final isGG = await AuthService.storage.read(key: 'isGG');
+    if (isGG == 'true') {
+      await AuthService.signOut();
+      AuthService.storage.delete(key: 'isGG');
+    }
+    await AuthService.signOut();
     _isLoggedIn = false;
 
     final basketViewModel =

@@ -1,5 +1,7 @@
 import 'package:benri_app/services/firebase_msg_service.dart';
 import 'package:benri_app/services/user_local.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:benri_app/utils/constants/constant.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -10,6 +12,82 @@ class AuthService {
   AuthService._();
   static final storage = FlutterSecureStorage();
   static final String baseUrl = dotenv.get('API_URL');
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  static Future<User?> signInWithGoogle() async {
+    try {
+      print('1==');
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        // Người dùng đã hủy đăng nhập
+        print('User canceled the login');
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      print('2==');
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      print('3==');
+
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      print('4==');
+
+      // Gửi token đến backend để xác thực và tạo người dùng
+      final response = await http.post(
+        Uri.parse('$baseUrl/google-login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'token': googleAuth.idToken}),
+      );
+      print('5== ${response.body}');
+      if (response.statusCode == 200) {
+        // Xử lý đăng nhập thành công
+        print('Login successful');
+        final responseData = jsonDecode(response.body)['metadata'];
+        final user = responseData['user'];
+        final tokens = responseData['tokens'];
+        final email = user['user_email'];
+        final userId = user['_id'];
+        final name = user['user_name'];
+
+        if (user['user_family_group'] != null) {
+          final family = user['user_family_group'];
+          final role = user['user_role_group']['role'];
+          await storage.write(key: 'familyId', value: family);
+          await storage.write(key: 'familyRole', value: role);
+        } else {
+          await storage.delete(key: 'familyId');
+          await storage.write(key: 'familyId', value: null);
+          await storage.delete(key: 'familyRole');
+          await storage.write(key: 'familyRole', value: null);
+        }
+        await storage.write(key: 'isGG', value: 'true');
+
+        await _saveUserData(
+            userId, tokens['refreshToken'], tokens['accessToken'], email, name);
+        await FirebaseMsg.saveTokenToDatabase(userId);
+        return userCredential.user;
+      } else {
+        // Xử lý lỗi đăng nhập
+        print('Failed to login with Google: ${response.body}');
+        throw Exception('Failed to login with Google');
+      }
+    } catch (e) {
+      print('Error during Google sign-in: $e');
+      return null;
+    }
+  }
+
+  static Future<void> signOut() async {
+    await _auth.signOut();
+    await _googleSignIn.signOut();
+  }
 
   static Future<bool> login(String email, String password) async {
     try {
