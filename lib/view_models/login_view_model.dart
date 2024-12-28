@@ -1,11 +1,10 @@
 import 'package:benri_app/services/auth_service.dart';
-import 'package:benri_app/utils/constants/constant.dart';
+import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:benri_app/view_models/profile_viewmodel.dart';
 import 'package:benri_app/views/screens/forgot_password.dart';
 import 'package:benri_app/views/screens/sign_up.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
@@ -32,16 +31,45 @@ class LoginViewModel extends ChangeNotifier {
         .push(MaterialPageRoute(builder: (context) => const ForgotPassword()));
   }
 
-  Future<bool> login() async {
-    _isLoading = true;
-    _errorMessage = '';
-    notifyListeners();
-    if (await AuthService.login(
-        emailController.text, passwordController.text)) {
-      setLoading(false);
-      return true;
-    } else {
-      _errorMessage = 'Login failed. Please try again.';
+  Future<bool> login(BuildContext context) async {
+    print('LoginViewModel - login');
+    try {
+      _isLoading = true;
+      _errorMessage = '';
+      notifyListeners();
+
+      final bool loginSuccess = await AuthService.login(
+        emailController.text,
+        passwordController.text,
+      );
+
+      if (loginSuccess) {
+        final currentContext = context;
+        if (currentContext.mounted) {
+          final profileViewModel = Provider.of<ProfileViewModel>(
+            currentContext,
+            listen: false,
+          );
+          final basketViewModel = Provider.of<BasketViewModel>(
+            currentContext,
+            listen: false,
+          );
+
+          await profileViewModel.checkLoginStatus();
+          if (profileViewModel.isLoggedIn) {
+            await basketViewModel.checkIsLoggedIn();
+            await basketViewModel.initializeFamilyStatus();
+          }
+        }
+        setLoading(false);
+        return true;
+      } else {
+        _errorMessage = 'Login failed. Please try again.';
+        setLoading(false);
+        return false;
+      }
+    } catch (e) {
+      _errorMessage = 'An error occurred during login: $e';
       setLoading(false);
       return false;
     }

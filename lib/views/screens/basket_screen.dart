@@ -1,6 +1,5 @@
 import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
-import 'package:benri_app/services/family_service.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/view_models/profile_viewmodel.dart';

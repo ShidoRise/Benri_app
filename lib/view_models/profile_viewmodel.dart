@@ -14,6 +14,9 @@ class ProfileViewModel extends ChangeNotifier {
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   bool get notificationEnabled => _notificationEnabled;
   bool get darkModeEnabled =>
       Provider.of<ThemeProvider>(navigatorKey.currentContext!, listen: false)
@@ -29,13 +32,27 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> checkLoginStatus() async {
-    final fetchUserInfo = await UserLocal.getUserInfo();
-    print('fetchUserInfoooo  ${fetchUserInfo['userId']}');
-    _isLoggedIn = fetchUserInfo['userId']?.isNotEmpty == true;
-    print(_isLoggedIn);
-    userInfo.addAll(fetchUserInfo);
-    print('User info: ${userInfo['email']}');
-    notifyListeners();
+    try {
+      final Map<String, String> fetchedUserInfo = await UserLocal.getUserInfo();
+
+      if (fetchedUserInfo.isNotEmpty &&
+          fetchedUserInfo['userId']?.isNotEmpty == true) {
+        _isLoggedIn = true;
+        userInfo = fetchedUserInfo;
+        print('Login successful - UserID: ${fetchedUserInfo['userId']}');
+      } else {
+        _isLoggedIn = false;
+        userInfo = {};
+        print('No valid user info found');
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print('Error checking login status: $e');
+      _isLoggedIn = false;
+      userInfo = {};
+      notifyListeners();
+    }
   }
 
   void toggleNotification() {
@@ -51,33 +68,47 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   void login(BuildContext context) {
-    // TODO: Implement login
     print('login');
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   Future<void> logout(BuildContext context) async {
-    UserLocal.logout();
-    userInfo = {};
-    _isLoggedIn = false;
+    print('logouttttttt');
+    try {
+      _isLoading = true;
+      notifyListeners();
 
-    final basketViewModel =
-        Provider.of<BasketViewModel>(context, listen: false);
-    await basketViewModel.resetFamilyStatus();
-    await basketViewModel.initializeFamilyStatus();
-    notifyListeners();
-    Fluttertoast.showToast(
-      msg: "Đăng xuất thành công",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.grey[800],
-      textColor: Colors.white,
-    );
+      await UserLocal.logout();
+      _isLoggedIn = false;
+      userInfo = {};
+
+      final basketViewModel =
+          Provider.of<BasketViewModel>(context, listen: false);
+      await basketViewModel.checkIsLoggedIn();
+      await basketViewModel.resetFamilyStatus();
+
+      _isLoading = false;
+
+      notifyListeners();
+
+      if (context.mounted) {
+        Fluttertoast.showToast(
+          msg: "Đăng xuất thành công",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.grey[800],
+          textColor: Colors.white,
+        );
+      }
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      print('Error during logout: $e');
+    }
   }
 
   void profileInformation(BuildContext context) {
-    // TODO: Implement profile information
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const DetailProfileScreen()));
   }
@@ -87,16 +118,8 @@ class ProfileViewModel extends ChangeNotifier {
         MaterialPageRoute(builder: (context) => const ChangePassWordScreen()));
   }
 
-  void rateApp() {
-    // TODO: Implement rate app
-  }
-  void shareApp() {
-    // TODO: Implement share app
-  }
-  void contact() {
-    // TODO: Implement contact
-  }
-  void feedback() {
-    // TODO: Implement feedback
-  }
+  void rateApp() {}
+  void shareApp() {}
+  void contact() {}
+  void feedback() {}
 }

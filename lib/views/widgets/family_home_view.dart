@@ -20,8 +20,9 @@ class FamilyHomeView extends StatelessWidget {
     return Column(
       children: [
         _basketMiniCalendar(context, basketViewModel),
-        _separatorLineWithShadow(),
+        SizedBox(height: 5),
         _showMemberBuyIngredients(context, basketViewModel),
+        SizedBox(height: 5),
         _familyContent(basketViewModel),
       ],
     );
@@ -209,7 +210,7 @@ class FamilyHomeView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Buyer: ${basketViewModel.familyMemberBuyIngredients(basketViewModel.focusDateFormatted)}',
+              'Người đi chợ: ${basketViewModel.familyMemberBuyIngredients(basketViewModel.focusDateFormatted)}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

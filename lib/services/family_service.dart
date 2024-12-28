@@ -1,6 +1,7 @@
 import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/families/family_lists.dart';
 import 'package:benri_app/models/families/family_members.dart';
+import 'package:benri_app/services/auth_service.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/utils/constants/constant.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
@@ -17,7 +18,6 @@ import 'package:provider/provider.dart';
 class FamilyService {
   static List<FamilyMember> familyMembers = [];
   static Map<String, FamilyList> familyShoppingListData = {};
-  static final storage = FlutterSecureStorage();
   static final String baseUrl = dotenv.get('API_URL');
 
   FamilyService._();
@@ -44,9 +44,11 @@ class FamilyService {
 
         final metadata = responseData['metadata'];
 
-        await storage.write(key: 'familyId', value: metadata['family_id']);
-        await storage.write(key: 'family_code', value: metadata['code']);
-        await storage.write(key: 'familyRole', value: 'admin');
+        await AuthService.storage
+            .write(key: 'familyId', value: metadata['family_id']);
+        await AuthService.storage
+            .write(key: 'family_code', value: metadata['code']);
+        await AuthService.storage.write(key: 'familyRole', value: 'admin');
       } else {
         throw Exception('Failed to create family: ${response.statusCode}');
       }
@@ -77,9 +79,9 @@ class FamilyService {
 
         final metadata = responseData['metadata'];
 
-        await storage.write(key: 'familyId', value: metadata['family_id']);
-        await storage.write(key: 'family_code', value: metadata['code']);
-        await storage.write(key: 'familyRole', value: 'member');
+        await AuthService.storage
+            .write(key: 'familyId', value: metadata['famlily_id']);
+        await AuthService.storage.write(key: 'familyRole', value: 'member');
       } else {
         throw Exception('Failed to join family: ${response.statusCode}');
       }
@@ -105,7 +107,8 @@ class FamilyService {
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         final metadata = responseData['metadata'];
-        await storage.write(key: 'family_code', value: metadata['code']);
+        await AuthService.storage
+            .write(key: 'family_code', value: metadata['code']);
 
         final members = metadata['fam_members'] as List;
         familyMembers =
@@ -121,7 +124,7 @@ class FamilyService {
   static Future<void> deleteFamily() async {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
-      final familyId = await storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       if (familyId == null) throw Exception('No family ID found');
 
       final response = await http.delete(
@@ -135,9 +138,9 @@ class FamilyService {
       );
 
       if (response.statusCode == 200) {
-        await storage.delete(key: 'familyId');
-        await storage.delete(key: 'family_code');
-        await storage.delete(key: 'familyRole');
+        await AuthService.storage.delete(key: 'familyId');
+        await AuthService.storage.delete(key: 'family_code');
+        await AuthService.storage.delete(key: 'familyRole');
 
         familyShoppingListData.clear();
         familyMembers.clear();
@@ -153,7 +156,7 @@ class FamilyService {
   static Future<void> leaveFamily() async {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
-      final familyId = await storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       if (familyId == null) throw Exception('No family ID found');
 
       final response = await http.post(
@@ -169,9 +172,9 @@ class FamilyService {
       print('Response status code: ${response.statusCode}');
 
       if (response.statusCode == 200) {
-        await storage.delete(key: 'familyId');
-        await storage.delete(key: 'family_code');
-        await storage.delete(key: 'familyRole');
+        await AuthService.storage.delete(key: 'familyId');
+        await AuthService.storage.delete(key: 'family_code');
+        await AuthService.storage.delete(key: 'familyRole');
 
         familyShoppingListData.clear();
         familyMembers.clear();
@@ -186,7 +189,7 @@ class FamilyService {
 
   static Future<String?> getFamilyCode() async {
     try {
-      final familyCode = await storage.read(key: 'family_code');
+      final familyCode = await AuthService.storage.read(key: 'family_code');
       return familyCode;
     } catch (e) {
       print('Error getting family code: $e');
@@ -197,7 +200,7 @@ class FamilyService {
   static Future<void> getFamilyShoppingLists() async {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
-      final familyId = await storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       if (familyId == null) throw Exception('No family ID found');
 
       final response = await http.get(
@@ -230,7 +233,7 @@ class FamilyService {
     try {
       final Map<String, String> userLocal = await UserLocal.getUserInfo();
 
-      final familyId = await storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       if (familyId == null) throw Exception('No family ID found');
 
       final response = await http.post(
@@ -294,6 +297,7 @@ class FamilyService {
             },
             body: jsonEncode({
               'name': name,
+              'workerId': userId,
               'description': description,
               'ingredients': ingredients
                   .map((ingredient) => {
@@ -304,7 +308,6 @@ class FamilyService {
                         'status': ingredient.status ? 'bought' : 'pending',
                       })
                   .toList(),
-              'created_by': userId,
             }),
           )
           .timeout(timeout);
@@ -350,7 +353,7 @@ class FamilyService {
         );
       }
 
-      final familyId = await storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       if (familyId == null) throw Exception('No family ID found');
 
       await updateFamilyShoppingList(
@@ -370,7 +373,7 @@ class FamilyService {
         index < familyShoppingListData[date]!.ingredients.length) {
       familyShoppingListData[date]!.ingredients.removeAt(index);
 
-      final familyId = await storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       if (familyId == null) throw Exception('No family ID found');
 
       await updateFamilyShoppingList(
@@ -411,7 +414,7 @@ class FamilyService {
       if (updatedIngredient != null) {
         familyShoppingListData[date]!.ingredients[index] = updatedIngredient;
 
-        final familyId = await storage.read(key: 'familyId');
+        final familyId = await AuthService.storage.read(key: 'familyId');
         if (familyId == null) throw Exception('No family ID found');
 
         await updateFamilyShoppingList(
@@ -435,7 +438,7 @@ class FamilyService {
       familyShoppingListData[date]!.ingredients[index].status =
           !familyShoppingListData[date]!.ingredients[index].status;
 
-      final familyId = await storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       if (familyId == null) throw Exception('No family ID found');
 
       await updateFamilyShoppingList(
@@ -456,7 +459,7 @@ class FamilyService {
       if (userId != null) {
         familyShoppingListData[date]!.userId = userId;
 
-        final familyId = await storage.read(key: 'familyId');
+        final familyId = await AuthService.storage.read(key: 'familyId');
         if (familyId == null) throw Exception('No family ID found');
 
         try {
@@ -464,7 +467,7 @@ class FamilyService {
 
           final response = await http.post(
               Uri.parse(
-                  '$baseUrl/$familyId/assign-task/$userId/${familyShoppingListData[date]!.listId}'),
+                  '$baseUrl/family/$familyId/assign-task/$userId/${familyShoppingListData[date]!.listId}'),
               headers: {
                 'x-api-key': Constants.apiKey,
                 'x-client-id': userLocal['userId'] ?? '',
@@ -476,7 +479,7 @@ class FamilyService {
               }));
 
           if (response.statusCode != 200) {
-            throw Exception('Failed to update shopping list');
+            throw Exception('Failed to choose family member assign task');
           }
         } catch (e) {
           print('Error choose family member assign task: $e');

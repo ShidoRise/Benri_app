@@ -6,7 +6,7 @@ part 'fridge_drawers.g.dart';
 @HiveType(typeId: 5)
 class FridgeDrawer {
   @HiveField(0)
-  final String name;
+  String name;
 
   @HiveField(1)
   final List<FridgeIngredient> fridgeIngredients;

@@ -19,28 +19,11 @@ class PersonalBasketView extends StatelessWidget {
       return Column(
         children: [
           _basketMiniCalendar(context, basketViewModel),
-          _separatorLineWithShadow(),
+          SizedBox(height: 5),
           _basketContent(basketViewModel),
         ],
       );
     });
-  }
-
-  Widget _separatorLineWithShadow() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      height: 0.5,
-      decoration: const BoxDecoration(
-        color: BColors.grey,
-        boxShadow: [
-          BoxShadow(
-            color: BColors.grey,
-            blurRadius: 1,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _basketMiniCalendar(
@@ -136,6 +119,7 @@ class PersonalBasketView extends StatelessWidget {
             child: Column(
               children: [
                 TotalMoneyInput(basketViewModel: basketViewModel),
+                SizedBox(height: 5),
                 Expanded(
                   child: ListView.builder(
                     itemCount: BasketService

@@ -1,5 +1,4 @@
 import 'package:benri_app/services/auth_service.dart';
-import 'package:benri_app/services/family_service.dart';
 
 class UserLocal {
   UserLocal._();
@@ -7,7 +6,6 @@ class UserLocal {
   static Future<void> logout() async {
     try {
       await AuthService.storage.deleteAll();
-      await FamilyService.storage.deleteAll();
     } catch (e) {
       print('Error during logout: $e');
     }

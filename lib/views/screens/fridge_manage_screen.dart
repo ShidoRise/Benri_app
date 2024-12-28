@@ -10,89 +10,32 @@ class FridgeManageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final drawerProvider = Provider.of<DrawerProvider>(context);
-    final TextEditingController drawerController = TextEditingController();
-
-    void saveNewDrawer() {
-      if (drawerController.text.isNotEmpty) {
-        drawerProvider.addDrawer(drawerController.text);
-        Navigator.of(context).pop();
-        drawerController.clear();
-      }
-    }
-
-    void addNewDrawer() {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AddDrawer(
-            controller: drawerController,
-            onSave: saveNewDrawer,
-            onCancel: () {
-              drawerController.clear();
-              Navigator.of(context).pop();
-            },
-          );
-        },
-      );
-    }
-
-    void deleteNotify(BuildContext context, int index) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Bạn có chắc chắn muốn xóa ngăn kéo này không?"),
-            backgroundColor: Theme.of(context).colorScheme.background,
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Quay lại"),
-              ),
-              TextButton(
-                onPressed: () {
-                  Provider.of<DrawerProvider>(context, listen: false)
-                      .removeDrawer(index);
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Đồng ý"),
-              ),
-            ],
-          );
-        },
-      );
-    }
-
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: ListView.builder(
+    return Consumer<DrawerProvider>(builder: (context, drawerProvider, child) {
+      return Scaffold(
+        body: ListView.builder(
           itemCount: drawerProvider.drawers.length,
           itemBuilder: (context, index) {
             return DrawerTile(
               drawerName: drawerProvider.drawers[index],
-              onDelete: () => deleteNotify(context, index),
+              deleteFunction: (context) => drawerProvider.removeDrawer(index),
+              editFunction: (context) =>
+                  drawerProvider.editDrawer(context, index),
             );
           },
         ),
-      ),
-      floatingActionButton: Container(
-        height: 65,
-        width: 65,
-        margin: const EdgeInsets.all(5.0),
-        child: FloatingActionButton(
+        floatingActionButton: FloatingActionButton(
           heroTag: 'fridge_manage_fab',
-          onPressed: addNewDrawer,
-          backgroundColor: BColors.primary,
-          child: Icon(
-            Icons.add,
-            size: 30,
-            color: Theme.of(context).colorScheme.secondaryFixed,
-          ),
+          onPressed: () async {
+            final drawerName =
+                await showAddDrawerDialog(context, 'Tạo ngăn tủ mới');
+            if (drawerName != null) {
+              drawerProvider.addDrawer(drawerName);
+            }
+          },
+          backgroundColor: BColors.primaryFirst,
+          child: Icon(Icons.add),
         ),
-      ),
-    );
+      );
+    });
   }
 }

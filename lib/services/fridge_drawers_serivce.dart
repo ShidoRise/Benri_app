@@ -1,6 +1,8 @@
 // fridge_ingredients_service.dart
 import 'package:benri_app/models/fridge_drawers/fridge_drawers.dart';
 import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
+import 'package:benri_app/views/widgets/add_drawer.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class FridgeDrawersService {
@@ -92,6 +94,20 @@ class FridgeDrawersService {
 
   static Future<void> removeDrawer(String drawerName) async {
     drawers.remove(drawerName);
+    await _updateLocalDatabase();
+  }
+
+  static Future<void> editDrawer(
+      BuildContext context, String drawerName) async {
+    final updateDrawerName = await showAddDrawerDialog(
+        context, 'Sửa tên ngăn tủ',
+        drawerName: drawerName);
+    if (updateDrawerName != null) {
+      initializeDrawer(updateDrawerName);
+      drawers[updateDrawerName] = drawers[drawerName]!;
+      drawers[updateDrawerName]!.name = updateDrawerName;
+      drawers.remove(drawerName);
+    }
     await _updateLocalDatabase();
   }
 }

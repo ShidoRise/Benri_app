@@ -1,104 +1,99 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
-
 import '../../utils/constants/colors.dart';
 
-class AddDrawer extends StatelessWidget {
-  final TextEditingController controller;
+Future<String?> showAddDrawerDialog(
+  BuildContext context,
+  String functionName, {
+  String? drawerName,
+}) {
+  final nameController = TextEditingController(text: drawerName ?? '');
 
-  VoidCallback onSave;
-
-  VoidCallback onCancel;
-
-  AddDrawer(
-      {super.key,
-      required this.controller,
-      required this.onSave,
-      required this.onCancel});
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return AlertDialog(
-      title: Text(
-        "Tạo ngăn tủ mới",
-        style: TextStyle(
-          color: isDark ? Colors.white : Colors.black,
-        ),
+  return showModalBottomSheet<String>(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        top: 24,
+        left: 24,
+        right: 24,
       ),
-      backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
-      content: SizedBox(
-        height: 120,
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            functionName,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: nameController,
+            decoration: InputDecoration(
+              labelText: 'Tên ngăn tủ',
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                color: isDark ? const Color(0xFF2C2C2C) : Colors.grey[200],
               ),
-              child: TextField(
-                controller: controller,
-                style: TextStyle(
-                  color: isDark ? Colors.white : Colors.black,
-                ),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(
-                    color: isDark ? Colors.grey[400] : Colors.grey[600],
-                  ),
-                ),
-              ),
+              prefixIcon: const Icon(Icons.kitchen_outlined),
             ),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: onSave,
-                  style: TextButton.styleFrom(
-                      backgroundColor:
-                          isDark ? const Color(0xFF3A3A3A) : BColors.primary,
-                      padding: const EdgeInsets.symmetric(horizontal: 36),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      )),
-                  child: Text(
-                    "Thêm",
-                    style: TextStyle(
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                TextButton(
-                  onPressed: onCancel,
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        isDark ? const Color(0xFF3A3A3A) : BColors.primary,
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+            onChanged: (value) => drawerName = value,
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
                     ),
+                    side: BorderSide(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                    elevation: 2,
+                    backgroundColor: Colors.white,
                   ),
-                  child: Text(
-                    "Huỷ bỏ",
-                    style: TextStyle(
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Hủy',
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: BColors.primaryFirst,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context, drawerName);
+                  },
+                  child: const Text(
+                    'Lưu',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }

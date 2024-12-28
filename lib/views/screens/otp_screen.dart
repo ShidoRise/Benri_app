@@ -88,6 +88,7 @@ class VerifyOTPScreenView extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 if (await viewModel.verifyOTP(
+                  context,
                   _controllers.map((controller) => controller.text).join(),
                   email,
                   password,
