@@ -236,6 +236,7 @@ class AuthService {
           },
           body: jsonEncode({"email": email, "otp": otp}),
         );
+        print(response);
         if (response.statusCode == 200) {
           return true;
         } else {

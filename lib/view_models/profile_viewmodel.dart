@@ -1,4 +1,5 @@
 import 'package:benri_app/services/user_local.dart';
+import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/screens/change_pasword_screen.dart';
 import 'package:benri_app/views/screens/detail_profile_screen.dart';
 import 'package:benri_app/views/screens/login_screen.dart';
@@ -53,10 +54,14 @@ class ProfileViewModel extends ChangeNotifier {
         context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
-  void logout() {
+  Future<void> logout(BuildContext context) async {
     UserLocal.logout();
     userInfo = {};
     _isLoggedIn = false;
+    final basketViewModel =
+        Provider.of<BasketViewModel>(context, listen: false);
+    await basketViewModel.resetFamilyStatus();
+    await basketViewModel.initializeFamilyStatus();
     notifyListeners();
     Fluttertoast.showToast(
       msg: "Logged out successfully",

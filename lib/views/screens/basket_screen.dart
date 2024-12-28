@@ -1,316 +1,309 @@
+import 'package:benri_app/models/families/family_ingredients.dart';
+import 'package:benri_app/models/ingredients/basket_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
-import 'package:benri_app/views/widgets/basket_item.dart';
+import 'package:benri_app/view_models/profile_viewmodel.dart';
 import 'package:benri_app/views/screens/calendar_screen.dart';
+import 'package:benri_app/views/screens/family_members_screen.dart';
+import 'package:benri_app/views/widgets/add_family_ingredient_dialog.dart';
+import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
+import 'package:benri_app/views/widgets/family_basket_view.dart';
+import 'package:benri_app/views/widgets/personal_basket_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:provider/provider.dart'; // Import provider for state management
+import 'package:provider/provider.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
-import 'package:easy_date_timeline/easy_date_timeline.dart';
-import 'package:intl/intl.dart'; // For formatting dates
+import 'package:benri_app/views/widgets/basket_mode_toggle.dart';
 
 class BasketScreen extends StatelessWidget {
   const BasketScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const BAppBar(title: 'My Basket'),
-      body: Consumer<BasketViewModel>(
-        builder: (context, basketViewModel, child) {
-          return Column(
-            children: [
-              _basketHeader(context, basketViewModel),
-              _basketMiniCalendar(context, basketViewModel),
-              _separatorLineWithShadow(),
-              (basketViewModel.db.baskets[basketViewModel.focusDateFormatted]
-                          ?.isNotEmpty ??
-                      false)
-                  ? Expanded(
-                      child: ListView.builder(
-                        itemCount: basketViewModel
-                                .db
-                                .baskets[basketViewModel.focusDateFormatted]
-                                ?.length ??
-                            0,
-                        itemBuilder: (BuildContext context, int index) {
-                          return _buildBasketItem(
-                              context, basketViewModel, index);
-                        },
-                      ),
-                    )
-                  : _emptyBasketMessage(),
-            ],
-          );
-        },
-      ),
-      floatingActionButton: _basketFloatingButton(context),
-    );
-  }
-
-  Widget _separatorLineWithShadow() {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-          vertical: 4), // Adjust the spacing if needed
-      height: 0.5, // Thickness of the line
-      decoration: const BoxDecoration(
-        color: BColors.grey, // Color of the line
-        boxShadow: [
-          BoxShadow(
-            color: BColors.grey, // Shadow color
-            blurRadius: 1, // Softness of the shadow
-            offset:
-                Offset(0, 2), // Position of the shadow (horizontal, vertical)
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _basketHeader(BuildContext context, BasketViewModel basketViewModel) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Row(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(16),
-              width: 45,
-              height: 45,
-              decoration: const ShapeDecoration(
-                color: BColors.grey,
-                shape: OvalBorder(),
-              ),
-            ),
-            Container(
-              width: 80,
-              height: 30,
-              padding: const EdgeInsets.only(top: 3),
-              decoration: ShapeDecoration(
-                color: BColors.grey,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+    return Consumer2<BasketViewModel, ProfileViewModel>(
+        builder: (context, basketViewModel, profileViewModel, child) {
+      return Scaffold(
+        appBar: const BAppBar(title: 'My Basket'),
+        body: Consumer2<BasketViewModel, ProfileViewModel>(
+          builder: (context, basketViewModel, profileViewModel, child) {
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child:
+                            BasketModeToggle(basketViewModel: basketViewModel)),
+                    basketViewModel.selectedMode == 'Cá nhân'
+                        ? _calendarIcon(context)
+                        : (profileViewModel.isLoggedIn &&
+                                basketViewModel.hasInternet &&
+                                basketViewModel.hasFamily)
+                            ? Row(
+                                children: [
+                                  _memberListIcon(context),
+                                  _shareButton(context, basketViewModel),
+                                ],
+                              )
+                            : Container(),
+                  ],
                 ),
-                shadows: const [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 1,
-                    offset: Offset(0, 1),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: const Text(
-                'For You',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF717171),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
+                Expanded(
+                  child: basketViewModel.selectedMode == 'Cá nhân'
+                      ? PersonalBasketView()
+                      : FamilyBasketView(),
                 ),
-              ),
-            ),
-          ],
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CalendarScreen(),
-              ),
+              ],
             );
           },
-          child: Container(
-            margin: const EdgeInsets.all(16),
-            width: 40,
-            height: 40,
-            decoration: const ShapeDecoration(
-              color: BColors.white,
-              shape: OvalBorder(),
-              shadows: [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 4),
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
-            child: const Icon(Iconsax.calendar_1),
-          ),
         ),
-      ],
-    );
+        floatingActionButton: (basketViewModel.selectedMode == 'Cá nhân' ||
+                (basketViewModel.selectedMode == 'Gia đình' &&
+                    profileViewModel.isLoggedIn &&
+                    basketViewModel.hasInternet &&
+                    basketViewModel.hasFamily))
+            ? _floatingButton(context)
+            : null,
+      );
+    });
   }
 
-  Widget _basketMiniCalendar(
-      BuildContext context, BasketViewModel basketViewModel) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 15),
-      child: EasyInfiniteDateTimeLine(
-        selectionMode: const SelectionMode.autoCenter(),
-        firstDate: DateTime(2024),
-        focusDate: basketViewModel.focusDate,
-        lastDate: DateTime(2024, 12, 31),
-        onDateChange: (selectedDate) {
-          basketViewModel.updateFocusDate(selectedDate);
-        },
-        dayProps: EasyDayProps(width: 64, height: 64),
-        itemBuilder: (context, date, isSelected, onTap) {
-          return _buildCalendarItem(
-              context, basketViewModel, date, isSelected, onTap);
-        },
-      ),
-    );
-  }
-
-  Widget _buildCalendarItem(
-    BuildContext context,
-    BasketViewModel basketViewModel,
-    DateTime date,
-    bool isSelected,
-    VoidCallback onTap,
-  ) {
-    String formattedDate =
-        DateFormat('yMd').format(date); // Use formatted date string
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16.0),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Container(
-            width: 164.0,
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: BColors.grey,
-              ),
-              color: isSelected ? BColors.primaryFirst : null,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  date.day.toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isSelected ? Colors.white : const Color(0xff393646),
-                  ),
-                ),
-                const SizedBox(width: 8.0),
-                Text(
-                  EasyDateFormatter.shortDayName(date, "en_US").toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isSelected ? Colors.white : BColors.darkGrey,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (basketViewModel.db.baskets[formattedDate]?.isNotEmpty ?? false)
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Icon(
-                isSelected ? Icons.circle : Icons.circle,
-                size: 8,
-                color: isSelected ? Colors.white : BColors.primaryFirst,
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBasketItem(
-      BuildContext context, BasketViewModel basketViewModel, int index) {
-    final ingredient =
-        basketViewModel.db.baskets[basketViewModel.focusDateFormatted]![index];
-
-    return BasketItem(
-      ingredient: ingredient,
-      isSelected: ingredient.isSelected,
-      basketViewModel: basketViewModel,
-      index: index,
-      deleteFunction: (context) => basketViewModel.deleteBasketItem(index),
-    );
-  }
-
-  Widget _emptyBasketMessage() {
-    return Expanded(
-      child: Center(
-        child: Text(
-          'No ingredients here,\nclick + to add',
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.grey, fontSize: 24),
-        ),
-      ),
-    );
-  }
-
-  Widget _basketFloatingButton(BuildContext context) {
-    return Container(
-      width: 65,
-      height: 65,
-      margin: EdgeInsets.all(5.0),
-      child: FloatingActionButton(
-        backgroundColor: BColors.white,
-        onPressed: () async {
-          final basketViewModel = context.read<BasketViewModel>();
-          final ingredient = await openDialog(context);
-          if (ingredient != null && ingredient.isNotEmpty) {
-            basketViewModel.addIngredient(ingredient);
-          }
-        },
-        child: const Icon(
-          Icons.add,
-          size: 30,
-        ),
-      ),
-    );
-  }
-
-  Future<String?> openDialog(BuildContext context) {
-    final TextEditingController ingredientInputController =
-        TextEditingController();
-    return showModalBottomSheet<String>(
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: BColors.white,
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Column(
-            children: [
-              TextField(
-                autofocus: true,
-                controller: ingredientInputController,
-                decoration:
-                    const InputDecoration(hintText: 'Enter your ingredient'),
-                onSubmitted: (_) {
-                  Navigator.of(context).pop(ingredientInputController.text);
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(ingredientInputController.text);
-                },
-                child: const Text('Done'),
-              ),
-            ],
+  Widget _calendarIcon(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CalendarScreen(),
           ),
         );
       },
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        width: 40,
+        height: 40,
+        decoration: const ShapeDecoration(
+          color: BColors.white,
+          shape: OvalBorder(),
+          shadows: [
+            BoxShadow(
+              color: Color(0x19000000),
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: const Icon(Iconsax.calendar_1),
+      ),
+    );
+  }
+
+  Widget _shareButton(BuildContext context, BasketViewModel viewModel) {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.3,
+          ),
+          builder: (context) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Delete Family'),
+                          content: const Text(
+                              'Are you sure you want to delete this family?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                try {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  await viewModel.deleteFamily();
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Family deleted successfully'),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('Error deleting family: $e'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Text("Delete Family",
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold)),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Share Family Code',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            viewModel.familyCode ?? 'No code available',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: () async {
+                            if (viewModel.familyCode != null) {
+                              await Clipboard.setData(
+                                ClipboardData(text: viewModel.familyCode!),
+                              );
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        const Text('Code copied to clipboard'),
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        width: 40,
+        height: 40,
+        decoration: const ShapeDecoration(
+          color: BColors.white,
+          shape: OvalBorder(),
+          shadows: [
+            BoxShadow(
+              color: Color(0x19000000),
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: const Icon(Iconsax.link),
+      ),
+    );
+  }
+
+  Widget _memberListIcon(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const FamilyMembersScreen(),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        width: 40,
+        height: 40,
+        decoration: const ShapeDecoration(
+          color: BColors.white,
+          shape: OvalBorder(),
+          shadows: [
+            BoxShadow(
+              color: Color(0x19000000),
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: const Icon(Iconsax.tag_user),
+      ),
+    );
+  }
+
+  Widget _floatingButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+        final basketViewModel =
+            Provider.of<BasketViewModel>(context, listen: false);
+        basketViewModel.resetSelections();
+
+        final ingredient = await (basketViewModel.selectedMode == 'Cá nhân'
+            ? addIngredientDialog(context)
+            : addFamilyIngredientDialog(context));
+
+        if (ingredient != null && context.mounted) {
+          if (basketViewModel.selectedMode == 'Cá nhân') {
+            basketViewModel.addIngredient(ingredient as BasketIngredient);
+          } else {
+            basketViewModel.addFamilyIngredient(ingredient as FamilyIngredient);
+          }
+        }
+      },
+      child: const Icon(Icons.add),
     );
   }
 }

@@ -304,6 +304,10 @@ class FamilyService {
       ingredients: familyShoppingListData[date]!.ingredients,
       userId: familyShoppingListData[date]!.userId,
     );
+
+    if (familyShoppingListData[date]!.ingredients.length == 1) {
+      await getFamilyShoppingLists();
+    }
   }
 
   static Future<void> deleteFamilyItem(String date, int index) async {

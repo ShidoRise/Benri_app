@@ -176,10 +176,9 @@ class LoginScreenContent extends StatelessWidget {
                     } else if (await viewModel.login()) {
                       print(1111);
                       Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (context) => const NavigationMenu()),
-                        (route) => false,
-                      );
+                          MaterialPageRoute(
+                              builder: (context) => const NavigationMenu()),
+                          (route) => false);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Kiểm tra kết nối mạng')),

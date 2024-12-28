@@ -60,7 +60,7 @@ class BasketViewModel extends ChangeNotifier {
     initConnectivity();
     _setupConnectivityStream();
     _initializeData();
-    _initializeFamilyStatus();
+    initializeFamilyStatus();
   }
 
   void updateSelectedUnit(String? unit) {
@@ -220,25 +220,55 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _initializeFamilyStatus() async {
+  Future<void> initializeFamilyStatus() async {
     try {
+      _isLoading = true;
+      notifyListeners();
+
       final familyId = await FamilyService.storage.read(key: 'familyId');
       _hasFamily = familyId != null && familyId.isNotEmpty;
+
       if (_hasFamily) {
         await FamilyService.getFamily(familyId!);
         await FamilyService.getFamilyShoppingLists();
         await loadFamilyCode();
       }
+
+      _isLoading = false;
       notifyListeners();
     } catch (e) {
       _hasFamily = false;
+      _isLoading = false;
       notifyListeners();
     }
   }
 
-  void addFamilyIngredient(FamilyIngredient ingredient) {
+  Future<void> resetFamilyStatus() async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      _hasFamily = false;
+      _familyCode = null;
+
+      await FamilyService.storage.delete(key: 'familyId');
+      await FamilyService.storage.delete(key: 'family_code');
+
+      FamilyService.familyShoppingListData.clear();
+      FamilyService.familyMembers.clear();
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      print('Error resetting family status: $e');
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> addFamilyIngredient(FamilyIngredient ingredient) async {
     resetSelections();
-    FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
+    await FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
     notifyListeners();
   }
 
