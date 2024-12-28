@@ -26,4 +26,10 @@ class DrawerProvider with ChangeNotifier {
     await FridgeDrawersService.removeDrawer(drawerName);
     notifyListeners();
   }
+
+  void editDrawer(BuildContext context, int index) async {
+    final drawerName = drawers[index];
+    await FridgeDrawersService.editDrawer(context, drawerName);
+    notifyListeners();
+  }
 }

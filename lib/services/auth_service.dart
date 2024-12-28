@@ -182,9 +182,23 @@ class AuthService {
       );
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body)['metadata'];
+        print('response dki:::::::::::::' + responseData.toString());
         final user = responseData['user'];
         final tokens = responseData['tokens'];
         final email = user['user_email'];
+
+        if (user['user_family_group'] != null) {
+          final family = user['user_family_group'];
+          final role = user['user_role_group']['role'];
+          await storage.write(key: 'familyId', value: family);
+          await storage.write(key: 'familyRole', value: role);
+        } else {
+          await storage.delete(key: 'familyId');
+          await storage.write(key: 'familyId', value: null);
+          await storage.delete(key: 'familyRole');
+          await storage.write(key: 'familyRole', value: null);
+        }
+
         await _saveUserData(user['_id'], tokens['refreshToken'],
             tokens['accessToken'], email, user['user_name']);
         return true;
@@ -218,10 +232,6 @@ class AuthService {
       String? refreshToken = await storage.read(key: 'refreshToken');
       String? accessToken = await storage.read(key: 'accessToken');
       String? email = await storage.read(key: 'email');
-      print(userId);
-      print(refreshToken);
-      print(accessToken);
-      print(email);
 
       return {
         'userId': userId,
@@ -334,5 +344,10 @@ class AuthService {
     } catch (e) {
       return false;
     }
+  }
+
+  static Future<bool> isUserLoggedIn() async {
+    String? userId = await storage.read(key: 'userId');
+    return userId != null;
   }
 }

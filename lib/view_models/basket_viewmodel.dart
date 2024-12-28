@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/services/auth_service.dart';
 import 'package:benri_app/services/baskets_service.dart';
 import 'package:benri_app/services/family_service.dart';
 import 'package:benri_app/services/ingredient_suggestions_service.dart';
@@ -27,6 +28,9 @@ class BasketViewModel extends ChangeNotifier {
 
   String? _familyCode;
   String? get familyCode => _familyCode;
+
+  bool? _isLoggedIn;
+  bool? get isLoggedIn => _isLoggedIn;
 
   String get focusDateFormatted => _dateFormat.format(_focusDate);
   DateTime get focusDate => _focusDate;
@@ -63,9 +67,8 @@ class BasketViewModel extends ChangeNotifier {
     initConnectivity();
     _setupConnectivityStream();
     _initializeData();
+    checkIsLoggedIn();
     initializeFamilyStatus();
-    checkUserRole();
-    print('User role: $_userRole');
   }
 
   void updateSelectedUnit(String? unit) {
@@ -203,34 +206,49 @@ class BasketViewModel extends ChangeNotifier {
 
   Future<void> createFamily(String famName) async {
     _isLoading = true;
+    notifyListeners();
     await FamilyService.createFamily(famName);
-    _userRole = FamilyService.storage.read(key: 'familyRole').toString();
+    _userRole = await AuthService.storage.read(key: 'familyRole');
+    print('User role: $_userRole');
     _hasFamily = true;
+    _familyCode = await FamilyService.getFamilyCode();
     _isLoading = false;
     notifyListeners();
   }
 
   Future<void> joinFamily(String familyCode) async {
+    print('Joining family with code: $familyCode');
     _isLoading = true;
+    notifyListeners();
     await FamilyService.joinFamily(familyCode);
-    _userRole = FamilyService.storage.read(key: 'familyRole').toString();
+    final familyId = await AuthService.storage.read(key: 'familyId');
+    await FamilyService.getFamily(familyId!);
+    await FamilyService.getFamilyShoppingLists();
+    _userRole = await AuthService.storage.read(key: 'familyRole');
     _hasFamily = true;
+    _familyCode = familyCode;
     _isLoading = false;
     notifyListeners();
   }
 
   Future<void> deleteFamily() async {
     _isLoading = true;
+    notifyListeners();
     await FamilyService.deleteFamily();
     _hasFamily = false;
+    _familyCode = null;
+    _userRole = null;
     _isLoading = false;
     notifyListeners();
   }
 
   Future<void> leaveFamily() async {
     _isLoading = true;
+    notifyListeners();
     await FamilyService.leaveFamily();
     _hasFamily = false;
+    _familyCode = null;
+    _userRole = null;
     _isLoading = false;
     notifyListeners();
   }
@@ -240,13 +258,15 @@ class BasketViewModel extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      final familyId = await FamilyService.storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       _hasFamily = familyId != null && familyId.isNotEmpty;
+      print('Family ID: $familyId');
 
       if (_hasFamily) {
         await FamilyService.getFamily(familyId!);
         await FamilyService.getFamilyShoppingLists();
         await loadFamilyCode();
+        await checkUserRole();
       }
 
       _isLoading = false;
@@ -259,26 +279,21 @@ class BasketViewModel extends ChangeNotifier {
   }
 
   Future<void> resetFamilyStatus() async {
-    try {
-      _isLoading = true;
-      notifyListeners();
+    _isLoading = true;
+    notifyListeners();
 
+    try {
       _hasFamily = false;
       _familyCode = null;
-
-      await FamilyService.storage.delete(key: 'familyId');
-      await FamilyService.storage.delete(key: 'family_code');
+      _userRole = null;
 
       FamilyService.familyShoppingListData.clear();
       FamilyService.familyMembers.clear();
-
-      _isLoading = false;
-      notifyListeners();
     } catch (e) {
       print('Error resetting family status: $e');
-      _isLoading = false;
-      notifyListeners();
     }
+    _isLoading = false;
+    notifyListeners();
   }
 
   Future<void> addFamilyIngredient(FamilyIngredient ingredient) async {
@@ -330,7 +345,14 @@ class BasketViewModel extends ChangeNotifier {
   }
 
   Future<void> checkUserRole() async {
-    _userRole = await FamilyService.storage.read(key: 'familyRole') ?? '';
+    _userRole = await AuthService.storage.read(key: 'familyRole') ?? '';
+    print('User roleeeeeeeeeee: $_userRole');
+    notifyListeners();
+  }
+
+  Future<void> checkIsLoggedIn() async {
+    _isLoggedIn = await AuthService.isUserLoggedIn();
+    print('Is logged in: $_isLoggedIn');
     notifyListeners();
   }
 

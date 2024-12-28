@@ -37,11 +37,11 @@ class FridgeScreen extends StatelessWidget {
                     tabs: const [
                       Tab(
                         text: 'Tủ lạnh',
-                        height: 62,
+                        height: 55,
                       ),
                       Tab(
                         text: 'Thực phẩm',
-                        height: 62,
+                        height: 55,
                       ),
                     ],
                   );

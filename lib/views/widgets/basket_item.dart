@@ -9,10 +9,10 @@ class BasketItem extends StatelessWidget {
   final int index;
   final bool isSelected;
   final BasketViewModel basketViewModel;
-  Function(BuildContext)? deleteFunction;
-  Function(BuildContext)? editFunction;
+  final Function(BuildContext)? deleteFunction;
+  final Function(BuildContext)? editFunction;
 
-  BasketItem({
+  const BasketItem({
     super.key,
     required this.ingredient,
     required this.isSelected,

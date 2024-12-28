@@ -1,4 +1,5 @@
 import 'package:benri_app/models/families/family_members.dart';
+import 'package:benri_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:benri_app/services/family_service.dart';
 
@@ -13,7 +14,7 @@ class FamilyViewModel extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      final familyId = await FamilyService.storage.read(key: 'familyId');
+      final familyId = await AuthService.storage.read(key: 'familyId');
       print('Family ID: $familyId');
       if (familyId != null) {
         await FamilyService.getFamily(familyId);
