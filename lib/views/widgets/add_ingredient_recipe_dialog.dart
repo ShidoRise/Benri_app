@@ -199,7 +199,7 @@ Widget _buildUnitChips(
 ) {
   return Wrap(
     alignment: WrapAlignment.spaceBetween,
-    spacing: 8,
+    spacing: 5,
     children: units.map((unit) {
       return ChoiceChip(
         label: Text(unit),
