@@ -10,6 +10,7 @@ import 'package:benri_app/services/family_service.dart';
 import 'package:benri_app/services/ingredient_suggestions_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class BasketViewModel extends ChangeNotifier {
@@ -102,6 +103,13 @@ class BasketViewModel extends ChangeNotifier {
   }
 
   void addIngredient(BasketIngredient ingredient) {
+    if (ingredient.name.isEmpty ||
+        ingredient.quantity.isEmpty ||
+        ingredient.unit.isEmpty) {
+      Fluttertoast.showToast(msg: 'Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
     resetSelections();
     BasketService.addIngredient(focusDateFormatted, ingredient);
     notifyListeners();
@@ -306,6 +314,13 @@ class BasketViewModel extends ChangeNotifier {
   }
 
   Future<void> addFamilyIngredient(FamilyIngredient ingredient) async {
+    if (ingredient.name.isEmpty ||
+        ingredient.quantity.isEmpty ||
+        ingredient.unit.isEmpty) {
+      Fluttertoast.showToast(msg: 'Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
     resetSelections();
     await FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
     notifyListeners();

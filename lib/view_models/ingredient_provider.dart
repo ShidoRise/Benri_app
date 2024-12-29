@@ -4,6 +4,7 @@ import 'package:benri_app/services/fridge_drawers_serivce.dart';
 import 'package:benri_app/services/ingredient_suggestions_service.dart';
 import 'package:benri_app/views/widgets/bottom_sheet_add_ingredient.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../models/ingredients/fridge_ingredients.dart';
 
 class IngredientProvider with ChangeNotifier {
@@ -64,6 +65,13 @@ class IngredientProvider with ChangeNotifier {
 
   Future<void> addIngredient(
       String drawerName, FridgeIngredient ingredient) async {
+    if (ingredient.name.isEmpty ||
+        ingredient.quantity.isEmpty ||
+        ingredient.unit?.isEmpty == true) {
+      Fluttertoast.showToast(msg: 'Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
     resetSelections();
     await FridgeDrawersService.addIngredient(drawerName, ingredient);
     notifyListeners();
