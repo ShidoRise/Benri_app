@@ -1,311 +1,218 @@
-// ignore_for_file: unused_local_variable
 import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
+import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/ingredient_provider.dart';
+import 'package:benri_app/view_models/recipe_creation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../utils/constants/colors.dart';
 
-Future<FridgeIngredient?> addIngredientRecipeDialog(BuildContext context,
-    {FridgeIngredient? fridgeIngredient}) {
-  final ingredientProvider =
-      Provider.of<IngredientProvider>(context, listen: false);
+Future<FridgeIngredient?> addIngredientRecipeDialog(
+  BuildContext context, {
+  FridgeIngredient? fridgeIngredient,
+}) {
+  final nameController =
+      TextEditingController(text: fridgeIngredient?.name ?? '');
+  final quantityController =
+      TextEditingController(text: fridgeIngredient?.quantity ?? '');
+  final unitController =
+      TextEditingController(text: fridgeIngredient?.unit ?? '');
+  final provider = Provider.of<RecipeCreationProvider>(context, listen: false);
 
   bool isInitialized = false;
 
-  String? selectedIngredient;
-  String? selectedUnit;
-
-  final TextEditingController ingredientController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
-  final TextEditingController unitController = TextEditingController();
-
-  bool ingredientError = false;
-  bool quantityError = false;
-  bool expirationDateError = false;
-
-  if (fridgeIngredient != null) {
-    ingredientController.text = fridgeIngredient.name;
-    quantityController.text = fridgeIngredient.quantity
-        .split(' ')[0]; // Assuming the format is "amount unit"
-    unitController.text =
-        fridgeIngredient.quantity.split(' ')[1]; // Get the unit
-  }
-
-  void setUnits(String unit, StateSetter setState) {
-    setState(() {
-      selectedUnit = unit;
-      unitController.text = unit;
-    });
-  }
-
-  return showModalBottomSheet(
+  return showModalBottomSheet<FridgeIngredient>(
     context: context,
     isScrollControlled: true,
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-          return Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context)
-                  .viewInsets
-                  .bottom, // Adjust for keyboard
-              left: 16.0,
-              right: 16.0,
-              top: 16.0,
-            ),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) => ChangeNotifierProvider<RecipeCreationProvider>.value(
+      value: provider,
+      child: Consumer<RecipeCreationProvider>(
+        builder: (context, model, _) => Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            top: 24,
+            left: 24,
+            right: 24,
+          ),
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Thêm nguyên liệu",
-                  style: TextStyle(fontSize: 20),
+                Text(
+                  fridgeIngredient == null
+                      ? 'Thêm nguyên liệu'
+                      : 'Sửa nguyên liệu',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-
-                Autocomplete<IngredientSuggestion>(
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    ingredientProvider
-                        .filterIngredientSuggestions(textEditingValue.text);
-                    return ingredientProvider.filteredIngredientSuggestions;
-                  },
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController fieldTextEditingController,
-                      FocusNode fieldFocusNode,
-                      VoidCallback onFieldSubmitted) {
-                    if (!isInitialized) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        fieldTextEditingController.text =
-                            ingredientController.text;
-                      });
-                      isInitialized = true;
-                    }
-                    fieldTextEditingController.text = ingredientController.text;
-                    return TextFormField(
-                      controller: fieldTextEditingController,
-                      focusNode: fieldFocusNode,
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                        labelText: 'Tên nguyên liệu',
-                        labelStyle: TextStyle(
-                            color: ingredientError ? Colors.red : Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: BColors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: BColors.black),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        ingredientController.text = value;
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          ingredientProvider.filterIngredientSuggestions(value);
-                        });
-                      },
-                    );
-                  },
-                  displayStringForOption: (IngredientSuggestion option) =>
-                      option.name,
-                  onSelected: (IngredientSuggestion option) =>
-                      ingredientController.text = option.name,
-                ),
-
-                const SizedBox(height: 20), // Space between inputs
-                // TextField for quantity input
+                const SizedBox(height: 24),
+                _buildIngredientNameField(
+                    context, nameController, model, isInitialized),
+                const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
-                      flex: 4,
-                      child: TextField(
-                        controller: quantityController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: 'Số lượng',
-                          labelStyle: TextStyle(
-                            color: quantityError
-                                ? Colors.red
-                                : Colors.black, // Red label on error
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(
-                              color: quantityError
-                                  ? Colors.red
-                                  : Colors.grey, // Red border on error
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(
-                              color: quantityError
-                                  ? Colors.red
-                                  : Colors.grey, // Red focused border on error
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
                     Expanded(
                       flex: 2,
-                      child: TextField(
-                        controller: unitController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          labelText: 'Đơn vị',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
+                      child: _buildQuantityField(context, quantityController),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      flex: 3,
+                      child: _buildUnitField(context, unitController),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 16),
+                _buildUnitChips(
+                    context, model.unitOptions, model, unitController),
+                const SizedBox(height: 16),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ChoiceChip(
-                      label: const Text('gam'),
-                      backgroundColor:
-                          Theme.of(context).colorScheme.secondaryContainer,
-                      selected: selectedUnit == 'gam',
-                      onSelected: (bool selected) {
-                        setUnits('gam', setState);
-                      },
-                      selectedColor: Theme.of(context).colorScheme.primary,
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          side: BorderSide(width: 1),
+                          backgroundColor: Colors.white,
+                          elevation: 2,
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        child:
+                            const Text('Hủy', style: TextStyle(fontSize: 16)),
+                      ),
                     ),
-                    ChoiceChip(
-                      label: const Text('kg'),
-                      backgroundColor:
-                          Theme.of(context).colorScheme.secondaryContainer,
-                      selected: selectedUnit == 'kg',
-                      onSelected: (bool selected) {
-                        setUnits('kg', setState);
-                      },
-                      selectedColor: Theme.of(context).colorScheme.primary,
-                    ),
-                    ChoiceChip(
-                      label: const Text('hộp'),
-                      backgroundColor:
-                          Theme.of(context).colorScheme.secondaryContainer,
-                      selected: selectedUnit == 'hộp',
-                      onSelected: (bool selected) {
-                        setUnits('hộp', setState);
-                      },
-                      selectedColor: Theme.of(context).colorScheme.primary,
-                    ),
-                    ChoiceChip(
-                      label: const Text('quả'),
-                      backgroundColor:
-                          Theme.of(context).colorScheme.secondaryContainer,
-                      selected: selectedUnit == 'quả',
-                      onSelected: (bool selected) {
-                        setUnits('quả', setState);
-                      },
-                      selectedColor: Theme.of(context).colorScheme.primary,
-                    ),
-                    ChoiceChip(
-                      label: const Text('lít'),
-                      backgroundColor:
-                          Theme.of(context).colorScheme.secondaryContainer,
-                      selected: selectedUnit == 'lít',
-                      onSelected: (bool selected) {
-                        setUnits('lít', setState);
-                      },
-                      selectedColor: Theme.of(context).colorScheme.primary,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          backgroundColor: BColors.primaryFirst,
+                        ),
+                        onPressed: () {
+                          if (nameController.text.isNotEmpty) {
+                            Navigator.pop(
+                              context,
+                              FridgeIngredient(
+                                name: nameController.text,
+                                quantity: quantityController.text,
+                                unit: unitController.text,
+                                expirationDate: null,
+                                imgPath: '',
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          fridgeIngredient == null ? 'Thêm' : 'Cập nhật',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                // TextField for expiration date
-
-                const SizedBox(height: 20),
-
-                const SizedBox(height: 70),
-                // Add Ingredient button
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 120,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size(120, 50),
-                              backgroundColor: BColors.primaryFirst,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8))),
-                          child: Text("Huỷ bỏ"),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 160,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size(120, 50),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                              backgroundColor: BColors.primaryFirst),
-                          onPressed: () {
-                            setState(() {
-                              ingredientError =
-                                  ingredientController.text.isEmpty;
-
-                              quantityError = quantityController.text.isEmpty;
-                            });
-
-                            // Only proceed if all fields are valid (no errors)
-                            if (!ingredientError &&
-                                !quantityError &&
-                                !expirationDateError) {
-                              final ingredientToSave =
-                                  ingredientController.text;
-
-                              final unitToSave = unitController.text.isNotEmpty
-                                  ? unitController.text
-                                  : selectedUnit ?? "";
-                              final imageUrl = ingredientProvider
-                                  .getImageUrlFromLocalStorage(
-                                      ingredientToSave);
-
-                              final newIngredient = FridgeIngredient(
-                                name: ingredientToSave,
-                                quantity:
-                                    '${quantityController.text} $unitToSave',
-                                imgPath: imageUrl,
-                                expirationDate: null,
-                              );
-
-                              // Return the new ingredient to the previous screen
-                              Navigator.of(context).pop(newIngredient);
-                            }
-                          },
-                          child: Text('Thêm'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 16),
               ],
             ),
-          );
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildIngredientNameField(
+  BuildContext context,
+  TextEditingController controller,
+  RecipeCreationProvider model,
+  bool isInitialized,
+) {
+  return Autocomplete<IngredientSuggestion>(
+    optionsBuilder: (TextEditingValue textEditingValue) {
+      model.filterIngredientSuggestions(textEditingValue.text);
+      return model.filteredIngredientSuggestions;
+    },
+    displayStringForOption: (IngredientSuggestion option) =>
+        option.nameInVietnamese,
+    onSelected: (IngredientSuggestion option) =>
+        controller.text = option.nameInVietnamese,
+    fieldViewBuilder: (context, textController, focusNode, onFieldSubmitted) {
+      if (!isInitialized) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          textController.text = controller.text;
+        });
+        isInitialized = true;
+      }
+      return TextFormField(
+        controller: textController,
+        focusNode: focusNode,
+        decoration: InputDecoration(
+          labelText: 'Tên nguyên liệu',
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        onChanged: (value) {
+          controller.text = value;
+          model.filterIngredientSuggestions(value);
         },
       );
     },
+  );
+}
+
+Widget _buildQuantityField(
+    BuildContext context, TextEditingController controller) {
+  return TextFormField(
+    controller: controller,
+    keyboardType: TextInputType.number,
+    decoration: InputDecoration(
+      labelText: 'Số lượng',
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+    ),
+  );
+}
+
+Widget _buildUnitField(BuildContext context, TextEditingController controller) {
+  return TextFormField(
+    controller: controller,
+    decoration: InputDecoration(
+      labelText: 'Đơn vị',
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+    ),
+  );
+}
+
+Widget _buildUnitChips(
+  BuildContext context,
+  List<String> units,
+  RecipeCreationProvider model,
+  TextEditingController unitController,
+) {
+  return Wrap(
+    alignment: WrapAlignment.spaceBetween,
+    spacing: 8,
+    children: units.map((unit) {
+      return ChoiceChip(
+        label: Text(unit),
+        selected: model.selectedUnit == unit,
+        onSelected: (selected) {
+          model.updateSelectedUnit(selected ? unit : null);
+          unitController.text = selected ? unit : '';
+        },
+        selectedColor: BColors.accent,
+        shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black),
+            borderRadius: BorderRadius.circular(12)),
+      );
+    }).toList(),
   );
 }

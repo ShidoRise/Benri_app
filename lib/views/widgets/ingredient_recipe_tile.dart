@@ -36,23 +36,26 @@ class IngredientRecipeTile extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Text(
-                  '${ingredient.name}: ',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Text(
+                    '${ingredient.name}: ',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                Text(
-                  '${ingredient.quantity} ${ingredient.unit}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: BColors.darkGrey,
+                  Text(
+                    '${ingredient.quantity} ${ingredient.unit}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: BColors.darkGrey,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 4),
             IconButton(

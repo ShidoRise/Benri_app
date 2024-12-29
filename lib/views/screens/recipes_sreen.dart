@@ -18,7 +18,7 @@ class RecipesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BAppBar(
-        title: 'Recipe',
+        title: 'Công thức',
       ),
       body: RefreshIndicator(
         onRefresh: () async {

@@ -19,7 +19,7 @@ class YourRecipeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FavouriteRecipeProvider>(
       builder: (context, provider, child) => Scaffold(
-        appBar: BAppBar(title: "Your Recipe"),
+        appBar: BAppBar(title: "Công thức của bạn"),
         body: Column(
           children: [
             SizedBox(
@@ -40,13 +40,15 @@ class YourRecipeScreen extends StatelessWidget {
 
                   if (recipes.isEmpty) {
                     return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 20),
                         Center(
                           child: Text(
-                            'You don\'t have any favourite recipes',
+                            'Bạn không có \ncông thức yêu thức nào!',
                             style: TextStyle(
                                 fontSize: 20, color: Colors.grey[500]),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
@@ -128,9 +130,7 @@ class YourRecipeScreen extends StatelessWidget {
           ],
         ),
         floatingActionButton: Container(
-          height: 65,
-          width: 65,
-          margin: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(12.0),
           child: FloatingActionButton(
             heroTag: 'your_recipe_fab',
             onPressed: () {
@@ -142,8 +142,6 @@ class YourRecipeScreen extends StatelessWidget {
             backgroundColor: BColors.primaryFirst,
             child: const Icon(
               Icons.add,
-              size: 30,
-              color: Colors.white,
             ),
           ),
         ),

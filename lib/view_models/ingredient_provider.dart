@@ -64,6 +64,7 @@ class IngredientProvider with ChangeNotifier {
 
   Future<void> addIngredient(
       String drawerName, FridgeIngredient ingredient) async {
+    resetSelections();
     await FridgeDrawersService.addIngredient(drawerName, ingredient);
     notifyListeners();
   }
