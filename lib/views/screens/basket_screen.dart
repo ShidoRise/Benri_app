@@ -25,7 +25,7 @@ class BasketScreen extends StatelessWidget {
     return Consumer2<BasketViewModel, ProfileViewModel>(
         builder: (context, basketViewModel, profileViewModel, child) {
       return Scaffold(
-        appBar: const BAppBar(title: 'My Basket'),
+        appBar: const BAppBar(title: 'Giỏ Hàng'),
         body: Consumer2<BasketViewModel, ProfileViewModel>(
           builder: (context, basketViewModel, profileViewModel, child) {
             return Column(
@@ -129,7 +129,7 @@ class BasketScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            'Share Family Code',
+                            'Chia sẻ code gia đình',
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
@@ -150,7 +150,7 @@ class BasketScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              viewModel.familyCode ?? 'No code available',
+                              viewModel.familyCode ?? 'Không có code khả dụng',
                               style: Theme.of(context).textTheme.titleMedium,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -166,8 +166,8 @@ class BasketScreen extends StatelessWidget {
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: const Text(
-                                          'Code copied to clipboard'),
+                                      content:
+                                          const Text('Code đã được sao chép!'),
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor:
                                           Theme.of(context).colorScheme.primary,
@@ -245,8 +245,8 @@ class BasketScreen extends StatelessWidget {
         basketViewModel.resetSelections();
 
         final ingredient = await (basketViewModel.selectedMode == 'Cá nhân'
-            ? addIngredientDialog(context)
-            : addFamilyIngredientDialog(context));
+            ? addIngredientDialog(context, 'Thêm nguyên liệu')
+            : addFamilyIngredientDialog(context, 'Thêm nguyên liệu'));
 
         if (ingredient != null && context.mounted) {
           if (basketViewModel.selectedMode == 'Cá nhân') {

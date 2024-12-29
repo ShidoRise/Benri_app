@@ -1,5 +1,4 @@
 import 'package:benri_app/utils/styles/elevated_button_style.dart';
-import 'package:benri_app/utils/styles/text_style.dart';
 import 'package:benri_app/views/screens/otp_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:benri_app/view_models/signup_view_model.dart';
@@ -36,41 +35,29 @@ class SignUpView extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                width: 338,
-                height: 40,
-                child: Text(
-                  'Tạo tài khoản',
-                  style: TextStyle(
-                    fontSize: 33,
-                    fontFamily: 'Yu Gothic UI',
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0.22,
-                  ),
-                ),
+              Image.asset(
+                'assets/icons/logo.png',
+                height: 120,
               ),
               const SizedBox(
-                height: 20,
+                height: 25,
               ),
               const SizedBox(
-                width: 274,
-                height: 50,
                 child: Text(
                   'Nhập Tên, Email và Mật khẩu của bạn để đăng ký.',
                   style: TextStyle(
                     color: Color(0xFF868686),
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    letterSpacing: -0.40,
                   ),
                 ),
               ),
               const SizedBox(
-                height: 25,
+                height: 15,
               ),
-              _buildInputField('TÊN ĐĂNG NHẬP', 'Nguyen Van An',
+              _buildInputField('TÊN NGƯỜI DÙNG', 'Nguyen Van An',
                   viewModel.nameController, false),
               _buildInputField('EMAIL', 'xample@gmail.com',
                   viewModel.emailController, false),

@@ -1,8 +1,7 @@
+import 'package:benri_app/views/widgets/ingredient_fridge_show.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../view_models/ingredient_provider.dart';
-import '../widgets/ingredient_fridge_view.dart';
 
 class DetailFridgeScreen extends StatelessWidget {
   const DetailFridgeScreen({super.key});
@@ -12,7 +11,6 @@ class DetailFridgeScreen extends StatelessWidget {
     return Scaffold(
       body: Consumer<IngredientProvider>(
         builder: (context, provider, child) {
-          // Get ingredients with drawer names
           final ingredientsWithDrawers = provider.getAllIngredientsWithDrawer();
 
           return ingredientsWithDrawers.isEmpty
@@ -21,18 +19,12 @@ class DetailFridgeScreen extends StatelessWidget {
                   itemCount: ingredientsWithDrawers.length,
                   itemBuilder: (context, index) {
                     final ingredientData = ingredientsWithDrawers[index];
-                    final drawerName =
-                        ingredientData['drawerName']; // Get the drawer name
+                    final drawerName = ingredientData['drawerName'];
                     final ingredient = ingredientData['ingredient'];
 
-                    return IngredientFridgeView(
+                    return IngredientFridgeShow(
                       ingredient: ingredient,
-                      drawerName:
-                          drawerName, // Pass the drawer name to the widget
-                      deleteIngredient: (context) {
-                        // Handle deletion if needed
-                      },
-                      editIngredient: (context) {},
+                      drawerName: drawerName,
                       ingredientProvider: provider,
                     );
                   },

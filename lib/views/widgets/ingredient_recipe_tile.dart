@@ -29,34 +29,6 @@ class IngredientRecipeTile extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container(
-            //   height: 64,
-            //   width: 64,
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(8),
-            //     border: Border.all(color: BColors.grey, width: 0.5),
-            //   ),
-            //   child: ClipRRect(
-            //     borderRadius: BorderRadius.circular(8),
-            //     child: (imgUrl.isNotEmpty
-            //         ? Image.network(
-            //             imgUrl,
-            //             width: 80,
-            //             errorBuilder: (context, error, stackTrace) {
-            //               return Image.asset(
-            //                 'assets/images/ingredient/default.png',
-            //                 width: 80,
-            //                 height: 80,
-            //                 fit: BoxFit.cover,
-            //               );
-            //             },
-            //           )
-            //         : Image.asset(
-            //             'assets/images/ingredient/default.png',
-            //             width: 80,
-            //           )),
-            //   ),
-            // ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(

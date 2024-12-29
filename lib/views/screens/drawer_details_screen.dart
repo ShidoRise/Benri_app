@@ -1,12 +1,9 @@
-import 'package:benri_app/services/fridge_drawers_serivce.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/ingredient_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/bottom_sheet_add_ingredient.dart';
 import '../widgets/ingredient_fridge_view.dart';
-// Import IngredientProvider
 
 class DrawerDetailsScreen extends StatelessWidget {
   final String drawerName;
@@ -20,7 +17,7 @@ class DrawerDetailsScreen extends StatelessWidget {
         backgroundColor: BColors.accent,
       ),
       body: Consumer<IngredientProvider>(
-        builder: (context, provider, child) {
+        builder: (context, provider, _) {
           final ingredients = provider.getIngredientsForDrawer(drawerName);
           return ingredients.isNotEmpty
               ? ListView.builder(
@@ -41,24 +38,19 @@ class DrawerDetailsScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: Container(
-        height: 65,
-        width: 65,
-        margin: const EdgeInsets.all(5),
+        margin: const EdgeInsets.all(12),
         child: FloatingActionButton(
           heroTag: 'drawer_detail_${drawerName}_fab',
           onPressed: () async {
             final newIngredient = await addFridgeIngredientDialog(context);
             if (newIngredient != null) {
-              Provider.of<IngredientProvider>(context, listen: false)
-                  .addIngredient(drawerName, newIngredient);
+              if (context.mounted) {
+                Provider.of<IngredientProvider>(context, listen: false)
+                    .addIngredient(drawerName, newIngredient);
+              }
             }
           },
-          backgroundColor: BColors.white,
-          child: const Icon(
-            Icons.add,
-            size: 30,
-            color: Colors.black,
-          ),
+          child: const Icon(Icons.add),
         ),
       ),
     );

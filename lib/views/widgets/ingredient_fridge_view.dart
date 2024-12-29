@@ -5,18 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
-// ignore: must_be_immutable
 class IngredientFridgeView extends StatelessWidget {
   final FridgeIngredient ingredient;
-  final String? drawerName;
   final IngredientProvider? ingredientProvider;
-  Function(BuildContext)? editIngredient;
-  Function(BuildContext)? deleteIngredient;
+  final Function(BuildContext)? editIngredient;
+  final Function(BuildContext)? deleteIngredient;
 
   IngredientFridgeView(
       {super.key,
       required this.ingredient,
-      this.drawerName,
       required this.deleteIngredient,
       required this.editIngredient,
       required this.ingredientProvider});
@@ -36,18 +33,21 @@ class IngredientFridgeView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(0),
       child: Slidable(
-        endActionPane: ActionPane(motion: const StretchMotion(), children: [
-          SlidableAction(
-            onPressed: (context) => editIngredient!(context),
-            icon: Icons.edit,
-            backgroundColor: Colors.grey,
-          ),
-          SlidableAction(
-            onPressed: (context) => deleteIngredient!(context),
-            icon: Icons.delete,
-            backgroundColor: Colors.red,
-          )
-        ]),
+        endActionPane: ActionPane(
+          motion: StretchMotion(),
+          children: [
+            SlidableAction(
+              onPressed: editIngredient,
+              icon: Icons.edit,
+              backgroundColor: BColors.grey,
+            ),
+            SlidableAction(
+              onPressed: deleteIngredient,
+              icon: Icons.delete,
+              backgroundColor: Colors.red.shade300,
+            ),
+          ],
+        ),
         child: Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -62,26 +62,23 @@ class IngredientFridgeView extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(width: 0.5, color: BColors.grey)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: (ingredient.imgPath != ''
-                      ? Image.network(
-                          ingredient.imgPath,
-                          width: 80,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'assets/images/ingredient/default.png',
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        )
-                      : Image.asset(
-                          'assets/images/ingredient/default.png',
-                          width: 80,
-                        )),
-                ),
+                child: (ingredient.imgPath != ''
+                    ? Image.network(
+                        ingredient.imgPath,
+                        width: 80,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'assets/images/ingredient/default.png',
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )
+                    : Image.asset(
+                        'assets/images/ingredient/default.png',
+                        width: 80,
+                      )),
               ),
             ),
             title: Text(
@@ -95,7 +92,7 @@ class IngredientFridgeView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Quantity: ${ingredient.quantity}',
+                  'Quantity: ${ingredient.quantity} ${ingredient.unit}',
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 4),
@@ -106,14 +103,6 @@ class IngredientFridgeView extends StatelessWidget {
                     color: isExpired ? Colors.red : Colors.green,
                   ),
                 ),
-                if (drawerName != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Text(
-                      'Stored in $drawerName',
-                      style: const TextStyle(color: Colors.blueGrey, fontSize: 14),
-                    ),
-                  ),
               ],
             ),
           ),

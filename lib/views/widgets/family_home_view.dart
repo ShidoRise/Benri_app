@@ -28,23 +28,6 @@ class FamilyHomeView extends StatelessWidget {
     );
   }
 
-  Widget _separatorLineWithShadow() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      height: 0.5,
-      decoration: const BoxDecoration(
-        color: BColors.grey,
-        boxShadow: [
-          BoxShadow(
-            color: BColors.grey,
-            blurRadius: 1,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _basketMiniCalendar(
       BuildContext context, BasketViewModel basketViewModel) {
     return Container(
@@ -175,7 +158,7 @@ class FamilyHomeView extends StatelessWidget {
     return const Expanded(
       child: Center(
         child: Text(
-          'No ingredients here,\nclick + to add',
+          'Không có nguyên liệu nào,\nbấm vào + để thêm',
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.grey, fontSize: 24),
         ),

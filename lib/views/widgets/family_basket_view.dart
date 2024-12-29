@@ -1,4 +1,3 @@
-import 'package:benri_app/view_models/profile_viewmodel.dart';
 import 'package:benri_app/views/screens/login_screen.dart';
 import 'package:benri_app/views/widgets/family_home_view.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +14,6 @@ class FamilyBasketView extends StatelessWidget {
         if (basketViewModel.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
-        print('isLoggedIn: ${basketViewModel.isLoggedIn}');
 
         if (basketViewModel.isLoggedIn != null &&
             !basketViewModel.isLoggedIn!) {
@@ -48,13 +45,13 @@ class FamilyBasketView extends StatelessWidget {
           const Icon(Icons.lock_outline, size: 64, color: Colors.grey),
           const SizedBox(height: 16),
           const Text(
-            'Login Required',
+            'Yêu cầu đăng nhập',
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           const SizedBox(height: 8),
           const Text(
-            'Please login to use family mode',
+            'Vui lòng đăng nhập để sử dụng chế độ gia đình.',
             style: TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 24),
@@ -63,7 +60,8 @@ class FamilyBasketView extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (_) => const LoginScreen()),
             ),
-            child: const Text('Login'),
+            child: const Text('Đăng nhập',
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -78,7 +76,7 @@ class FamilyBasketView extends StatelessWidget {
           Icon(Icons.wifi_off, size: 64, color: Colors.grey),
           SizedBox(height: 16),
           Text(
-            'No Internet Connection',
+            'Không có kết nối mạng',
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
@@ -100,7 +98,7 @@ class FamilyBasketView extends StatelessWidget {
               const Icon(Icons.family_restroom, size: 64, color: Colors.grey),
               const SizedBox(height: 16),
               const Text(
-                'Welcome to Family Mode',
+                'Chào mứng tới chức năng Gia Đình.',
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
               const SizedBox(height: 24),
@@ -109,13 +107,15 @@ class FamilyBasketView extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () => basketViewModel.createFamily('My Family'),
-                    child: const Text('Create Family'),
+                    child: const Text('Tạo gia đình',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(width: 16),
                   ElevatedButton(
                     onPressed: () =>
                         _showJoinFamilyDialog(context, basketViewModel),
-                    child: const Text('Join Family'),
+                    child: const Text('Tham gia gia đình',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
@@ -146,12 +146,13 @@ class FamilyBasketView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Join Family', style: Theme.of(context).textTheme.titleLarge),
+            Text('Tham gia gia đình',
+                style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             TextField(
               controller: codeController,
               decoration: const InputDecoration(
-                labelText: 'Enter Family Code',
+                labelText: 'Nhập code gia đình',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
@@ -169,9 +170,9 @@ class FamilyBasketView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      side: BorderSide.none,
+                      side: BorderSide(width: 0.9),
                     ),
-                    child: const Text('Cancel'),
+                    child: const Text('Hủy'),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -184,12 +185,14 @@ class FamilyBasketView extends StatelessWidget {
                       }
                     },
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text('Join'),
+                    child: const Text('Tham gia',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],

@@ -9,6 +9,12 @@ import '../models/ingredients/fridge_ingredients.dart';
 class IngredientProvider with ChangeNotifier {
   List<IngredientSuggestion> filteredIngredientSuggestions = [];
 
+  final List<String> _unitOptions = ['gam', 'kg', 'hộp', 'quả', 'lít'];
+  List<String> get unitOptions => _unitOptions;
+
+  String? _selectedUnit;
+  String? get selectedUnit => _selectedUnit;
+
   DateTime? _expirationDate;
   DateTime? get expirationDate => _expirationDate;
 
@@ -30,6 +36,16 @@ class IngredientProvider with ChangeNotifier {
   void setExpirationDays(int days) {
     final DateTime newDate = DateTime.now().add(Duration(days: days));
     setExpirationDate(newDate);
+  }
+
+  void updateSelectedUnit(String? unit) {
+    _selectedUnit = unit;
+    notifyListeners();
+  }
+
+  void resetSelections() {
+    _selectedUnit = null;
+    notifyListeners();
   }
 
   IngredientProvider() {
@@ -84,6 +100,11 @@ class IngredientProvider with ChangeNotifier {
       BuildContext context, String drawerName, int index) async {
     final currentIngredient =
         FridgeDrawersService.getIngredientsForDrawer(drawerName)[index];
+
+    if (unitOptions.contains(currentIngredient.unit)) {
+      updateSelectedUnit(currentIngredient.unit);
+    }
+
     final updatedIngredient = await addFridgeIngredientDialog(
       context,
       fridgeIngredient: currentIngredient,
@@ -92,13 +113,15 @@ class IngredientProvider with ChangeNotifier {
     if (updatedIngredient != null) {
       await updateIngredient(drawerName, updatedIngredient, index);
     }
+
+    resetSelections();
   }
 
   String getImageUrlFromLocalStorage(String ingredientName) {
     if (ingredientName.isNotEmpty) {
       final ingredient =
           IngredientSuggestionsService.ingredientSuggestions.firstWhere(
-        (i) => i.name.toLowerCase() == ingredientName.toLowerCase(),
+        (i) => i.nameInVietnamese.toLowerCase() == ingredientName.toLowerCase(),
         orElse: () => IngredientSuggestion(
             name: '', thumbnailUrl: '', nameInVietnamese: ''),
       );

@@ -269,6 +269,38 @@ class AuthService {
     }
   }
 
+  static Future fetchReviewData(int month, int year) async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    Map<String, dynamic> ingredientMap = {"basket": {}, "family": {}};
+
+    Map<String, dynamic> pendingIngredientMap = {"basket": {}, "family": {}};
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/user/review/$month/$year'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'authorization': userLocal['accessToken'] ?? '',
+          'x-client-id': userLocal['userId'] ?? '',
+          'content-type': 'application/json'
+        },
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        ingredientMap = data['metadata']['ingredientMap'];
+        pendingIngredientMap = data['metadata']['pendingIngredientMap'];
+        return {
+          'ingredientMap': ingredientMap,
+          'pendingIngredientMap': pendingIngredientMap
+        };
+      } else {
+        throw Exception('Failed to load review data');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   static Future<bool> resendOTP(String email, String name) async {
     final Map<String, String> userLocal = await UserLocal.getUserInfo();
     try {

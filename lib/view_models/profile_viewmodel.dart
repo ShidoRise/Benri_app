@@ -4,6 +4,7 @@ import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/screens/change_pasword_screen.dart';
 import 'package:benri_app/views/screens/detail_profile_screen.dart';
 import 'package:benri_app/views/screens/login_screen.dart';
+import 'package:benri_app/views/screens/review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -66,6 +67,11 @@ class ProfileViewModel extends ChangeNotifier {
   void toggleNotification() {
     _notificationEnabled = !_notificationEnabled;
     notifyListeners();
+  }
+
+  void statistics(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ReviewScreen()));
   }
 
   void toggleDarkMode() {
