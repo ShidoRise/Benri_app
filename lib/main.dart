@@ -13,6 +13,7 @@ import 'package:benri_app/view_models/profile_viewmodel.dart';
 import 'package:benri_app/view_models/review_viewmodel.dart';
 import 'package:benri_app/view_models/theme_provider.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
+import 'package:benri_app/views/screens/onboarding_view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-// Khai báo biến cho FlutterLocalNotificationsPlugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
@@ -96,14 +96,17 @@ void main() async {
   await dotenv.load(fileName: ".env");
   Map<String, String> userInfo = await UserLocal.getUserInfo();
   final prefs = await SharedPreferences.getInstance();
+  final onboarding = prefs.getBool('onboarding') ?? false;
+
   prefs.setBool('isDarkMode', false);
   runApp(
-    const MyApp(),
+    MyApp(onboarding: onboarding),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool onboarding;
+  const MyApp({super.key, this.onboarding = false});
   @override
   Widget build(BuildContext context) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -129,7 +132,7 @@ class MyApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             themeMode:
                 themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-            home: const NavigationMenu(),
+            home: onboarding ? const NavigationMenu() : const OnboardingView(),
           );
         },
       ),

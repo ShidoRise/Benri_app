@@ -64,7 +64,6 @@ class CreateRecipe extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       const Padding(
                         padding: EdgeInsets.only(left: 6, top: 4),
                         child: Align(
@@ -76,8 +75,6 @@ class CreateRecipe extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                      // Display the list of ingredients added
                       recipeCreationProvider.ingredients.isNotEmpty
                           ? ListView.builder(
                               shrinkWrap: true,
@@ -113,6 +110,7 @@ class CreateRecipe extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () async {
+                                recipeCreationProvider.resetSelections();
                                 final newIngredient =
                                     await addIngredientRecipeDialog(context);
                                 if (newIngredient != null) {
