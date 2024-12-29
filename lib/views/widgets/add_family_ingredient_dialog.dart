@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 Future<FamilyIngredient?> addFamilyIngredientDialog(
-  BuildContext context, {
+  BuildContext context,
+  String functionName, {
   FamilyIngredient? ingredient,
 }) {
   final nameController = TextEditingController(text: ingredient?.name ?? '');
@@ -66,6 +67,7 @@ Future<FamilyIngredient?> addFamilyIngredientDialog(
                 quantityController,
                 unitController,
                 model,
+                functionName,
               ),
               const SizedBox(height: 16),
             ],
@@ -195,6 +197,7 @@ Widget _buildAddButton(
   TextEditingController quantityController,
   TextEditingController unitController,
   BasketViewModel model,
+  String functionName,
 ) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
@@ -212,7 +215,7 @@ Widget _buildAddButton(
       );
       Navigator.pop(context, ingredient);
     },
-    child: const Text('Thêm',
+    child: Text(functionName,
         style: TextStyle(
             fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
   );

@@ -35,108 +35,131 @@ class VerifyOTPScreenView extends StatelessWidget {
     String name = data['name']!;
     String email = data['email']!;
     String password = data['password']!;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Verify OTP'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Enter the verification code sent to',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              email,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(
-                6,
-                (index) => SizedBox(
-                  width: 52,
-                  height: 52,
-                  child: TextField(
-                    controller: _controllers[index],
-                    focusNode: _focusNodes[index],
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    maxLength: 1,
-                    decoration: const InputDecoration(
-                      counterText: '',
-                      border: OutlineInputBorder(),
+    return Consumer<OtpViewModel>(
+      builder: (context, viewModel, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Verify OTP'),
+            centerTitle: true,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Nhập mã xác thực được gửi đến',
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  email,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    6,
+                    (index) => SizedBox(
+                      width: 52,
+                      height: 52,
+                      child: TextField(
+                        controller: _controllers[index],
+                        focusNode: _focusNodes[index],
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        maxLength: 1,
+                        decoration: const InputDecoration(
+                          counterText: '',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          if (value.isNotEmpty && index < 5) {
+                            _focusNodes[index + 1].requestFocus();
+                          }
+                        },
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
                     ),
-                    onChanged: (value) {
-                      if (value.isNotEmpty && index < 5) {
-                        _focusNodes[index + 1].requestFocus();
-                      }
-                    },
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
                   ),
                 ),
-              ),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: viewModel.isLoading
+                      ? null
+                      : () async {
+                          if (await viewModel.verifyOTP(
+                            context,
+                            _controllers
+                                .map((controller) => controller.text)
+                                .join(),
+                            email,
+                            password,
+                            name,
+                          )) {
+                            if (context.mounted) {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NavigationMenu()),
+                                (route) => false,
+                              );
+                            }
+                          } else {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(viewModel.errorMessage),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                  style: ElevatedButtonStyle.primary(),
+                  child: viewModel.isLoading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text('Xác thực'),
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () async {
+                    bool rs = await AuthService.resendOTP(email, name);
+                    if (rs) {
+                      Fluttertoast.showToast(
+                        msg: "Đã gửi lại OTP",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.grey[800],
+                        textColor: Colors.white,
+                      );
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Gửi OTP thất bài",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.grey[800],
+                        textColor: Colors.white,
+                      );
+                    }
+                  },
+                  child: const Text('Gửi lại OTP'),
+                ),
+              ],
             ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () async {
-                if (await viewModel.verifyOTP(
-                  context,
-                  _controllers.map((controller) => controller.text).join(),
-                  email,
-                  password,
-                  name,
-                )) {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (context) => const NavigationMenu()),
-                    (route) => false,
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(viewModel.errorMessage),
-                    ),
-                  );
-                }
-              },
-              style: ElevatedButtonStyle.primary(),
-              child: Text('Verify'),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () async {
-                bool rs = await AuthService.resendOTP(email, name);
-                if (rs) {
-                  Fluttertoast.showToast(
-                    msg: "Đã gửi lại OTP",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.grey[800],
-                    textColor: Colors.white,
-                  );
-                } else {
-                  Fluttertoast.showToast(
-                    msg: "Gửi OTP thất bài",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.grey[800],
-                    textColor: Colors.white,
-                  );
-                }
-              },
-              child: const Text('Resend OTP'),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

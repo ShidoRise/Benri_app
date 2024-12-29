@@ -408,7 +408,8 @@ class FamilyService {
         basketViewModel.updateSelectedCategory(currentIngredient.category);
       }
 
-      final updatedIngredient = await addFamilyIngredientDialog(context,
+      final updatedIngredient = await addFamilyIngredientDialog(
+          context, 'Sửa nguyên liệu',
           ingredient: currentIngredient);
 
       if (updatedIngredient != null) {

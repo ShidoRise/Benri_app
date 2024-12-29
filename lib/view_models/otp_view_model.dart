@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 class OtpViewModel extends ChangeNotifier {
   final String _errorMessage = '';
   bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   String get errorMessage => _errorMessage;
   Future<bool> verifyOTP(BuildContext context, String otp, String email,
       String password, String name) async {
@@ -33,6 +35,8 @@ class OtpViewModel extends ChangeNotifier {
       notifyListeners();
       return true;
     } else {
+      _isLoading = false;
+      notifyListeners();
       return false;
     }
   }

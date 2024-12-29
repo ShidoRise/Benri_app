@@ -18,7 +18,7 @@ class CalendarScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: BAppBar(title: 'Calendar'),
+      appBar: BAppBar(title: 'Lịch'),
       body: Consumer<BasketViewModel>(
         builder: (context, basketViewModel, child) {
           return Column(
@@ -137,7 +137,7 @@ class CalendarScreen extends StatelessWidget {
     return Expanded(
       child: Center(
         child: Text(
-          'No ingredients here.',
+          'Không có nguyên liệu nào.',
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.grey, fontSize: 24),
         ),

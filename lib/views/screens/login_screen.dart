@@ -1,8 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:benri_app/services/auth_service.dart';
-import 'package:benri_app/utils/styles/text_style.dart';
-import 'package:benri_app/views/screens/basket_screen.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -40,36 +36,25 @@ class LoginScreenContent extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Image.asset(
+                'assets/icons/logo.png',
+                height: 120,
+              ),
+              const SizedBox(height: 30),
               const SizedBox(
-                width: 338,
-                height: 40,
                 child: Text(
-                  'Chào mừng đến với Benri',
+                  'Chào mừng đến với Benri!',
                   style: TextStyle(
-                    fontSize: 33,
+                    fontSize: 26,
                     fontFamily: 'Yu Gothic UI',
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0.22,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.7,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-              const SizedBox(
-                width: 274,
-                height: 50,
-                child: Text(
-                  'Nhập địa chỉ email của bạn để đăng nhập. Thưởng thức món ăn nhé :)',
-                  style: TextStyle(
-                    color: Color(0xFF868686),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: -0.40,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
               _buildTextField("Email", viewModel.emailController, false),
               const SizedBox(height: 10),
               _buildTextField("Mật khẩu", viewModel.passwordController, true),
@@ -92,36 +77,29 @@ class LoginScreenContent extends StatelessWidget {
                 onPressed: () async {
                   User? user = await AuthService.signInWithGoogle();
                   if (user != null) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (context) => const NavigationMenu()),
-                        (route) => false);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text(
-                              'Đăng nhập bằng tài khoản Google thành công')),
-                    );
+                    if (context.mounted) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const NavigationMenu()),
+                          (route) => false);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text(
+                                'Đăng nhập bằng tài khoản Google thành công')),
+                      );
+                    }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Kiểm tra kết nối mạng')),
-                    );
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Kiểm tra kết nối mạng')),
+                      );
+                    }
                   }
                 },
                 color: const Color(0xFF4285F4),
                 text: 'KẾT NỐI VỚI GOOGLE',
                 icon: 'assets/icons/google.svg',
                 textColor: Colors.white,
-              ),
-              const SizedBox(height: 10),
-              _buildSocialButton(
-                onPressed: () async {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Kiểm tra kết nối mạng')),
-                  );
-                },
-                color: const Color(0xFF395998),
-                text: 'KẾT NỐI VỚI FACEBOOK',
-                icon: 'assets/icons/facebook.svg',
               ),
             ],
           ),
@@ -189,14 +167,19 @@ class LoginScreenContent extends StatelessWidget {
                             content: Text('Kiểm tra thông tin đăng nhập')),
                       );
                     } else if (await viewModel.login(context)) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const NavigationMenu()),
-                          (route) => false);
+                      if (context.mounted) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const NavigationMenu()),
+                            (route) => false);
+                      }
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Kiểm tra kết nối mạng')),
-                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Kiểm tra kết nối mạng')),
+                        );
+                      }
                     }
                   } finally {
                     viewModel.setLoading(false);

@@ -101,8 +101,9 @@ class BasketService {
         basketViewModel.updateSelectedCategory(currentIngredient.category);
       }
 
-      BasketIngredient? updatedIngredient =
-          await addIngredientDialog(context, ingredient: currentIngredient);
+      BasketIngredient? updatedIngredient = await addIngredientDialog(
+          context, 'Sửa nguyên liệu',
+          ingredient: currentIngredient);
 
       if (updatedIngredient != null) {
         baskets[date]!.basketIngredients[index] = updatedIngredient;

@@ -156,7 +156,7 @@ class PersonalBasketView extends StatelessWidget {
     return const Expanded(
       child: Center(
         child: Text(
-          'No ingredients here,\nclick + to add',
+          'Không có nguyên liệu nào,\nbấm vào + để thêm',
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.grey, fontSize: 24),
         ),

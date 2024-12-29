@@ -17,7 +17,7 @@ class FamilyMembersScreen extends StatelessWidget {
         });
 
         return Scaffold(
-          appBar: const BAppBar(title: 'Family Members'),
+          appBar: const BAppBar(title: 'Thành viên gia đình'),
           body: Consumer<FamilyViewModel>(
             builder: (context, viewModel, child) {
               return ListView.builder(
