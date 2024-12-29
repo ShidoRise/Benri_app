@@ -216,6 +216,8 @@ class BasketService {
             }),
           )
           .timeout(Duration(seconds: 4));
+      print(response.body);
+      print(basket.basketIngredients);
       if (response.statusCode == 200) {
         //sync OK
         final Map<String, dynamic> responseData =

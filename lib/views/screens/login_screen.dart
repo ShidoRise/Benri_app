@@ -90,22 +90,37 @@ class LoginScreenContent extends StatelessWidget {
               const SizedBox(height: 10),
               _buildSocialButton(
                 onPressed: () async {
-                  User? user = await AuthService.signInWithGoogle();
-                  if (user != null) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (context) => const NavigationMenu()),
-                        (route) => false);
+                  if (await viewModel.loginWithGG(context)) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                           content: Text(
                               'Đăng nhập bằng tài khoản Google thành công')),
                     );
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const NavigationMenu()),
+                        (route) => false);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Kiểm tra kết nối mạng')),
                     );
                   }
+                  // User? user = await AuthService.signInWithGoogle();
+                  // if (user != null) {
+                  //   Navigator.of(context).pushAndRemoveUntil(
+                  //       MaterialPageRoute(
+                  //           builder: (context) => const NavigationMenu()),
+                  //       (route) => false);
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(
+                  //         content: Text(
+                  //             'Đăng nhập bằng tài khoản Google thành công')),
+                  //   );
+                  // } else {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(content: Text('Kiểm tra kết nối mạng')),
+                  //   );
+                  // }
                 },
                 color: const Color(0xFF4285F4),
                 text: 'KẾT NỐI VỚI GOOGLE',

@@ -31,6 +31,46 @@ class LoginViewModel extends ChangeNotifier {
         .push(MaterialPageRoute(builder: (context) => const ForgotPassword()));
   }
 
+  Future<bool> loginWithGG(BuildContext context) async {
+    try {
+      _isLoading = true;
+      _errorMessage = '';
+      notifyListeners();
+
+      final bool loginSuccess = await AuthService.signInWithGoogle();
+
+      if (loginSuccess) {
+        final currentContext = context;
+        if (currentContext.mounted) {
+          final profileViewModel = Provider.of<ProfileViewModel>(
+            currentContext,
+            listen: false,
+          );
+          final basketViewModel = Provider.of<BasketViewModel>(
+            currentContext,
+            listen: false,
+          );
+
+          await profileViewModel.checkLoginStatus();
+          if (profileViewModel.isLoggedIn) {
+            await basketViewModel.checkIsLoggedIn();
+            await basketViewModel.initializeFamilyStatus();
+          }
+        }
+        setLoading(false);
+        return true;
+      } else {
+        _errorMessage = 'Login failed. Please try again.';
+        setLoading(false);
+        return false;
+      }
+    } catch (e) {
+      _errorMessage = 'An error occurred during login: $e';
+      setLoading(false);
+      return false;
+    }
+  }
+
   Future<bool> login(BuildContext context) async {
     print('LoginViewModel - login');
     try {
