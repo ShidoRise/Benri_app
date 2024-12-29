@@ -84,8 +84,9 @@ class IngredientProvider with ChangeNotifier {
     if (query.isNotEmpty) {
       filteredIngredientSuggestions = IngredientSuggestionsService
           .ingredientSuggestions
-          .where((ingredient) =>
-              ingredient.name.toLowerCase().contains(query.toLowerCase()))
+          .where((ingredient) => ingredient.nameInVietnamese
+              .toLowerCase()
+              .contains(query.toLowerCase()))
           .toList();
     } else {
       filteredIngredientSuggestions = [];
