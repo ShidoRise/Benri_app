@@ -1,6 +1,10 @@
 import 'package:benri_app/services/auth_service.dart';
+import 'package:benri_app/services/baskets_service.dart';
+import 'package:benri_app/services/recipes_service.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/profile_viewmodel.dart';
+import 'package:benri_app/view_models/recipe_creation_provider.dart';
 import 'package:benri_app/views/screens/forgot_password.dart';
 import 'package:benri_app/views/screens/sign_up.dart';
 import 'package:flutter/material.dart';
@@ -50,14 +54,21 @@ class LoginViewModel extends ChangeNotifier {
             currentContext,
             listen: false,
           );
-
+          final recipeViewModel = Provider.of<FavouriteRecipeProvider>(
+            context,
+            listen: false,
+          );
           await profileViewModel.checkLoginStatus();
           if (profileViewModel.isLoggedIn) {
             await basketViewModel.checkIsLoggedIn();
             await basketViewModel.initializeFamilyStatus();
+            await BasketService.syncLocalBackLogin();
+            await RecipesService.syncLocalRecipeBackLogin();
+            basketViewModel.initializeData();
           }
         }
         setLoading(false);
+
         return true;
       } else {
         _errorMessage = 'Login failed. Please try again.';

@@ -1,4 +1,9 @@
 import 'package:benri_app/services/auth_service.dart';
+import 'package:benri_app/services/baskets_service.dart';
+import 'package:benri_app/services/recipes_service.dart';
+import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:benri_app/view_models/favourite_recipe_provider.dart';
+import 'package:benri_app/view_models/recipe_creation_provider.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -185,6 +190,19 @@ class LoginScreenContent extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => const NavigationMenu()),
                             (route) => false);
+                        await BasketService.syncLocalBackLogin();
+                        await RecipesService.syncLocalRecipeBackLogin();
+                        final basketViewModel = Provider.of<BasketViewModel>(
+                          context,
+                          listen: false,
+                        );
+                        basketViewModel.initializeData();
+                        final recipeViewModel =
+                            Provider.of<FavouriteRecipeProvider>(
+                          context,
+                          listen: false,
+                        );
+                        recipeViewModel.initializeData();
                       }
                     } else {
                       if (context.mounted) {

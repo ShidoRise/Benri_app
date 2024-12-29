@@ -1,6 +1,7 @@
 import 'package:benri_app/services/auth_service.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/views/screens/change_pasword_screen.dart';
 import 'package:benri_app/views/screens/detail_profile_screen.dart';
 import 'package:benri_app/views/screens/login_screen.dart';
@@ -99,14 +100,19 @@ class ProfileViewModel extends ChangeNotifier {
         await AuthService.signOut();
         AuthService.storage.delete(key: 'isGG');
       }
+
       await AuthService.signOut();
       _isLoggedIn = false;
       userInfo = {};
 
       final basketViewModel =
           Provider.of<BasketViewModel>(context, listen: false);
+      final recipeViewModel =
+          Provider.of<FavouriteRecipeProvider>(context, listen: false);
       await basketViewModel.checkIsLoggedIn();
       await basketViewModel.resetFamilyStatus();
+      basketViewModel.initializeData();
+      recipeViewModel.initializeData();
 
       _isLoading = false;
 

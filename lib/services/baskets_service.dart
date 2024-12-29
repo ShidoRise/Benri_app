@@ -192,6 +192,57 @@ class BasketService {
     } catch (e) {}
   }
 
+  static Future<void> syncLocalBackLogin() async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/baskets/'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'content-type': 'application/json',
+          'authorization': userLocal['accessToken'] ?? '',
+          'x-client-id': userLocal['userId'] ?? '',
+        },
+      ).timeout(Duration(seconds: 4));
+      print(response.body);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final List<dynamic> baskets = data['metadata'];
+
+        // Mở Hive box
+        final box = Hive.box<Basket>('basketBox');
+        print('111111111== ddang sync');
+
+        // Thêm dữ liệu vào Hive box
+        for (var basketData in baskets) {
+          final basket = Basket(
+            date: basketData['name'],
+            basketIngredients:
+                (basketData['ingredients'] as List).map((ingredientData) {
+              return BasketIngredient(
+                name: ingredientData['name'],
+                quantity: ingredientData['quantity']?.toString() ?? '',
+                category: ingredientData['category'] ?? 'Khác',
+                unit: ingredientData['unit'] ?? ' ',
+              );
+            }).toList(),
+            totalMoney: basketData['totalMoney'].toString(),
+          );
+          basket.sync = true;
+          basket.id = basketData['basketId'];
+          print(basket.id);
+          print(basket);
+          await box.add(basket);
+        }
+        print('da xong');
+        print(box.values.toList().toString());
+      } else {}
+    } catch (e) {
+      print('Co loi');
+      print(e);
+    }
+  }
+
   static Future<void> deleteBasketServer(Basket basket) async {
     final Map<String, String> userLocal = await UserLocal.getUserInfo();
     try {

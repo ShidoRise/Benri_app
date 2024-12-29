@@ -67,7 +67,7 @@ class BasketViewModel extends ChangeNotifier {
   BasketViewModel() {
     initConnectivity();
     _setupConnectivityStream();
-    _initializeData();
+    initializeData();
     checkIsLoggedIn();
     initializeFamilyStatus();
   }
@@ -88,7 +88,7 @@ class BasketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _initializeData() {
+  void initializeData() {
     BasketService.initializeLocalData();
     IngredientSuggestionsService.initializeLocalData();
     notifyListeners();

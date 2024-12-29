@@ -1,11 +1,23 @@
+import 'package:benri_app/models/baskets/baskets.dart';
+import 'package:benri_app/models/fridge_drawers/fridge_drawers.dart';
+import 'package:benri_app/models/recipes/recipes.dart';
 import 'package:benri_app/services/auth_service.dart';
+import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLocal {
   UserLocal._();
 
   static Future<void> logout() async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('chat_history');
       await AuthService.storage.deleteAll();
+      //
+      await Hive.box('fridgeIngredientBox').clear();
+      await Hive.box<Basket>('basketBox').clear();
+      await Hive.box<Recipes>('recipeBox').clear();
+      await Hive.box<FridgeDrawer>('fridgeDrawerBox').clear();
     } catch (e) {
       print('Error during logout: $e');
     }
