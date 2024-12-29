@@ -1,4 +1,5 @@
 import 'package:benri_app/services/auth_service.dart';
+import 'package:benri_app/services/baskets_service.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
@@ -95,6 +96,8 @@ class ProfileViewModel extends ChangeNotifier {
       notifyListeners();
 
       await UserLocal.logout();
+      BasketService.baskets = {};
+
       final isGG = await AuthService.storage.read(key: 'isGG');
       if (isGG == 'true') {
         await AuthService.signOut();
@@ -105,13 +108,13 @@ class ProfileViewModel extends ChangeNotifier {
       _isLoggedIn = false;
       userInfo = {};
 
-      final basketViewModel =
-          Provider.of<BasketViewModel>(context, listen: false);
       final recipeViewModel =
           Provider.of<FavouriteRecipeProvider>(context, listen: false);
+      final basketViewModel =
+          Provider.of<BasketViewModel>(context, listen: false);
+      basketViewModel.initializeData();
       await basketViewModel.checkIsLoggedIn();
       await basketViewModel.resetFamilyStatus();
-      basketViewModel.initializeData();
       recipeViewModel.initializeData();
 
       _isLoading = false;

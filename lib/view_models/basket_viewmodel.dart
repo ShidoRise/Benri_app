@@ -91,6 +91,7 @@ class BasketViewModel extends ChangeNotifier {
   void initializeData() {
     BasketService.initializeLocalData();
     IngredientSuggestionsService.initializeLocalData();
+    print('load basket lai');
     notifyListeners();
   }
 

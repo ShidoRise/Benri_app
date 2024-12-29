@@ -111,7 +111,7 @@ class RecipesService {
           'x-api-key': Constants.apiKey,
           'content-type': 'application/json'
         },
-      ).timeout(Duration(seconds: 4));
+      ).timeout(Duration(seconds: 10));
       if (response.statusCode == 200) {
         final List<dynamic> responseData =
             jsonDecode(response.body)['metadata'];

@@ -14,10 +14,8 @@ class UserLocal {
       await prefs.remove('chat_history');
       await AuthService.storage.deleteAll();
       //
-      await Hive.box('fridgeIngredientBox').clear();
       await Hive.box<Basket>('basketBox').clear();
       await Hive.box<Recipes>('recipeBox').clear();
-      await Hive.box<FridgeDrawer>('fridgeDrawerBox').clear();
     } catch (e) {
       print('Error during logout: $e');
     }

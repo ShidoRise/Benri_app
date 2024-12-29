@@ -65,6 +65,7 @@ class LoginViewModel extends ChangeNotifier {
             await BasketService.syncLocalBackLogin();
             await RecipesService.syncLocalRecipeBackLogin();
             basketViewModel.initializeData();
+            recipeViewModel.initializeData();
           }
         }
         setLoading(false);
