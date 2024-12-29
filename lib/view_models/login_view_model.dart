@@ -113,7 +113,6 @@ class LoginViewModel extends ChangeNotifier {
             await basketViewModel.initializeFamilyStatus();
           }
         }
-        setLoading(false);
         return true;
       } else {
         _errorMessage = 'Login failed. Please try again.';

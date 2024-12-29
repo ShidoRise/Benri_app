@@ -186,23 +186,24 @@ class LoginScreenContent extends StatelessWidget {
                       );
                     } else if (await viewModel.login(context)) {
                       if (context.mounted) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const NavigationMenu()),
-                            (route) => false);
                         await BasketService.syncLocalBackLogin();
                         await RecipesService.syncLocalRecipeBackLogin();
                         final basketViewModel = Provider.of<BasketViewModel>(
                           context,
                           listen: false,
                         );
-                        basketViewModel.initializeData();
                         final recipeViewModel =
                             Provider.of<FavouriteRecipeProvider>(
                           context,
                           listen: false,
                         );
+                        basketViewModel.initializeData();
                         recipeViewModel.initializeData();
+                        viewModel.setLoading(false);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const NavigationMenu()),
+                            (route) => false);
                       }
                     } else {
                       if (context.mounted) {
