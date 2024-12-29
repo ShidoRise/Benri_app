@@ -3,6 +3,7 @@ import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:iconsax/iconsax.dart';
 
 class FamilyItem extends StatelessWidget {
   final FamilyIngredient ingredient;
@@ -11,6 +12,7 @@ class FamilyItem extends StatelessWidget {
   final BasketViewModel basketViewModel;
   final Function(BuildContext)? deleteFunction;
   final Function(BuildContext)? editFunction;
+  final Function(BuildContext)? addIngredientToFridgeFunction;
 
   const FamilyItem({
     super.key,
@@ -20,6 +22,7 @@ class FamilyItem extends StatelessWidget {
     required this.index,
     required this.deleteFunction,
     required this.editFunction,
+    required this.addIngredientToFridgeFunction,
   });
 
   @override
@@ -28,6 +31,11 @@ class FamilyItem extends StatelessWidget {
       endActionPane: ActionPane(
         motion: StretchMotion(),
         children: [
+          SlidableAction(
+            onPressed: addIngredientToFridgeFunction,
+            icon: Iconsax.external_drive5,
+            backgroundColor: Colors.blue,
+          ),
           SlidableAction(
             onPressed: editFunction,
             icon: Icons.edit,
@@ -64,7 +72,6 @@ class FamilyItem extends StatelessWidget {
                 activeColor: BColors.primaryFirst,
                 value: ingredient.status,
                 onChanged: (value) {
-                  print('Toggling ingredient selection');
                   basketViewModel.toggleFamilyIngredientSelection(index);
                 },
               ),

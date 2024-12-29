@@ -88,9 +88,6 @@ class CreateRecipe extends StatelessWidget {
                                     recipeCreationProvider.ingredients[index];
                                 return IngredientRecipeTile(
                                   ingredient: ingredient,
-                                  isAvailable: null,
-                                  imgUrl:
-                                      'assets/images/ingredient/default.png',
                                 );
                               },
                             )

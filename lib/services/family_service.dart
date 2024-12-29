@@ -1,14 +1,19 @@
 import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/families/family_lists.dart';
 import 'package:benri_app/models/families/family_members.dart';
+import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/services/auth_service.dart';
+import 'package:benri_app/services/fridge_drawers_serivce.dart';
 import 'package:benri_app/services/user_local.dart';
+import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/utils/constants/constant.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/widgets/add_family_ingredient_dialog.dart';
 import 'package:benri_app/views/widgets/choose_member_dialog.dart';
+import 'package:benri_app/views/widgets/select_drawer_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
@@ -429,6 +434,28 @@ class FamilyService {
 
         basketViewModel.resetSelections();
       }
+    }
+  }
+
+  static Future<void> addFamilyIngredientToFridge(
+      BuildContext context, FamilyIngredient ingredient) async {
+    final selectedDrawer = await showSelectDrawerBottomSheet(context);
+
+    if (selectedDrawer != null) {
+      final fridgeIngredient = FridgeIngredient(
+        name: ingredient.name,
+        quantity: ingredient.quantity,
+        unit: ingredient.unit,
+        expirationDate: DateTime.now().add(const Duration(days: 7)),
+        imgPath: 'assets/images/ingredient/default.png',
+      );
+
+      await FridgeDrawersService.addIngredient(
+          selectedDrawer, fridgeIngredient);
+
+      Fluttertoast.showToast(
+          msg: 'Đã thêm ${ingredient.name} vào tủ lạnh',
+          backgroundColor: BColors.darkGrey);
     }
   }
 

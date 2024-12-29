@@ -72,7 +72,7 @@ class IngredientFridgeShow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Quantity: ${ingredient.quantity} ${ingredient.unit}',
+                '${ingredient.quantity} ${ingredient.unit}',
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 4),

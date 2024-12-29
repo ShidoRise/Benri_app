@@ -130,6 +130,8 @@ class CalendarScreen extends StatelessWidget {
       index: index,
       deleteFunction: (context) => basketViewModel.deleteBasketItem(index),
       editFunction: (context) => basketViewModel.editBasketItem(context, index),
+      addIngredientToFridgeFunction: (context) =>
+          basketViewModel.addIngredientToFridge(context, ingredient),
     );
   }
 

@@ -2,12 +2,17 @@ import 'dart:convert';
 
 import 'package:benri_app/models/baskets/baskets.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
+import 'package:benri_app/services/fridge_drawers_serivce.dart';
 import 'package:benri_app/services/user_local.dart';
+import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/utils/constants/constant.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:benri_app/views/widgets/add_ingredient_dialog.dart';
+import 'package:benri_app/views/widgets/select_drawer_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -116,6 +121,28 @@ class BasketService {
       }
 
       basketViewModel.resetSelections();
+    }
+  }
+
+  static Future<void> addIngredientToFridge(
+      BuildContext context, BasketIngredient ingredient) async {
+    final selectedDrawer = await showSelectDrawerBottomSheet(context);
+
+    if (selectedDrawer != null) {
+      final fridgeIngredient = FridgeIngredient(
+        name: ingredient.name,
+        quantity: ingredient.quantity,
+        unit: ingredient.unit,
+        expirationDate: DateTime.now().add(const Duration(days: 7)),
+        imgPath: ingredient.imageUrl,
+      );
+
+      await FridgeDrawersService.addIngredient(
+          selectedDrawer, fridgeIngredient);
+
+      Fluttertoast.showToast(
+          msg: 'Đã thêm ${ingredient.name} vào tủ lạnh',
+          backgroundColor: BColors.darkGrey);
     }
   }
 
