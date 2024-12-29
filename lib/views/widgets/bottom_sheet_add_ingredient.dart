@@ -39,8 +39,8 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
             top: 24,
-            left: 24,
-            right: 24,
+            left: 20,
+            right: 20,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -87,12 +87,15 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          side: BorderSide.none,
+                          side: BorderSide(width: 1),
                           backgroundColor: Colors.white,
                           elevation: 2,
                         ),
                         onPressed: () => Navigator.pop(context),
-                        child: const Text('Hủy'),
+                        child: const Text(
+                          'Hủy',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -123,7 +126,8 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(
                         },
                         child: Text(
                           fridgeIngredient == null ? 'Thêm' : 'Cập nhật',
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -207,7 +211,7 @@ Widget _buildUnitChips(
 ) {
   return Wrap(
     alignment: WrapAlignment.spaceBetween,
-    spacing: 8,
+    spacing: 5,
     children: units.map((unit) {
       return ChoiceChip(
         label: Text(unit),
