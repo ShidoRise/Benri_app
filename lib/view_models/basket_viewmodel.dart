@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:benri_app/models/baskets/baskets.dart';
 import 'package:benri_app/models/families/family_ingredients.dart';
 import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/models/ingredients/basket_ingredients.dart';
@@ -103,6 +104,7 @@ class BasketViewModel extends ChangeNotifier {
     resetSelections();
     BasketService.addIngredient(focusDateFormatted, ingredient);
     notifyListeners();
+    IngredientSuggestionsService.addNewIngredientSuggestion(ingredient.name);
   }
 
   void toggleIngredientSelection(int index) {
@@ -117,6 +119,12 @@ class BasketViewModel extends ChangeNotifier {
 
   void editBasketItem(BuildContext context, int index) {
     BasketService.editBasketItem(context, focusDateFormatted, index);
+    notifyListeners();
+  }
+
+  void addIngredientToFridge(
+      BuildContext context, BasketIngredient ingredient) {
+    BasketService.addIngredientToFridge(context, ingredient);
     notifyListeners();
   }
 
@@ -300,6 +308,8 @@ class BasketViewModel extends ChangeNotifier {
     resetSelections();
     await FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
     notifyListeners();
+    await IngredientSuggestionsService.addNewIngredientSuggestion(
+        ingredient.name);
   }
 
   void deleteFamilytItem(int index) {
@@ -309,6 +319,12 @@ class BasketViewModel extends ChangeNotifier {
 
   Future<void> editFamilyItem(BuildContext context, int index) async {
     await FamilyService.editFamilyItem(context, focusDateFormatted, index);
+    notifyListeners();
+  }
+
+  void addFamilyIngredientToFridge(
+      BuildContext context, FamilyIngredient ingredient) {
+    FamilyService.addFamilyIngredientToFridge(context, ingredient);
     notifyListeners();
   }
 

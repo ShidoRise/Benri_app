@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:benri_app/models/recipes/recipes.dart';
 import 'package:benri_app/services/recipes_service.dart';
-import 'package:benri_app/view_models/ingredient_provider.dart';
 import 'package:benri_app/views/widgets/ingredient_recipe_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -18,26 +17,19 @@ class RecipeDetailScreen extends StatelessWidget {
       builder: (context, provider, _) {
         final ingredientStatus =
             RecipesService.checkIngredientsAvailable(recipe.ingredients);
-        final ingredientProvider =
-            Provider.of<IngredientProvider>(context, listen: false);
-        print(recipe.imgPath);
-        print('2222');
         return Scaffold(
           extendBodyBehindAppBar: true,
           body: Stack(
             children: [
-              // Main Content
               SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Header Section with Image
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.45,
                       width: double.infinity,
                       child: Stack(
                         children: [
-                          // Recipe Image
                           Positioned.fill(
                             child: recipe.imgPath ==
                                     'assets/images/ingredient/default.png'
@@ -52,7 +44,6 @@ class RecipeDetailScreen extends StatelessWidget {
                                         fit: BoxFit.cover,
                                       ),
                           ),
-                          // Recipe Info Card
                           Positioned(
                             left: 0,
                             right: 0,
@@ -60,7 +51,7 @@ class RecipeDetailScreen extends StatelessWidget {
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.background,
+                                color: Theme.of(context).colorScheme.surface,
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20),
                                 ),
@@ -69,7 +60,6 @@ class RecipeDetailScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  // Recipe Title and Favorite Button
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -86,7 +76,6 @@ class RecipeDetailScreen extends StatelessWidget {
                                     ],
                                   ),
                                   const SizedBox(height: 16),
-                                  // Time and Rating
                                   Row(
                                     children: [
                                       const Icon(Iconsax.clock,
@@ -117,92 +106,81 @@ class RecipeDetailScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Ingredients Section
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Ingredients",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          // const SizedBox(height: 16),
-                          ConstrainedBox(
-                            constraints: provider.isShowAll
-                                ? BoxConstraints(
-                                    maxHeight: recipe.ingredients.length * 84)
-                                : const BoxConstraints(maxHeight: 252),
-                            child: recipe.ingredients.isEmpty
-                                ? const Text('No ingredients found')
-                                : ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: ingredientStatus.length,
-                                    itemBuilder: (context, index) {
-                                      final ingredient =
-                                          ingredientStatus[index]['ingredient'];
-                                      final isAvailable =
-                                          ingredientStatus[index]
-                                              ['isAvailable'];
-                                      final drawerName =
-                                          ingredientStatus[index]['drawerName'];
-                                      final imgUrl = ingredientProvider
-                                          .getImageUrlFromLocalStorage(
-                                        recipe.ingredients[index].name,
-                                      );
-
-                                      return IngredientRecipeTile(
-                                        ingredient: ingredient,
-                                        isAvailable: isAvailable,
-                                        drawerName: drawerName,
-                                        imgUrl: imgUrl,
-                                      );
-                                    },
-                                  ),
-                          ),
-                          if (recipe.ingredients.length > 3)
-                            GestureDetector(
-                              onTap: provider.toggleShowAll,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                child: Text(
-                                  provider.isShowAll ? 'Show less' : 'Show all',
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Nguyên liệu:",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          // Description Section
-                          const SizedBox(height: 16),
-
-                          const Text(
-                            "Description",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                            ConstrainedBox(
+                              constraints: provider.isShowAll
+                                  ? BoxConstraints(
+                                      maxHeight: recipe.ingredients.length * 84)
+                                  : const BoxConstraints(maxHeight: 252),
+                              child: recipe.ingredients.isEmpty
+                                  ? const Text('Không có nguyên liệu nào!')
+                                  : ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: ingredientStatus.length,
+                                      itemBuilder: (context, index) {
+                                        final ingredient =
+                                            ingredientStatus[index]
+                                                ['ingredient'];
+                                        return IngredientRecipeTile(
+                                          ingredient: ingredient,
+                                        );
+                                      },
+                                    ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            recipe.description,
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              height: 1.5,
+                            if (recipe.ingredients.length > 3)
+                              GestureDetector(
+                                onTap: provider.toggleShowAll,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Text(
+                                    provider.isShowAll
+                                        ? 'Xem ít hơn'
+                                        : 'Xem tất cả',
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              "Mô tả",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 32),
-                        ],
+                            const SizedBox(height: 8),
+                            Text(
+                              recipe.description,
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.justify,
+                            ),
+                            const SizedBox(height: 32),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              // Back Button
               Positioned(
                 top: MediaQuery.of(context).padding.top + 10,
                 left: 10,

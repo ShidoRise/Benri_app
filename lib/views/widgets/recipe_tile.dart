@@ -1,11 +1,8 @@
-// recipe_tile.dart
 import 'dart:io';
-import 'package:benri_app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:benri_app/models/recipes/recipes.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:benri_app/services/recipes_service.dart';
 import '../../view_models/favourite_recipe_provider.dart';
 
 class RecipeTile extends StatelessWidget {

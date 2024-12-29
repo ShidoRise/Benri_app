@@ -280,7 +280,6 @@ class RecipesScreen extends StatelessWidget {
                 height: 12,
               ),
 
-              // Recommended Recipes Grid
               Consumer<FavouriteRecipeProvider>(
                 builder: (context, viewModel, child) {
                   final shuffledRecipes;

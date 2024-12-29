@@ -108,7 +108,6 @@ class FavouriteRecipeProvider extends ChangeNotifier {
     );
   }
 
-  // Image handling methods
   Future<void> pickImageFromGallery() async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,

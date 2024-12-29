@@ -1,74 +1,88 @@
 import 'package:benri_app/models/ingredients/fridge_ingredients.dart';
 import 'package:benri_app/utils/constants/colors.dart';
+import 'package:benri_app/models/ingredients/basket_ingredients.dart';
+import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class IngredientRecipeTile extends StatelessWidget {
   final FridgeIngredient ingredient;
-  final bool? isAvailable;
-  String? drawerName;
-  final String imgUrl;
 
-  IngredientRecipeTile(
-      {super.key,
-      required this.ingredient,
-      this.isAvailable,
-      this.drawerName,
-      required this.imgUrl});
+  const IngredientRecipeTile({
+    super.key,
+    required this.ingredient,
+  });
 
   @override
   Widget build(BuildContext context) {
-    print('${ingredient.quantity} --unit :: ${ingredient.unit}');
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: Colors.grey.shade300, width: 0.25),
-              top: BorderSide(color: Colors.grey.shade300, width: 0.25))),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    ingredient.name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+            Row(
+              children: [
+                Text(
+                  '${ingredient.name}: ',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Text(
-                    'Quantity: ${ingredient.quantity}${ingredient.unit}',
-                    style: const TextStyle(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  '${ingredient.quantity} ${ingredient.unit}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: BColors.darkGrey,
                   ),
-                  if (isAvailable != null)
-                    Row(
-                      children: [
-                        Icon(
-                          isAvailable! ? Icons.check : Icons.warning,
-                          color: isAvailable! ? Colors.green : Colors.red,
-                          size: 14,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          isAvailable!
-                              ? 'Available in: $drawerName'
-                              : 'Not available in your firdge',
-                          style: TextStyle(
-                            color: isAvailable! ? Colors.green : Colors.red,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            IconButton(
+              onPressed: () {
+                final basketViewModel =
+                    Provider.of<BasketViewModel>(context, listen: false);
+
+                final basketIngredient = BasketIngredient(
+                  name: ingredient.name,
+                  quantity: ingredient.quantity,
+                  unit: ingredient.unit ?? '',
+                  imageUrl: '',
+                  category: 'Khác',
+                );
+
+                basketViewModel.addIngredient(basketIngredient);
+
+                Fluttertoast.showToast(
+                  msg: 'Đã thêm ${ingredient.name} vào giỏ hàng',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: BColors.primaryFirst,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+              },
+              icon: const Icon(
+                Iconsax.bag_2,
+                color: BColors.primaryFirst,
               ),
             ),
           ],

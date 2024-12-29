@@ -151,6 +151,8 @@ class FamilyHomeView extends StatelessWidget {
       index: index,
       deleteFunction: (context) => basketViewModel.deleteFamilytItem(index),
       editFunction: (context) => basketViewModel.editFamilyItem(context, index),
+      addIngredientToFridgeFunction: (context) =>
+          basketViewModel.addFamilyIngredientToFridge(context, ingredient),
     );
   }
 

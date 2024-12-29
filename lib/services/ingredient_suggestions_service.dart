@@ -47,16 +47,23 @@ class IngredientSuggestionsService {
     }
   }
 
-  static List<IngredientSuggestion> filterSuggestions(String query) {
-    if (query.isEmpty) return [];
+  static Future<void> addNewIngredientSuggestion(String name) async {
+    try {
+      final newSuggestion = IngredientSuggestion(
+        name: name,
+        thumbnailUrl: '',
+        nameInVietnamese: name,
+      );
 
-    final lowercaseQuery = query.toLowerCase();
-    return ingredientSuggestions.where((ingredient) {
-      final lowercaseName = ingredient.name.toLowerCase();
-      final lowercaseViName = ingredient.nameInVietnamese.toLowerCase();
-      return lowercaseName.contains(lowercaseQuery) ||
-          lowercaseViName.contains(lowercaseQuery);
-    }).toList();
+      if (!ingredientSuggestions.any((s) =>
+          s.name.toLowerCase() == name.toLowerCase() ||
+          s.nameInVietnamese.toLowerCase() == name.toLowerCase())) {
+        ingredientSuggestions.add(newSuggestion);
+        await _ingredientSuggestionsBox.add(newSuggestion);
+      }
+    } catch (e) {
+      print('Error adding new ingredient suggestion: $e');
+    }
   }
 
   static Future<void> refreshIngredients() async {

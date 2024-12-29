@@ -11,14 +11,13 @@ class IngredientFridgeView extends StatelessWidget {
   final Function(BuildContext)? editIngredient;
   final Function(BuildContext)? deleteIngredient;
 
-  IngredientFridgeView(
+  const IngredientFridgeView(
       {super.key,
       required this.ingredient,
       required this.deleteIngredient,
       required this.editIngredient,
       required this.ingredientProvider});
 
-  // Format the expiration date
   String getFormattedExpirationDate(DateTime date) {
     return DateFormat('dd-MM-yyyy').format(date);
   }
@@ -92,7 +91,7 @@ class IngredientFridgeView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Quantity: ${ingredient.quantity} ${ingredient.unit}',
+                  '${ingredient.quantity} ${ingredient.unit}',
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 4),
