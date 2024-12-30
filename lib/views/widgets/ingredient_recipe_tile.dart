@@ -74,7 +74,8 @@ class IngredientRecipeTile extends StatelessWidget {
                 basketViewModel.addIngredient(basketIngredient);
 
                 Fluttertoast.showToast(
-                  msg: 'Đã thêm ${ingredient.name} vào giỏ hàng',
+                  msg:
+                      'Đã thêm ${ingredient.name} vào giỏ ngày ${basketViewModel.focusDateFormatted}',
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,

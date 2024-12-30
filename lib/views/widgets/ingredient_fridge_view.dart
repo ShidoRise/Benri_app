@@ -26,8 +26,8 @@ class IngredientFridgeView extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isExpired = DateTime.now().isAfter(ingredient.expirationDate!);
     String expirationText = isExpired
-        ? 'Expired on: ${getFormattedExpirationDate(ingredient.expirationDate!)}'
-        : 'Expires on: ${getFormattedExpirationDate(ingredient.expirationDate!)}';
+        ? 'Hết hạn vào: ${getFormattedExpirationDate(ingredient.expirationDate!)}'
+        : 'Hết hạn vào: ${getFormattedExpirationDate(ingredient.expirationDate!)}';
 
     return Padding(
       padding: const EdgeInsets.all(0),

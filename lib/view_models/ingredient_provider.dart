@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../models/ingredients/fridge_ingredients.dart';
 
+enum SortMode { expirationDate, compartment, none }
+
 class IngredientProvider with ChangeNotifier {
   List<IngredientSuggestion> filteredIngredientSuggestions = [];
 
@@ -15,6 +17,37 @@ class IngredientProvider with ChangeNotifier {
 
   String? _selectedUnit;
   String? get selectedUnit => _selectedUnit;
+
+  SortMode _currentSortMode = SortMode.none;
+  SortMode get currentSortMode => _currentSortMode;
+
+  void setSortMode(SortMode mode) {
+    _currentSortMode = mode;
+    notifyListeners();
+  }
+
+  List<Map<String, dynamic>> getSortedIngredients() {
+    final ingredients = getAllIngredientsWithDrawer();
+
+    switch (_currentSortMode) {
+      case SortMode.expirationDate:
+        return List.from(ingredients)
+          ..sort((a, b) {
+            final aDate = (a['ingredient'] as FridgeIngredient).expirationDate;
+            final bDate = (b['ingredient'] as FridgeIngredient).expirationDate;
+            if (aDate == null && bDate == null) return 0;
+            if (aDate == null) return 1;
+            if (bDate == null) return -1;
+            return aDate.compareTo(bDate);
+          });
+      case SortMode.compartment:
+        return List.from(ingredients)
+          ..sort((a, b) =>
+              (a['drawerName'] as String).compareTo(b['drawerName'] as String));
+      case SortMode.none:
+        return ingredients;
+    }
+  }
 
   DateTime? _expirationDate;
   DateTime? get expirationDate => _expirationDate;
@@ -65,13 +98,6 @@ class IngredientProvider with ChangeNotifier {
 
   Future<void> addIngredient(
       String drawerName, FridgeIngredient ingredient) async {
-    if (ingredient.name.isEmpty ||
-        ingredient.quantity.isEmpty ||
-        ingredient.unit?.isEmpty == true) {
-      Fluttertoast.showToast(msg: 'Vui lòng nhập đầy đủ thông tin');
-      return;
-    }
-
     resetSelections();
     await FridgeDrawersService.addIngredient(drawerName, ingredient);
     notifyListeners();

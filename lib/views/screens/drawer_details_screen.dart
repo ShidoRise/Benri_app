@@ -45,8 +45,10 @@ class DrawerDetailsScreen extends StatelessWidget {
             final newIngredient = await addFridgeIngredientDialog(context);
             if (newIngredient != null) {
               if (context.mounted) {
-                Provider.of<IngredientProvider>(context, listen: false)
-                    .addIngredient(drawerName, newIngredient);
+                final provider =
+                    Provider.of<IngredientProvider>(context, listen: false);
+                provider.resetSelections();
+                provider.addIngredient(drawerName, newIngredient);
               }
             }
           },

@@ -4,6 +4,7 @@ import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/ingredient_provider.dart';
 import 'package:benri_app/view_models/recipe_creation_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 Future<FridgeIngredient?> addIngredientRecipeDialog(
@@ -97,18 +98,29 @@ Future<FridgeIngredient?> addIngredientRecipeDialog(
                           backgroundColor: BColors.primaryFirst,
                         ),
                         onPressed: () {
-                          if (nameController.text.isNotEmpty) {
-                            Navigator.pop(
-                              context,
-                              FridgeIngredient(
-                                name: nameController.text,
-                                quantity: quantityController.text,
-                                unit: unitController.text,
-                                expirationDate: null,
-                                imgPath: '',
-                              ),
-                            );
+                          if (nameController.text.isEmpty) {
+                            Fluttertoast.showToast(
+                                msg: 'Vui lòng nhập tên nguyên liệu');
+                            return;
+                          } else if (quantityController.text.isEmpty) {
+                            Fluttertoast.showToast(
+                                msg: 'Vui lòng nhập số lượng');
+                            return;
+                          } else if (unitController.text.isEmpty) {
+                            Fluttertoast.showToast(msg: 'Vui lòng nhập đơn vị');
+                            return;
                           }
+
+                          Navigator.pop(
+                            context,
+                            FridgeIngredient(
+                              name: nameController.text,
+                              quantity: quantityController.text,
+                              unit: unitController.text,
+                              expirationDate: null,
+                              imgPath: '',
+                            ),
+                          );
                         },
                         child: Text(
                           fridgeIngredient == null ? 'Thêm' : 'Cập nhật',

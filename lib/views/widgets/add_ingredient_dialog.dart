@@ -3,6 +3,7 @@ import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 Future<BasketIngredient?> addIngredientDialog(
@@ -61,7 +62,7 @@ Future<BasketIngredient?> addIngredientDialog(
               const SizedBox(height: 16),
               _buildCategoryChips(context, model.categories, model),
               const SizedBox(height: 24),
-              _buildAddButton(
+              _buildSubmitButton(
                 context,
                 nameController,
                 quantityController,
@@ -191,7 +192,7 @@ Widget _buildCategoryChips(
   );
 }
 
-Widget _buildAddButton(
+Widget _buildSubmitButton(
   BuildContext context,
   TextEditingController nameController,
   TextEditingController quantityController,
@@ -206,10 +207,24 @@ Widget _buildAddButton(
       backgroundColor: BColors.primaryFirst,
     ),
     onPressed: () {
+      if (nameController.text.isEmpty) {
+        Fluttertoast.showToast(msg: 'Vui lòng nhập tên nguyên liệu');
+        return;
+      } else if (quantityController.text.isEmpty) {
+        Fluttertoast.showToast(msg: 'Vui lòng nhập số lượng');
+        return;
+      } else if (unitController.text.isEmpty) {
+        Fluttertoast.showToast(msg: 'Vui lòng nhập đơn vị');
+        return;
+      } else if (model.selectedCategory == null) {
+        Fluttertoast.showToast(msg: 'Vui lòng chọn danh mục');
+        return;
+      }
+
       final ingredient = BasketIngredient(
-        name: nameController.text,
-        quantity: quantityController.text,
-        unit: unitController.text,
+        name: nameController.text.trim(),
+        quantity: quantityController.text.trim(),
+        unit: unitController.text.trim(),
         imageUrl: model.getImageUrlFromLocalStorage(nameController.text),
         category: model.selectedCategory ?? 'Khác',
         isSelected: false,

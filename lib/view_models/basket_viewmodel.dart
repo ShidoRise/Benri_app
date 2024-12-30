@@ -102,13 +102,6 @@ class BasketViewModel extends ChangeNotifier {
   }
 
   void addIngredient(BasketIngredient ingredient) {
-    if (ingredient.name.isEmpty ||
-        ingredient.quantity.isEmpty ||
-        ingredient.unit.isEmpty) {
-      Fluttertoast.showToast(msg: 'Vui lòng nhập đầy đủ thông tin');
-      return;
-    }
-
     resetSelections();
     BasketService.addIngredient(focusDateFormatted, ingredient);
     notifyListeners();
@@ -313,13 +306,6 @@ class BasketViewModel extends ChangeNotifier {
   }
 
   Future<void> addFamilyIngredient(FamilyIngredient ingredient) async {
-    if (ingredient.name.isEmpty ||
-        ingredient.quantity.isEmpty ||
-        ingredient.unit.isEmpty) {
-      Fluttertoast.showToast(msg: 'Vui lòng nhập đầy đủ thông tin');
-      return;
-    }
-
     resetSelections();
     await FamilyService.addFamilyIngredient(focusDateFormatted, ingredient);
     notifyListeners();

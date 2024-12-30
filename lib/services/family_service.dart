@@ -454,7 +454,7 @@ class FamilyService {
           selectedDrawer, fridgeIngredient);
 
       Fluttertoast.showToast(
-          msg: 'Đã thêm ${ingredient.name} vào tủ lạnh',
+          msg: 'Đã thêm ${ingredient.name} vào $selectedDrawer',
           backgroundColor: BColors.darkGrey);
     }
   }

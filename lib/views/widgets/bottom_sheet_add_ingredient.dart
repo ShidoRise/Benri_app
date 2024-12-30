@@ -3,6 +3,7 @@ import 'package:benri_app/models/ingredients/ingredient_suggestions.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/view_models/ingredient_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -109,20 +110,34 @@ Future<FridgeIngredient?> addFridgeIngredientDialog(
                           backgroundColor: BColors.primaryFirst,
                         ),
                         onPressed: () {
-                          if (nameController.text.isNotEmpty &&
-                              model.expirationDate != null) {
-                            Navigator.pop(
-                              context,
-                              FridgeIngredient(
-                                name: nameController.text,
-                                quantity: quantityController.text,
-                                unit: unitController.text,
-                                expirationDate: model.expirationDate!,
-                                imgPath: model.getImageUrlFromLocalStorage(
-                                    nameController.text),
-                              ),
-                            );
+                          if (nameController.text.isEmpty) {
+                            Fluttertoast.showToast(
+                                msg: 'Vui lòng nhập tên nguyên liệu');
+                            return;
+                          } else if (quantityController.text.isEmpty) {
+                            Fluttertoast.showToast(
+                                msg: 'Vui lòng nhập số lượng');
+                            return;
+                          } else if (unitController.text.isEmpty) {
+                            Fluttertoast.showToast(msg: 'Vui lòng nhập đơn vị');
+                            return;
+                          } else if (model.expirationDate == null) {
+                            Fluttertoast.showToast(
+                                msg: 'Vui lòng chọn ngày hết hạn');
+                            return;
                           }
+
+                          Navigator.pop(
+                            context,
+                            FridgeIngredient(
+                              name: nameController.text,
+                              quantity: quantityController.text,
+                              unit: unitController.text,
+                              expirationDate: model.expirationDate!,
+                              imgPath: model.getImageUrlFromLocalStorage(
+                                  nameController.text),
+                            ),
+                          );
                         },
                         child: Text(
                           fridgeIngredient == null ? 'Thêm' : 'Cập nhật',

@@ -23,8 +23,8 @@ class IngredientFridgeShow extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isExpired = DateTime.now().isAfter(ingredient.expirationDate!);
     String expirationText = isExpired
-        ? 'Expired on: ${getFormattedExpirationDate(ingredient.expirationDate!)}'
-        : 'Expires on: ${getFormattedExpirationDate(ingredient.expirationDate!)}';
+        ? 'Hết hạn vào: ${getFormattedExpirationDate(ingredient.expirationDate!)}'
+        : 'Hết hạn vào: ${getFormattedExpirationDate(ingredient.expirationDate!)}';
 
     return Padding(
       padding: const EdgeInsets.all(0),
@@ -87,7 +87,7 @@ class IngredientFridgeShow extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Text(
-                    'Stored in $drawerName',
+                    'Lưu trữ trong $drawerName',
                     style:
                         const TextStyle(color: Colors.blueGrey, fontSize: 14),
                   ),
