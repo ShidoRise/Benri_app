@@ -16,7 +16,7 @@ class FamilyIngredient {
   factory FamilyIngredient.fromJson(Map<String, dynamic> json) {
     return FamilyIngredient(
       name: json['name'] ?? '',
-      quantity: json['quantity'].toString(),
+      quantity: json['quantity']?.toString() ?? '',
       category: json['category'] ?? '',
       unit: json['unit'] ?? '',
       status: json['status'] == 'bought',

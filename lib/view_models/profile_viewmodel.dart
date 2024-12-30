@@ -1,9 +1,12 @@
 import 'package:benri_app/services/auth_service.dart';
+import 'package:benri_app/services/baskets_service.dart';
 import 'package:benri_app/services/user_local.dart';
 import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/views/screens/change_pasword_screen.dart';
 import 'package:benri_app/views/screens/detail_profile_screen.dart';
 import 'package:benri_app/views/screens/login_screen.dart';
+import 'package:benri_app/views/screens/review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -68,6 +71,11 @@ class ProfileViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void statistics(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ReviewScreen()));
+  }
+
   void toggleDarkMode() {
     final themeProvider =
         Provider.of<ThemeProvider>(navigatorKey.currentContext!, listen: false);
@@ -88,19 +96,26 @@ class ProfileViewModel extends ChangeNotifier {
       notifyListeners();
 
       await UserLocal.logout();
+      BasketService.baskets = {};
+
       final isGG = await AuthService.storage.read(key: 'isGG');
       if (isGG == 'true') {
         await AuthService.signOut();
         AuthService.storage.delete(key: 'isGG');
       }
+
       await AuthService.signOut();
       _isLoggedIn = false;
       userInfo = {};
 
+      final recipeViewModel =
+          Provider.of<FavouriteRecipeProvider>(context, listen: false);
       final basketViewModel =
           Provider.of<BasketViewModel>(context, listen: false);
+      basketViewModel.initializeData();
       await basketViewModel.checkIsLoggedIn();
       await basketViewModel.resetFamilyStatus();
+      recipeViewModel.initializeData();
 
       _isLoading = false;
 

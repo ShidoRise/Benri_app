@@ -42,7 +42,7 @@ class FavouriteRecipeProvider extends ChangeNotifier {
 
     // Fetch data from db
     await fetchDataFromDb();
-
+    print('load lai recipee');
     notifyListeners();
   }
 

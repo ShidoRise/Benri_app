@@ -10,6 +10,7 @@ import 'package:benri_app/utils/theme/app_theme.dart';
 import 'package:benri_app/view_models/favourite_recipe_provider.dart';
 import 'package:benri_app/view_models/fridge_screen_provider.dart';
 import 'package:benri_app/view_models/profile_viewmodel.dart';
+import 'package:benri_app/view_models/review_viewmodel.dart';
 import 'package:benri_app/view_models/theme_provider.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:benri_app/views/screens/onboarding_view.dart';
@@ -120,7 +121,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FridgeScreenProvider()),
         ChangeNotifierProvider(create: (_) => FavouriteRecipeProvider()),
         ChangeNotifierProvider(create: (_) => DrawerProvider()),
-        ChangeNotifierProvider(create: (_) => ProfileViewModel())
+        ChangeNotifierProvider(create: (_) => ProfileViewModel()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

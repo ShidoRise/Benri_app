@@ -46,6 +46,63 @@ class RecipesService {
     }
   }
 
+  static Future<void> syncLocalRecipeBackLogin() async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/recipe/'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'content-type': 'application/json',
+          'authorization': userLocal['accessToken'] ?? '',
+          'x-client-id': userLocal['userId'] ?? '',
+        },
+      ).timeout(Duration(seconds: 4));
+      print(response.body);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final List<dynamic> recipes = data['metadata'];
+
+        // Mở Hive box
+        final box = Hive.box<Recipes>('recipeBox');
+        print('111111111== ddang sync');
+
+        // Thêm dữ liệu vào Hive box
+        for (var recipeData in recipes) {
+          final recipeId = recipeData['_id'];
+          // Kiểm tra xem công thức đã tồn tại trong box chưa
+          if (true) {
+            final recipe = Recipes(
+              name: recipeData['recipe_name'],
+              description: recipeData['recipe_description'],
+              ingredients: (recipeData['recipe_ingredients'] as List)
+                  .map((ingredientData) {
+                return FridgeIngredient(
+                  name: ingredientData['name'],
+                  quantity: ingredientData['quantity'] ?? '0',
+                  unit: ingredientData['unit'] ?? '',
+                );
+              }).toList(),
+              timeCooking: recipeData['recipe_cook_time'],
+              recipeYoutubeUrl: recipeData['recipe_youtube_url'],
+              rating: recipeData['recipe_rating'].toString(),
+              category: recipeData['recipe_category'],
+              imgPath: recipeData['recipe_image'],
+            );
+            recipe.id == recipeId;
+            print(recipe);
+            await box.add(recipe);
+          }
+        }
+        print('da xong recipe');
+        print(box.values.toList().toString());
+      } else {}
+    } catch (e) {
+      print('Co loi');
+      print(e);
+    }
+  }
+
   static Future<List<Recipes>> fetchData() async {
     try {
       final response = await http.get(
@@ -54,7 +111,7 @@ class RecipesService {
           'x-api-key': Constants.apiKey,
           'content-type': 'application/json'
         },
-      ).timeout(Duration(seconds: 4));
+      ).timeout(Duration(seconds: 10));
       if (response.statusCode == 200) {
         final List<dynamic> responseData =
             jsonDecode(response.body)['metadata'];

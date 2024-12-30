@@ -70,7 +70,6 @@ class Recipes extends HiveObject {
   }
 
   factory Recipes.fromJson(Map<String, dynamic> json) {
-    print('json :: ${json['recipe_ingredients']}');
     return Recipes(
       name: json['recipe_name']?.toString() ?? '',
       description: json['recipe_desciption']?.toString() ?? '',

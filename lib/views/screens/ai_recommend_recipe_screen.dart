@@ -1,3 +1,4 @@
+import 'package:benri_app/services/fridge_drawers_serivce.dart';
 import 'package:benri_app/utils/constants/colors.dart';
 import 'package:benri_app/views/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,12 @@ class _AIRecommendRecipeScreenState extends State<AIRecommendRecipeScreen> {
     if (userMessage.isEmpty) return;
 
     setState(() {
-      _messages.add({'role': 'user', 'content': userMessage});
+      if (userMessage.startsWith('[')) {
+        _messages.add(
+            {'role': 'user', 'content': 'Gợi ý từ thực phẩm trong tủ lạnh.'});
+      } else {
+        _messages.add({'role': 'user', 'content': userMessage});
+      }
       _isLoading = true;
     });
 
@@ -106,73 +112,101 @@ class _AIRecommendRecipeScreenState extends State<AIRecommendRecipeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BAppBar(title: 'Gợi ý của AI'),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Align(
-                    alignment: message['role'] == 'user'
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: message['role'] == 'user'
-                            ? Colors.blueAccent
-                            : Colors.green,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        message['content'] ?? '',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          if (_isLoading)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
+        appBar: BAppBar(title: 'Gợi ý của AI'),
+        body: Stack(
+          children: [
+            Column(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: 'Nhập yêu cầu gợi ý món ăn...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                  child: ListView.builder(
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      final message = _messages[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Align(
+                          alignment: message['role'] == 'user'
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: message['role'] == 'user'
+                                  ? Colors.blueAccent
+                                  : Colors.green,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.all(12),
+                            child: Text(
+                              message['content'] ?? '',
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.send),
-                  color: BColors.primary,
-                  onPressed: () {
-                    final userMessage = _controller.text.trim();
-                    _controller.clear();
-                    sendMessage(userMessage);
-                  },
+                if (_isLoading)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _controller,
+                          decoration: InputDecoration(
+                            hintText: 'Nhập yêu cầu gợi ý món ăn...',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.send),
+                        color: BColors.primary,
+                        onPressed: () {
+                          final userMessage = _controller.text.trim();
+                          _controller.clear();
+                          sendMessage(userMessage);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+            Positioned(
+              bottom: 100,
+              right: 16,
+              child: ElevatedButton(
+                onPressed: () async {
+                  final msg =
+                      await FridgeDrawersService.getAllIngredientNames();
+                  sendMessage(msg.toString());
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: BColors.primaryFirst,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                ),
+                child: Text(
+                  'Gợi ý từ thực phẩm bạn có',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

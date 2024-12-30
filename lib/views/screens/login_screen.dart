@@ -1,4 +1,9 @@
 import 'package:benri_app/services/auth_service.dart';
+import 'package:benri_app/services/baskets_service.dart';
+import 'package:benri_app/services/recipes_service.dart';
+import 'package:benri_app/view_models/basket_viewmodel.dart';
+import 'package:benri_app/view_models/favourite_recipe_provider.dart';
+import 'package:benri_app/view_models/recipe_creation_provider.dart';
 import 'package:benri_app/views/screens/navigation_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -75,19 +80,16 @@ class LoginScreenContent extends StatelessWidget {
               const SizedBox(height: 10),
               _buildSocialButton(
                 onPressed: () async {
-                  User? user = await AuthService.signInWithGoogle();
-                  if (user != null) {
-                    if (context.mounted) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const NavigationMenu()),
-                          (route) => false);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text(
-                                'Đăng nhập bằng tài khoản Google thành công')),
-                      );
-                    }
+                  if (await viewModel.loginWithGG(context)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text(
+                              'Đăng nhập bằng tài khoản Google thành công')),
+                    );
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const NavigationMenu()),
+                        (route) => false);
                   } else {
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -95,6 +97,22 @@ class LoginScreenContent extends StatelessWidget {
                       );
                     }
                   }
+                  // User? user = await AuthService.signInWithGoogle();
+                  // if (user != null) {
+                  //   Navigator.of(context).pushAndRemoveUntil(
+                  //       MaterialPageRoute(
+                  //           builder: (context) => const NavigationMenu()),
+                  //       (route) => false);
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(
+                  //         content: Text(
+                  //             'Đăng nhập bằng tài khoản Google thành công')),
+                  //   );
+                  // } else {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(content: Text('Kiểm tra kết nối mạng')),
+                  //   );
+                  // }
                 },
                 color: const Color(0xFF4285F4),
                 text: 'KẾT NỐI VỚI GOOGLE',
@@ -168,6 +186,20 @@ class LoginScreenContent extends StatelessWidget {
                       );
                     } else if (await viewModel.login(context)) {
                       if (context.mounted) {
+                        await BasketService.syncLocalBackLogin();
+                        await RecipesService.syncLocalRecipeBackLogin();
+                        final basketViewModel = Provider.of<BasketViewModel>(
+                          context,
+                          listen: false,
+                        );
+                        final recipeViewModel =
+                            Provider.of<FavouriteRecipeProvider>(
+                          context,
+                          listen: false,
+                        );
+                        basketViewModel.initializeData();
+                        recipeViewModel.initializeData();
+                        viewModel.setLoading(false);
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                                 builder: (context) => const NavigationMenu()),

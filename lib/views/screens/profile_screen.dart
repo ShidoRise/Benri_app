@@ -42,6 +42,8 @@ class ProfileScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold))
                     ],
                   ),
+                textTitleSettingWidget('Thống kê', context),
+                settingItemWidget(context, Icons.share, 'Thống kê'),
                 textTitleSettingWidget('Cài đặt', context),
                 settingItemWidget(
                     context, Icons.notifications_none, 'Thông báo'),

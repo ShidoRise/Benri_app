@@ -15,14 +15,14 @@ class AuthService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  static Future<User?> signInWithGoogle() async {
+  static Future<bool> signInWithGoogle() async {
     try {
       print('1==');
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         // Người dùng đã hủy đăng nhập
         print('User canceled the login');
-        return null;
+        return false;
       }
 
       final GoogleSignInAuthentication googleAuth =
@@ -72,7 +72,7 @@ class AuthService {
         await _saveUserData(
             userId, tokens['refreshToken'], tokens['accessToken'], email, name);
         await FirebaseMsg.saveTokenToDatabase(userId);
-        return userCredential.user;
+        return true;
       } else {
         // Xử lý lỗi đăng nhập
         print('Failed to login with Google: ${response.body}');
@@ -80,7 +80,7 @@ class AuthService {
       }
     } catch (e) {
       print('Error during Google sign-in: $e');
-      return null;
+      return false;
     }
   }
 
@@ -266,6 +266,38 @@ class AuthService {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  static Future fetchReviewData(int month, int year) async {
+    final Map<String, String> userLocal = await UserLocal.getUserInfo();
+    Map<String, dynamic> ingredientMap = {"basket": {}, "family": {}};
+
+    Map<String, dynamic> pendingIngredientMap = {"basket": {}, "family": {}};
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/user/review/$month/$year'),
+        headers: {
+          'x-api-key': Constants.apiKey,
+          'authorization': userLocal['accessToken'] ?? '',
+          'x-client-id': userLocal['userId'] ?? '',
+          'content-type': 'application/json'
+        },
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        ingredientMap = data['metadata']['ingredientMap'];
+        pendingIngredientMap = data['metadata']['pendingIngredientMap'];
+        return {
+          'ingredientMap': ingredientMap,
+          'pendingIngredientMap': pendingIngredientMap
+        };
+      } else {
+        throw Exception('Failed to load review data');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

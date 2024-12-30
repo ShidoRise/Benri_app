@@ -85,11 +85,24 @@ class FridgeDrawersService {
         });
       }
     });
+    print('1=====');
+    print(allIngredients.toString());
     return allIngredients;
   }
 
   static List<String> getAllDrawerNames() {
     return drawers.keys.toList();
+  }
+
+  static Future<List<String>> getAllIngredientNames() async {
+    List<String> allIngredientNames = [];
+    for (var drawer in _fridgeDrawerBox.values) {
+      for (var ingredient in drawer.fridgeIngredients) {
+        allIngredientNames.add(ingredient.name);
+      }
+    }
+    print(allIngredientNames.toString());
+    return allIngredientNames;
   }
 
   static Future<void> removeDrawer(String drawerName) async {
